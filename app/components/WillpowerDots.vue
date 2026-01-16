@@ -202,13 +202,6 @@ watch([ratingDots], (newRatingDots) => {
   display: none;
 }
 
-.perm-willpower button {
-  width: 20px;
-  height: 20px;
-  font-size: x-small;
-  padding-left: 2px;
-}
-
 .perm-willpower label {
   width: 1rem;
   height: 1rem;
@@ -237,13 +230,6 @@ watch([ratingDots], (newRatingDots) => {
 
 .temp-willpower input {
   display: none;
-}
-
-.temp-willpower button {
-  width: 20px;
-  height: 20px;
-  font-size: x-small;
-  padding-left: 2px;
 }
 
 .temp-willpower label {

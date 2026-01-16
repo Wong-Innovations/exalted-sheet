@@ -1011,6 +1011,7 @@
       </div>
       <img :src="fullBar" style="width: 8.5in" alt="bar" />
     </div>
+
     <div style="height: 20px"></div>
 
     <div class="page">
@@ -1129,10 +1130,265 @@
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
         <div style="padding-block: 0">In Debate</div>
       </div>
-
+      <div style="display: flex">
+        <div style="width: 42%">
+          <div style="text-align: center">
+            Action Options (Speed/DV modifier)
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack(weapon/-2):</span
+            >
+            Attack a target
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Coordinated Attack(5/-2):</span
+            >
+            Charisma + Socialize, diff: number of participants / 2
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Dash(3/-3):</span
+            >
+            Sprint 10 * (Dexterity + 6 - Armor mobility) meters per long tick
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Flurry(longest action/sum of defense penalties):</span
+            >
+            Multiple actions
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Guard(3/none):</span
+            >
+            Doing nothing, may be aborted
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Inactive(3/special):</span
+            >
+            Social invulnerable
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Miscellaneous Action(5/-1 to -3):</span
+            >
+            Do something else
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Monologue/Study(3/-2):</span
+            >
+            +1D per long tick, may be aborted to attack
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Move(0/none):</span
+            >
+            Move 10 * (Dexterity - Armor mobility) meters per long tick
+          </div>
+        </div>
+        <div style="width: 3%"></div>
+        <div style="width: 55%">
+          <div style="text-align: center">Additional</div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack supporting/against an Intimacy:</span
+            >
+            &plusmn;1 to DV
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack according to/opposed to dominating Virtue(rate 3+):</span
+            >
+            &plusmn;2 to DV
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack supporting/against an Intimacy:</span
+            >
+            &plusmn;1 to DV
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold">Appearance:</span>
+            (Defender's App - Attacker's App) to DV (max &plusmn;3)
+          </div>
+          <div style="height: 0.1in"></div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >If the attack violates Motivation:</span
+            >
+            Must refuse to consent
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Natural persuasion:</span
+            >
+            Can only spend 2wp per scene, will become jaded and suspicious
+            (attack automatically fails). A stunt and new attack approach is
+            needed for further attacks
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Unnatural persuasion:</span
+            >
+            Exalted gain 1 point of Limit when resisting the attack
+          </div>
+          <div style="height: 0.1in"></div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Consent to the attack:</span
+            >
+            Performing the behavior described in the initial attack
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Refuse to consent:</span
+            >
+            Reflexively pay 1wp to resist
+          </div>
+        </div>
+      </div>
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
         <div style="padding-block: 0">Virtues</div>
+      </div>
+      <div style="display: flex">
+        <table
+          style="
+            font-size: x-small;
+            text-align: center;
+            border-collapse: collapse;
+          "
+        >
+          <tbody>
+            <tr>
+              <td>Compassion</td>
+              <td>Temperance</td>
+            </tr>
+            <tr>
+              <td style="padding-inline: 0.1in">
+                <VirtueDots
+                  :initialValue="1"
+                  source="compassion"
+                  :onUpdate="(n) => (compassionRef = n)"
+                />
+              </td>
+              <td style="padding-inline: 0.1in">
+                <VirtueDots
+                  :initialValue="1"
+                  source="temperance"
+                  :onUpdate="(n) => (temperanceRef = n)"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Conviction</td>
+              <td>Valor</td>
+            </tr>
+            <tr>
+              <td style="padding-inline: 0.1in">
+                <VirtueDots
+                  :initialValue="1"
+                  source="conviction"
+                  :onUpdate="(n) => (convictionRef = n)"
+                />
+              </td>
+              <td style="padding-inline: 0.1in">
+                <VirtueDots
+                  :initialValue="1"
+                  source="valor"
+                  :onUpdate="(n) => (valorRef = n)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-left: 0.1in">
+          <div style="display: flex; font-size: small">
+            Virtue Flaw:
+            <select
+              class="text-input"
+              style="width: 2.9in; background-color: white; font-size: x-small;"
+            ></select>
+            <div style="width: 2.95in; text-align: center">Limit points</div>
+          </div>
+          <div style="display: flex; font-size: small">
+            Duration:
+            <input
+              type="text"
+              class="text-input"
+              style="width: 3.04in; font-size: x-small;"
+            ></input>
+            <div style="width: 2.95in; text-align: center"><LimitPoints /></div>
+          </div>
+          <div style="display: flex; font-size: small">
+            Limit Break Condition:
+            <input
+              type="text"
+              class="text-input"
+              style="width: 5.1in; font-size: x-small;"
+            ></input>
+          </div>
+          <div style="display: flex; font-size: small">
+            Partial Control:
+            <input
+              type="text"
+              class="text-input"
+              style="width: 5.59in; font-size: x-small;"
+            ></input>
+          </div>
+          <div style="display: flex; font-size: small">
+            No Control:
+            <input
+              type="text"
+              class="text-input"
+              style="width: 5.84in; font-size: x-small;"
+            ></input>
+          </div>
+        </div>
+      </div>
+      <div class="full-bar-with-text" style="margin-top: .1in;">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">Intimacies</div>
+      </div>
+      <table style="width: 95%; border-collapse: collapse; margin-inline: auto; margin-top: .1in;">
+        <tbody>
+          <tr>
+            <td><textarea style="width: 100%; height: 1.7in; resize: none;"></textarea></td>
+            <td><textarea style="width: 100%; height: 1.7in; resize: none;"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="full-bar-with-text" style="margin-top: .1in;">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">Motivation</div>
+      </div>
+      <div style="width: 95%; margin-inline: auto; margin-block: .1in;">
+        <textarea style="width: 100%; height: 1.5in; resize: none;"></textarea>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+      </div>
+    </div>
+
+    <div style="height: 20px"></div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 8.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1.15in" alt="exalted-2e-logo" />
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">Weapons</div>
+      </div>
+
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">Armor</div>
       </div>
     </div>
   </div>
@@ -1148,6 +1404,8 @@ import HealthLevelRow from "./components/HealthLevelRow.vue";
 import { exaltData } from "./exalt-data";
 import ThreeDotEssence from "./components/ThreeDotEssence.vue";
 import WillpowerDots from "./components/WillpowerDots.vue";
+import VirtueDots from "./components/VirtueDots.vue";
+import LimitPoints from "./components/LimitPoints.vue";
 
 const exaltTypeRef = ref("solar");
 const casteRef = ref("");
@@ -1164,6 +1422,11 @@ const wisdomRef = ref(1);
 const essenceRef = ref(1);
 
 const willpowerRef = ref(1);
+
+const compassionRef = ref(1);
+const temperanceRef = ref(1);
+const convictionRef = ref(1);
+const valorRef = ref(1);
 
 watch(strengthRef, (newStrength) => {
   console.log(`Strength: ${newStrength}`);
