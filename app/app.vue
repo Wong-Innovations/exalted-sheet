@@ -774,6 +774,13 @@
               :initialValue="1"
               :onUpdate="(n) => (essenceRef = n)"
               source="essence"
+              v-if="exaltTypeRef != 'heroic-mortal'"
+            />
+            <ThreeDotEssence
+              :initialValue="1"
+              :onUpdate="(n) => (essenceRef = n)"
+              source="essence"
+              v-if="exaltTypeRef == 'heroic-mortal'"
             />
           </div>
           <div style="margin-top: 0.15in; margin-left: 0.25in">
@@ -1008,6 +1015,125 @@
 
     <div class="page">
       <img :src="fullBar" style="width: 8.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1.15in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="text-align: center">Social Traits</div>
+          <table style="width: 100%; position: relative; top: -0.1in">
+            <tbody>
+              <tr>
+                <td
+                  style="
+                    line-height: 0.7;
+                    padding-left: 0.65in;
+                    padding-block: 0;
+                  "
+                >
+                  Dodge MDV:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.35in; font-size: medium"
+                  />
+                </td>
+                <td style="line-height: 0.7; padding-block: 0">
+                  Join Combat:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.35in; font-size: medium"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    font-size: x-small;
+                    padding-left: 0.65in;
+                    padding-block: 0;
+                  "
+                >
+                  (Wp + Integrity + Essence + spe.) / 2
+                </td>
+                <td style="font-size: x-small; padding-block: 0">
+                  Wits + Awareness
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="display: flex">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Willpower:
+            <WillpowerDots
+              :initial-value="willpowerRef"
+              :onUpdate="(n) => (willpowerRef = n)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">Social Attacks</div>
+      </div>
+      <table
+        style="
+          border-collapse: collapse;
+          width: 100%;
+          font-size: small;
+          margin-bottom: 0.1in;
+        "
+      >
+        <thead>
+          <tr>
+            <th style="text-align: left">Ability</th>
+            <th style="text-align: left">Speed</th>
+            <th style="text-align: left">
+              Accuracy <span style="font-weight: normal">(Cha/Man)</span>
+            </th>
+            <th style="text-align: left">
+              PMDV <span style="font-weight: normal">(Cha/Man)</span>
+            </th>
+            <th style="text-align: left">Rate</th>
+            <th style="text-align: left">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: #ddd">
+            <td style="border: 1px solid black">Investigation</td>
+            <td style="border: 1px solid black; text-align: center">5</td>
+            <td style="border: 1px solid black; text-align: center"></td>
+            <td style="border: 1px solid black; text-align: center"></td>
+            <td style="border: 1px solid black; text-align: center">2</td>
+            <td style="border: 1px solid black"></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid black">Performance</td>
+            <td style="border: 1px solid black; text-align: center">6</td>
+            <td style="border: 1px solid black; text-align: center"></td>
+            <td style="border: 1px solid black; text-align: center"></td>
+            <td style="border: 1px solid black; text-align: center">1</td>
+            <td style="border: 1px solid black">Attacks a whole area</td>
+          </tr>
+          <tr style="background-color: #ddd">
+            <td style="border: 1px solid black">Presence</td>
+            <td style="border: 1px solid black; text-align: center">4</td>
+            <td style="border: 1px solid black; text-align: center"></td>
+            <td style="border: 1px solid black; text-align: center"></td>
+            <td style="border: 1px solid black; text-align: center">2</td>
+            <td style="border: 1px solid black"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">In Debate</div>
+      </div>
+
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">Virtues</div>
+      </div>
     </div>
   </div>
 </template>
@@ -1020,6 +1146,8 @@ import { ref, watch } from "vue";
 import ThreeDotRadio from "./components/ThreeDotRadio.vue";
 import HealthLevelRow from "./components/HealthLevelRow.vue";
 import { exaltData } from "./exalt-data";
+import ThreeDotEssence from "./components/ThreeDotEssence.vue";
+import WillpowerDots from "./components/WillpowerDots.vue";
 
 const exaltTypeRef = ref("solar");
 const casteRef = ref("");
@@ -1034,6 +1162,8 @@ const intelligenceRef = ref(1);
 const wisdomRef = ref(1);
 
 const essenceRef = ref(1);
+
+const willpowerRef = ref(1);
 
 watch(strengthRef, (newStrength) => {
   console.log(`Strength: ${newStrength}`);
