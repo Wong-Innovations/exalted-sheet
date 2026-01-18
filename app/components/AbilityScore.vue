@@ -78,14 +78,14 @@ const props = defineProps([
   "checkbox",
   "checked",
   "disabled",
+  "onUpdate",
 ]);
-const emit = defineEmits(["update"]);
 
 const ratingDots = ref(0);
 const plusFive = ref(false);
 
 watch([ratingDots, plusFive], ([newRatingDots, newPlusFive]) => {
-  emit("update", parseInt(newRatingDots) + (newPlusFive ? 5 : 0));
+  props.onUpdate(parseInt(newRatingDots) + (newPlusFive ? 5 : 0));
 });
 </script>
 

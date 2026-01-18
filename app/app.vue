@@ -490,6 +490,14 @@
                     ][index]
                   )
                 "
+                :onUpdate="
+                  (n) =>
+                    (abilityScoreRefs[
+                      exaltData[exaltTypeRef].abilities[
+                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                      ][index]
+                    ] = n)
+                "
               />
             </td>
             <td
@@ -531,6 +539,14 @@
                     ][index]
                   )
                 "
+                :onUpdate="
+                  (n) =>
+                    (abilityScoreRefs[
+                      exaltData[exaltTypeRef].abilities[
+                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                      ][index]
+                    ] = n)
+                "
               />
             </td>
             <td
@@ -571,6 +587,14 @@
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
                     ][index]
                   )
+                "
+                :onUpdate="
+                  (n) =>
+                    (abilityScoreRefs[
+                      exaltData[exaltTypeRef].abilities[
+                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                      ][index]
+                    ] = n)
                 "
                 v-if="
                   exaltData[exaltTypeRef].abilities[
@@ -681,6 +705,14 @@
                     ][index]
                   )
                 "
+                :onUpdate="
+                  (n) =>
+                    (abilityScoreRefs[
+                      exaltData[exaltTypeRef].abilities[
+                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                      ][index]
+                    ] = n)
+                "
               />
             </td>
             <td>
@@ -715,6 +747,14 @@
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
                     ][index]
                   )
+                "
+                :onUpdate="
+                  (n) =>
+                    (abilityScoreRefs[
+                      exaltData[exaltTypeRef].abilities[
+                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                      ][index]
+                    ] = n)
                 "
               />
             </td>
@@ -1311,7 +1351,7 @@
             Virtue Flaw:
             <select
               class="text-input"
-              style="width: 2.9in; background-color: white; font-size: x-small;"
+              style="width: 2.9in; background-color: white; font-size: x-small"
             ></select>
             <div style="width: 2.95in; text-align: center">Limit points</div>
           </div>
@@ -1320,8 +1360,8 @@
             <input
               type="text"
               class="text-input"
-              style="width: 3.04in; font-size: x-small;"
-            ></input>
+              style="width: 3.04in; font-size: x-small"
+            />
             <div style="width: 2.95in; text-align: center"><LimitPoints /></div>
           </div>
           <div style="display: flex; font-size: small">
@@ -1329,45 +1369,56 @@
             <input
               type="text"
               class="text-input"
-              style="width: 5.1in; font-size: x-small;"
-            ></input>
+              style="width: 5.1in; font-size: x-small"
+            />
           </div>
           <div style="display: flex; font-size: small">
             Partial Control:
             <input
               type="text"
               class="text-input"
-              style="width: 5.59in; font-size: x-small;"
-            ></input>
+              style="width: 5.59in; font-size: x-small"
+            />
           </div>
           <div style="display: flex; font-size: small">
-            No Control:
-            <input
-              type="text"
-              class="text-input"
-              style="width: 5.84in; font-size: x-small;"
-            ></input>
+            No Control: < type="text" class="text-input" style="width: 5.84in;
+            font-size: x-small;" />
           </div>
         </div>
       </div>
-      <div class="full-bar-with-text" style="margin-top: .1in;">
+      <div class="full-bar-with-text" style="margin-top: 0.1in">
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
         <div style="padding-block: 0">Intimacies</div>
       </div>
-      <table style="width: 95%; border-collapse: collapse; margin-inline: auto; margin-top: .1in;">
+      <table
+        style="
+          width: 95%;
+          border-collapse: collapse;
+          margin-inline: auto;
+          margin-top: 0.1in;
+        "
+      >
         <tbody>
           <tr>
-            <td><textarea style="width: 100%; height: 1.7in; resize: none;"></textarea></td>
-            <td><textarea style="width: 100%; height: 1.7in; resize: none;"></textarea></td>
+            <td>
+              <textarea
+                style="width: 100%; height: 1.7in; resize: none"
+              ></textarea>
+            </td>
+            <td>
+              <textarea
+                style="width: 100%; height: 1.7in; resize: none"
+              ></textarea>
+            </td>
           </tr>
         </tbody>
       </table>
-      <div class="full-bar-with-text" style="margin-top: .1in;">
+      <div class="full-bar-with-text" style="margin-top: 0.1in">
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
         <div style="padding-block: 0">Motivation</div>
       </div>
-      <div style="width: 95%; margin-inline: auto; margin-block: .1in;">
-        <textarea style="width: 100%; height: 1.5in; resize: none;"></textarea>
+      <div style="width: 95%; margin-inline: auto; margin-block: 0.1in">
+        <textarea style="width: 100%; height: 1.5in; resize: none"></textarea>
       </div>
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
@@ -1385,6 +1436,170 @@
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
         <div style="padding-block: 0">Weapons</div>
       </div>
+
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Weapon</th>
+            <th>Speed</th>
+            <th>Acc</th>
+            <th>Damage</th>
+            <th>PDV</th>
+            <th>Rate</th>
+            <th>Range</th>
+            <th>Tags</th>
+            <th>Notes</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: xx-small">
+          <tr>
+            <td style="border: 1px solid black; padding: 0; width: 20%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 35%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: right;
+                  "
+                  v-model="weaponAccRefs[0].value"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: left;
+                  "
+                  v-model="weaponAccBonusRefs[0]"
+                />
+              </div>
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 10%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 8%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 5%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 9%">
+              <select
+                style="
+                  border-radius: 0%;
+                  border: none;
+                  width: 100%;
+                  font-size: xx-small;
+                "
+                v-model="weaponTypeRefs[0]"
+              >
+                <option value="melee">Melee</option>
+                <option value="martial-arts">Martial Arts</option>
+                <option value="thrown">Thrown</option>
+                <option value="archery">Archery</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
@@ -1419,6 +1634,34 @@ const perceptionRef = ref(1);
 const intelligenceRef = ref(1);
 const wisdomRef = ref(1);
 
+const abilityScoreRefs = {
+  archery: ref(0),
+  "martial-arts": ref(0),
+  melee: ref(0),
+  thrown: ref(0),
+  war: ref(0),
+  integrity: ref(0),
+  performance: ref(0),
+  presence: ref(0),
+  resistance: ref(0),
+  survival: ref(0),
+  craft: ref(0),
+  investigation: ref(0),
+  lore: ref(0),
+  medicine: ref(0),
+  occult: ref(0),
+  athletics: ref(0),
+  awareness: ref(0),
+  dodge: ref(0),
+  larceny: ref(0),
+  stealth: ref(0),
+  bureaucracy: ref(0),
+  linguistics: ref(0),
+  ride: ref(0),
+  sail: ref(0),
+  socialize: ref(0),
+};
+
 const essenceRef = ref(1);
 
 const willpowerRef = ref(1);
@@ -1428,9 +1671,92 @@ const temperanceRef = ref(1);
 const convictionRef = ref(1);
 const valorRef = ref(1);
 
-watch(strengthRef, (newStrength) => {
-  console.log(`Strength: ${newStrength}`);
-});
+const weaponAccRefs = ref([
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+]);
+
+const weaponAccBonusRefs = ref([
+  "(+0)",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+]);
+
+const weaponTypeRefs = ref([
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "martial-arts",
+  "martial-arts",
+  "martial-arts",
+]);
+
+// watch(strengthRef, (newStrength) => {
+//   console.log(`Strength: ${newStrength}`);
+// });
+
+watch(
+  weaponAccBonusRefs,
+  (newBonuses, oldBonuses) => {
+    console.log(oldBonuses);
+    console.log(newBonuses);
+    for (var i = 0; i < newBonuses.length; i++) {
+      if (oldBonuses[i] != newBonuses[i])
+        console.log("change detected at index: ");
+      if (
+        oldBonuses[i] != newBonuses[i] &&
+        bonusToInt(newBonuses[i]) !== NaN &&
+        weaponAccRefs.value[i].calculate
+      ) {
+        weaponAccRefs.value[i].value =
+          dexterityRef.value +
+          abilityScoreRefs[weaponTypeRefs.value[i]] +
+          bonusToInt(newBonuses[i]);
+      }
+    }
+  },
+  { deep: true }
+);
+
+function bonusToInt(string) {
+  return parseInt(
+    string.replaceAll("(", "").replaceAll(")", "").replaceAll("+", "")
+  );
+}
 
 function capitalizeFirstLetter(string) {
   if (!string) return ""; // Handle empty or null strings
