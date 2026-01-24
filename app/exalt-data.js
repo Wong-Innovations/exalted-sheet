@@ -1,7 +1,7 @@
 export const exaltData = {
   solar: {
     abilities: {
-      dawn: ["archery", "martial arts", "melee", "thrown", "war"],
+      dawn: ["archery", "martial-arts", "melee", "thrown", "war"],
       zenith: [
         "integrity",
         "performance",
@@ -105,7 +105,7 @@ export const exaltData = {
   },
   infernal: {
     abilities: {
-      slayer: ["archery", "martial arts", "melee", "thrown", "war"],
+      slayer: ["archery", "martial-arts", "melee", "thrown", "war"],
       malefactor: [
         "integrity",
         "performance",
@@ -194,7 +194,7 @@ export const exaltData = {
   },
   abyssal: {
     abilities: {
-      dusk: ["archery", "martial arts", "melee", "thrown", "war"],
+      dusk: ["archery", "martial-arts", "melee", "thrown", "war"],
       midnight: [
         "integrity",
         "performance",
@@ -579,7 +579,7 @@ export const exaltData = {
   },
   "heroic-mortal": {
     abilities: {
-      warrior: ["archery", "martial arts", "melee", "thrown", "war"],
+      warrior: ["archery", "martial-arts", "melee", "thrown", "war"],
       priest: [
         "integrity",
         "performance",

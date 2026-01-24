@@ -404,7 +404,7 @@
               <FiveDotRadio
                 class="attribute-dots"
                 :initialValue="1"
-                :onUpdate="(n) => (wisdomRef = n)"
+                :onUpdate="(n) => (witsRef = n)"
                 source="wits"
                 :checkbox="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
@@ -543,7 +543,7 @@
                   (n) =>
                     (abilityScoreRefs[
                       exaltData[exaltTypeRef].abilities[
-                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                        Object.keys(exaltData[exaltTypeRef].abilities)[1]
                       ][index]
                     ] = n)
                 "
@@ -592,7 +592,7 @@
                   (n) =>
                     (abilityScoreRefs[
                       exaltData[exaltTypeRef].abilities[
-                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                        Object.keys(exaltData[exaltTypeRef].abilities)[2]
                       ][index]
                     ] = n)
                 "
@@ -622,30 +622,6 @@
               />
             </td>
           </tr>
-          <!-- <tr>
-            <td>
-              <AbilityScore label="Martial Arts__" source="martial-arts" />
-            </td>
-            <td><AbilityScore label="Performance__" source="performance" /></td>
-            <td>
-              <AbilityScore label="Investigation__" source="investigation" />
-            </td>
-          </tr>
-          <tr>
-            <td><AbilityScore label="Melee____" source="melee" /></td>
-            <td><AbilityScore label="Presence__" source="presence" /></td>
-            <td><AbilityScore label="Lore__" source="lore" /></td>
-          </tr>
-          <tr>
-            <td><AbilityScore label="Thrown__" source="thrown" /></td>
-            <td><AbilityScore label="Resistance__" source="resistance" /></td>
-            <td><AbilityScore label="Medicine__" source="medicine" /></td>
-          </tr>
-          <tr>
-            <td><AbilityScore label="War______" source="war" /></td>
-            <td><AbilityScore label="Survival__" source="survival" /></td>
-            <td><AbilityScore label="Occult__" source="occult" /></td>
-          </tr> -->
           <tr
             style="text-align: center"
             v-if="Object.keys(exaltData[exaltTypeRef].abilities).length > 3"
@@ -709,7 +685,7 @@
                   (n) =>
                     (abilityScoreRefs[
                       exaltData[exaltTypeRef].abilities[
-                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                        Object.keys(exaltData[exaltTypeRef].abilities)[3]
                       ][index]
                     ] = n)
                 "
@@ -752,7 +728,7 @@
                   (n) =>
                     (abilityScoreRefs[
                       exaltData[exaltTypeRef].abilities[
-                        Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                        Object.keys(exaltData[exaltTypeRef].abilities)[4]
                       ][index]
                     ] = n)
                 "
@@ -768,31 +744,6 @@
               />
             </td>
           </tr>
-          <!-- <tr>
-            <td><AbilityScore label="Athletics__" source="athletics" /></td>
-            <td><AbilityScore label="Bureaucracy__" source="bureaucracy" /></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><AbilityScore label="Awareness__" source="awareness" /></td>
-            <td><AbilityScore label="Linguistics__" source="linguistics" /></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><AbilityScore label="Dodge__" source="dodge" /></td>
-            <td><AbilityScore label="Ride__" source="ride" /></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><AbilityScore label="Larceny__" source="larceny" /></td>
-            <td><AbilityScore label="Sail__" source="sail" /></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><AbilityScore label="Stealth__" source="stealth" /></td>
-            <td><AbilityScore label="Socialize__" source="Socialize" /></td>
-            <td></td>
-          </tr> -->
         </tbody>
       </table>
       <div class="full-bar-with-text">
@@ -1075,6 +1026,7 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
+                    :value="dodgeMdvComputed"
                   />
                 </td>
                 <td style="line-height: 0.7; padding-block: 0">
@@ -1083,6 +1035,7 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
+                    :value="joinCombatComputed"
                   />
                 </td>
               </tr>
@@ -1381,8 +1334,12 @@
             />
           </div>
           <div style="display: flex; font-size: small">
-            No Control: < type="text" class="text-input" style="width: 5.84in;
-            font-size: x-small;" />
+            No Control:
+            <input
+              type="text"
+              class="text-input"
+              style="width: 5.84in; font-size: x-small"
+            />
           </div>
         </div>
       </div>
@@ -1431,6 +1388,126 @@
       <img :src="fullBar" style="width: 8.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1.15in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="text-align: center">Soak and Defense</div>
+          <table style="width: 100%">
+            <tbody>
+              <tr>
+                <td
+                  style="
+                    line-height: 0.7;
+                    padding-left: 0.65in;
+                    padding-block: 0;
+                  "
+                >
+                  Bashing Soak:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.35in; font-size: medium"
+                    :value="dodgeMdvComputed"
+                  />
+                </td>
+                <td style="line-height: 0.7; padding-block: 0">
+                  Lethal Soak:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.35in; font-size: medium"
+                    :value="joinCombatComputed"
+                  />
+                </td>
+                <td style="line-height: 0.7; padding-block: 0">
+                  Aggravated Soak:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.35in; font-size: medium"
+                    :value="joinCombatComputed"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    font-size: x-small;
+                    padding-left: 0.65in;
+                    padding-block: 0;
+                  "
+                >
+                  Stamina + Armor (B)
+                </td>
+                <td style="font-size: x-small; padding-block: 0">
+                  Stamina + Armor (L)
+                </td>
+                <td style="font-size: x-small; padding-block: 0">Armor (L)</td>
+              </tr>
+            </tbody>
+          </table>
+          <table style="width: 100%">
+            <tbody>
+              <tr>
+                <td
+                  style="
+                    line-height: 0.7;
+                    padding-left: 0.65in;
+                    padding-block: 0;
+                  "
+                >
+                  Dodge DV:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.35in; font-size: medium"
+                    :value="dodgeDvComputed"
+                  />
+                </td>
+                <td style="line-height: 0.7; padding-block: 0">
+                  Join Combat:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.35in; font-size: medium"
+                    :value="joinCombatComputed"
+                  />
+                </td>
+                <td style="line-height: 0.7; padding-block: 0">
+                  Move / Dash:
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.25in; font-size: medium"
+                    :value="joinCombatComputed"
+                  />
+                  /
+                  <input
+                    type="text"
+                    class="text-input"
+                    style="position: relative; width: 0.25in; font-size: medium"
+                    :value="joinCombatComputed"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    font-size: x-small;
+                    padding-left: 0.65in;
+                    padding-block: 0;
+                  "
+                >
+                  (Dex. + Dodge + Essence + spe.) / 2
+                </td>
+                <td style="font-size: x-small; padding-block: 0">
+                  Wits + Awareness
+                </td>
+                <td style="font-size: x-small; padding-block: 0">
+                  Dex. - armor mobility (+6)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
@@ -1453,7 +1530,7 @@
           </tr>
         </thead>
         <tbody style="font-size: xx-small">
-          <tr>
+          <tr v-for="(val, index) in weaponAccRefs">
             <td style="border: 1px solid black; padding: 0; width: 20%">
               <input
                 type="text"
@@ -1464,6 +1541,7 @@
                   font-size: xx-small;
                   background-color: transparent;
                 "
+                v-model="weaponNameRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
@@ -1477,6 +1555,7 @@
                   background-color: transparent;
                   text-align: center;
                 "
+                v-model="weaponSpeedRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
@@ -1491,7 +1570,7 @@
                     background-color: transparent;
                     text-align: right;
                   "
-                  v-model="weaponAccRefs[0].value"
+                  v-model="weaponAccRefs[index].value"
                 />
                 <input
                   type="text"
@@ -1503,33 +1582,65 @@
                     background-color: transparent;
                     text-align: left;
                   "
-                  v-model="weaponAccBonusRefs[0]"
+                  v-model="weaponAccBonusRefs[index]"
                 />
               </div>
             </td>
             <td style="border: 1px solid black; padding: 0; width: 10%">
-              <input
-                type="text"
-                style="
-                  border: none;
-                  width: 95%;
-                  height: 100%;
-                  font-size: xx-small;
-                  background-color: transparent;
-                "
-              />
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 35%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: right;
+                  "
+                  v-model="weaponDamageRefs[index].value"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: left;
+                  "
+                  v-model="weaponDamageBonusRefs[index]"
+                />
+              </div>
             </td>
             <td style="border: 1px solid black; padding: 0; width: 8%">
-              <input
-                type="text"
-                style="
-                  border: none;
-                  width: 95%;
-                  height: 100%;
-                  font-size: xx-small;
-                  background-color: transparent;
-                "
-              />
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 35%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: right;
+                  "
+                  v-model="weaponPdvRefs[index].value"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: left;
+                  "
+                  v-model="weaponPdvBonusRefs[index]"
+                />
+              </div>
             </td>
             <td style="border: 1px solid black; padding: 0; width: 5%">
               <input
@@ -1542,6 +1653,7 @@
                   background-color: transparent;
                   text-align: center;
                 "
+                v-model="weaponRateRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
@@ -1555,6 +1667,7 @@
                   background-color: transparent;
                   text-align: center;
                 "
+                v-model="weaponRangeRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
@@ -1567,6 +1680,7 @@
                   font-size: xx-small;
                   background-color: transparent;
                 "
+                v-model="weaponTagRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0">
@@ -1579,6 +1693,7 @@
                   font-size: xx-small;
                   background-color: transparent;
                 "
+                v-model="weaponNotesRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 9%">
@@ -1589,7 +1704,7 @@
                   width: 100%;
                   font-size: xx-small;
                 "
-                v-model="weaponTypeRefs[0]"
+                v-model="weaponTypeRefs[index]"
               >
                 <option value="melee">Melee</option>
                 <option value="martial-arts">Martial Arts</option>
@@ -1605,6 +1720,161 @@
         <img :src="fullBar" style="width: 8.5in" alt="bar" />
         <div style="padding-block: 0">Armor</div>
       </div>
+
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Armor</th>
+            <th>Type</th>
+            <th>Soak(L/B)</th>
+            <th>Hardness</th>
+            <th>Fatigue</th>
+            <th>Mobility</th>
+            <th>Notes</th>
+            <th>Equipped</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: xx-small">
+          <tr v-for="(val, index) in armorSoakRefs">
+            <td style="border: 1px solid black; padding: 0; width: 20%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="armorNameRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="armorTypeRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 35%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: right;
+                  "
+                  v-model="armorSoakRefs[index].value"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: left;
+                  "
+                  v-model="armorSoakRefs[index]"
+                />
+              </div>
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 5%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="armorHardnessRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="armorFatigueRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="armorMobilityRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="armorNotesRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 0.8in">
+              <input
+                type="checkbox"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                :checked="armorEquippedRefs[index]"
+                @change="
+                  () => {
+                    for (var j = 0; j < armorEquippedRefs.length; j++) {
+                      armorEquippedRefs[j] =
+                        j == index ? !armorEquippedRefs[j] : false;
+                    }
+                    console.log(armorEquippedRefs);
+                  }
+                "
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <div style="padding-block: 0">In Combat</div>
+      </div>
     </div>
   </div>
 </template>
@@ -1613,7 +1883,7 @@
 import fullBar from "@/assets/img/full-length-bar-2e.png";
 import logo from "@/assets/img/exalted-2e-logo.jpg";
 import FiveDotRadio from "./components/FiveDotRadio.vue";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import ThreeDotRadio from "./components/ThreeDotRadio.vue";
 import HealthLevelRow from "./components/HealthLevelRow.vue";
 import { exaltData } from "./exalt-data";
@@ -1632,35 +1902,35 @@ const manipulationRef = ref(1);
 const appearanceRef = ref(1);
 const perceptionRef = ref(1);
 const intelligenceRef = ref(1);
-const wisdomRef = ref(1);
+const witsRef = ref(1);
 
-const abilityScoreRefs = {
-  archery: ref(0),
-  "martial-arts": ref(0),
-  melee: ref(0),
-  thrown: ref(0),
-  war: ref(0),
-  integrity: ref(0),
-  performance: ref(0),
-  presence: ref(0),
-  resistance: ref(0),
-  survival: ref(0),
-  craft: ref(0),
-  investigation: ref(0),
-  lore: ref(0),
-  medicine: ref(0),
-  occult: ref(0),
-  athletics: ref(0),
-  awareness: ref(0),
-  dodge: ref(0),
-  larceny: ref(0),
-  stealth: ref(0),
-  bureaucracy: ref(0),
-  linguistics: ref(0),
-  ride: ref(0),
-  sail: ref(0),
-  socialize: ref(0),
-};
+const abilityScoreRefs = ref({
+  archery: 0,
+  "martial-arts": 0,
+  melee: 0,
+  thrown: 0,
+  war: 0,
+  integrity: 0,
+  performance: 0,
+  presence: 0,
+  resistance: 0,
+  survival: 0,
+  craft: 0,
+  investigation: 0,
+  lore: 0,
+  medicine: 0,
+  occult: 0,
+  athletics: 0,
+  awareness: 0,
+  dodge: 0,
+  larceny: 0,
+  stealth: 0,
+  bureaucracy: 0,
+  linguistics: 0,
+  ride: 0,
+  sail: 0,
+  socialize: 0,
+});
 
 const essenceRef = ref(1);
 
@@ -1670,6 +1940,42 @@ const compassionRef = ref(1);
 const temperanceRef = ref(1);
 const convictionRef = ref(1);
 const valorRef = ref(1);
+
+const weaponNameRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "Clinch",
+  "Kick",
+  "Punch",
+]);
+
+const weaponSpeedRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "6",
+  "5",
+  "5",
+]);
 
 const weaponAccRefs = ref([
   { value: 0, calculate: true },
@@ -1691,6 +1997,150 @@ const weaponAccRefs = ref([
 
 const weaponAccBonusRefs = ref([
   "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+1)",
+]);
+
+const weaponDamageRefs = ref([
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+  { value: "0B", calculate: true },
+]);
+
+const weaponDamageBonusRefs = ref([
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+3B)",
+  "(+0B)",
+]);
+
+const weaponPdvRefs = ref([
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+  { value: 0, calculate: true },
+]);
+
+const weaponPdvBonusRefs = ref([
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(-2)",
+  "(+2)",
+]);
+
+const weaponRateRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "1",
+  "2",
+  "3",
+]);
+
+const weaponRangeRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+]);
+
+const weaponTagRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+]);
+
+const weaponNotesRefs = ref([
+  "",
   "",
   "",
   "",
@@ -1725,27 +2175,115 @@ const weaponTypeRefs = ref([
   "martial-arts",
 ]);
 
-// watch(strengthRef, (newStrength) => {
-//   console.log(`Strength: ${newStrength}`);
+const armorNameRefs = ref(["", "", "", "", "", "", "", ""]);
+
+const armorTypeRefs = ref(["", "", "", "", "", "", "", ""]);
+
+const armorSoakRefs = ref(["", "", "", "", "", "", "", ""]);
+
+const armorHardnessRefs = ref(["", "", "", "", "", "", "", ""]);
+
+const armorFatigueRefs = ref(["", "", "", "", "", "", "", ""]);
+
+const armorMobilityRefs = ref(["", "", "", "", "", "", "", ""]);
+
+const armorNotesRefs = ref(["", "", "", "", "", "", "", ""]);
+
+const armorEquippedRefs = ref([
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+]);
+
+// watch(abilityScoreRefs, () => {
+//   console.log(`Integrity: ${abilityScoreRefs.value["integrity"]}`);
 // });
 
+const dodgeMdvComputed = computed(() => {
+  var mdv =
+    (willpowerRef.value +
+      abilityScoreRefs.value["integrity"] +
+      essenceRef.value) /
+    2;
+  return Number.isInteger(mdv) ? mdv : Math.ceil(mdv) + ".";
+});
+
+const dodgeDvComputed = computed(() => {
+  var dv =
+    (dexterityRef.value + abilityScoreRefs.value["dodge"] + essenceRef.value) /
+    2;
+  return Number.isInteger(dv) ? dv : Math.ceil(dv) + ".";
+});
+
+const joinCombatComputed = computed(() => {
+  return witsRef.value + abilityScoreRefs.value["awareness"];
+});
+
+// watch(dodgeMdvComputed, () => console.log(dodgeMdvComputed.value));
+
 watch(
-  weaponAccBonusRefs,
-  (newBonuses, oldBonuses) => {
-    console.log(oldBonuses);
-    console.log(newBonuses);
-    for (var i = 0; i < newBonuses.length; i++) {
-      if (oldBonuses[i] != newBonuses[i])
-        console.log("change detected at index: ");
+  [weaponAccBonusRefs, dexterityRef, abilityScoreRefs],
+  () => {
+    for (var i = 0; i < weaponAccBonusRefs.value.length; i++) {
       if (
-        oldBonuses[i] != newBonuses[i] &&
-        bonusToInt(newBonuses[i]) !== NaN &&
+        !Number.isNaN(bonusToInt(weaponAccBonusRefs.value[i])) &&
         weaponAccRefs.value[i].calculate
       ) {
         weaponAccRefs.value[i].value =
-          dexterityRef.value +
-          abilityScoreRefs[weaponTypeRefs.value[i]] +
-          bonusToInt(newBonuses[i]);
+          parseInt(dexterityRef.value) +
+          parseInt(abilityScoreRefs.value[weaponTypeRefs.value[i]]) +
+          bonusToInt(weaponAccBonusRefs.value[i]);
+      }
+    }
+  },
+  { deep: true }
+);
+
+watch(
+  [weaponDamageBonusRefs, strengthRef],
+  () => {
+    for (var i = 0; i < weaponDamageBonusRefs.value.length; i++) {
+      if (
+        !Number.isNaN(bonusToInt(weaponDamageBonusRefs.value[i])) &&
+        weaponDamageRefs.value[i].calculate
+      ) {
+        var dmg =
+          parseInt(strengthRef.value) +
+          bonusToInt(weaponDamageBonusRefs.value[i]);
+        weaponDamageRefs.value[i].value = `${dmg}${
+          weaponDamageBonusRefs.value[i].split("/")[0].includes("A")
+            ? "A"
+            : weaponDamageBonusRefs.value[i].split("/")[0].includes("L")
+            ? "L"
+            : "B"
+        }`;
+      }
+    }
+  },
+  { deep: true }
+);
+
+watch(
+  [weaponPdvBonusRefs, dexterityRef, abilityScoreRefs],
+  () => {
+    for (var i = 0; i < weaponPdvBonusRefs.value.length; i++) {
+      if (
+        !Number.isNaN(bonusToInt(weaponPdvBonusRefs.value[i])) &&
+        weaponPdvRefs.value[i].calculate
+      ) {
+        var pdv =
+          (parseInt(dexterityRef.value) +
+            parseInt(abilityScoreRefs.value[weaponTypeRefs.value[i]]) +
+            bonusToInt(weaponPdvBonusRefs.value[i])) /
+          2;
+        weaponPdvRefs.value[i].value = Number.isInteger(pdv)
+          ? pdv
+          : Math.ceil(pdv) + ".";
       }
     }
   },
@@ -1754,7 +2292,14 @@ watch(
 
 function bonusToInt(string) {
   return parseInt(
-    string.replaceAll("(", "").replaceAll(")", "").replaceAll("+", "")
+    string
+      .replaceAll("(", "")
+      .replaceAll(")", "")
+      .replaceAll("+", "")
+      .split("/")[0]
+      .replaceAll("B", "")
+      .replaceAll("L", "")
+      .replaceAll("A", "")
   );
 }
 
