@@ -2,48 +2,39 @@
   <div class="rating">
     <input
       type="radio"
-      value="3"
+      :value="3"
       :id="props.source + '-rating3'"
-      v-model="ratingDots"
+      :checked="props.value === 3"
     />
-    <label :for="props.source + '-rating3'"></label>
+    <label
+      :for="props.source + '-rating3'"
+      @click.prevent="() => props.onUpdate(3)"
+    ></label>
     <input
       type="radio"
-      value="2"
+      :value="2"
       :id="props.source + '-rating2'"
-      v-model="ratingDots"
+      :checked="props.value === 2"
     />
-    <label :for="props.source + '-rating2'"></label>
+    <label
+      :for="props.source + '-rating2'"
+      @click.prevent="() => props.onUpdate(2)"
+    ></label>
     <input
       type="radio"
-      value="1"
+      :value="1"
       :id="props.source + '-rating1'"
-      v-model="ratingDots"
+      :checked="props.value === 1"
     />
     <label
       :for="props.source + '-rating1'"
-      @click.prevent="
-        () => {
-          if (ratingDots == 1) {
-            ratingDots = 0;
-          } else {
-            ratingDots = 1;
-          }
-        }
-      "
+      @click.prevent="() => props.onUpdate(1)"
     ></label>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["initialValue", "onUpdate", "source"]);
-
-const ratingDots = ref(props.initialValue);
-
-watch([ratingDots], (newRatingDots) => {
-  props.onUpdate(parseInt(newRatingDots));
-});
+const props = defineProps(["value", "onUpdate", "source"]);
 </script>
 
 <style scoped>

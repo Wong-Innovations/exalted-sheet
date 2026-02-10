@@ -8,79 +8,106 @@
               type="radio"
               value="10"
               id="perm-willpower10"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 10"
             />
-            <label for="perm-willpower10"></label>
+            <label
+              for="perm-willpower10"
+              @click.prevent="() => props.onUpdatePerm(10)"
+            ></label>
             <input
               type="radio"
               value="9"
               id="perm-willpower9"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 9"
             />
-            <label for="perm-willpower9"></label>
+            <label
+              for="perm-willpower9"
+              @click.prevent="() => props.onUpdatePerm(9)"
+            ></label>
             <input
               type="radio"
               value="8"
               id="perm-willpower8"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 8"
             />
-            <label for="perm-willpower8"></label>
+            <label
+              for="perm-willpower8"
+              @click.prevent="() => props.onUpdatePerm(8)"
+            ></label>
             <input
               type="radio"
               value="7"
               id="perm-willpower7"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 7"
             />
-            <label for="perm-willpower7"></label>
+            <label
+              for="perm-willpower7"
+              @click.prevent="() => props.onUpdatePerm(7)"
+            ></label>
             <input
               type="radio"
               value="6"
               id="perm-willpower6"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 6"
             />
-            <label for="perm-willpower6"></label>
+            <label
+              for="perm-willpower6"
+              @click.prevent="() => props.onUpdatePerm(6)"
+            ></label>
             <input
               type="radio"
               value="5"
               id="perm-willpower5"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 5"
             />
-            <label for="perm-willpower5"></label>
+            <label
+              for="perm-willpower5"
+              @click.prevent="() => props.onUpdatePerm(5)"
+            ></label>
             <input
               type="radio"
               value="4"
               id="perm-willpower4"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 4"
             />
-            <label for="perm-willpower4"></label>
+            <label
+              for="perm-willpower4"
+              @click.prevent="() => props.onUpdatePerm(4)"
+            ></label>
             <input
               type="radio"
               value="3"
               id="perm-willpower3"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 3"
             />
-            <label for="perm-willpower3"></label>
+            <label
+              for="perm-willpower3"
+              @click.prevent="() => props.onUpdatePerm(3)"
+            ></label>
             <input
               type="radio"
               value="2"
               id="perm-willpower2"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 2"
             />
-            <label for="perm-willpower2"></label>
+            <label
+              for="perm-willpower2"
+              @click.prevent="() => props.onUpdatePerm(2)"
+            ></label>
             <input
               type="radio"
               value="1"
               id="perm-willpower1"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 1"
             />
             <label
               for="perm-willpower1"
               @click.prevent="
                 () => {
-                  if (ratingDots == 1) {
-                    ratingDots = 0;
+                  if (props.valuePerm == 1) {
+                    props.onUpdatePerm(0);
                   } else {
-                    ratingDots = 1;
+                    props.onUpdatePerm(1);
                   }
                 }
               "
@@ -95,79 +122,106 @@
               type="radio"
               value="10"
               id="temp-willpower10"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 10"
             />
-            <label for="temp-willpower10"></label>
+            <label
+              for="temp-willpower10"
+              @click.prevent="() => props.onUpdateTemp(10)"
+            ></label>
             <input
               type="radio"
               value="9"
               id="temp-willpower9"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 9"
             />
-            <label for="temp-willpower9"></label>
+            <label
+              for="temp-willpower9"
+              @click.prevent="() => props.onUpdateTemp(9)"
+            ></label>
             <input
               type="radio"
               value="8"
               id="temp-willpower8"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 8"
             />
-            <label for="temp-willpower8"></label>
+            <label
+              for="temp-willpower8"
+              @click.prevent="() => props.onUpdateTemp(8)"
+            ></label>
             <input
               type="radio"
               value="7"
               id="temp-willpower7"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 7"
             />
-            <label for="temp-willpower7"></label>
+            <label
+              for="temp-willpower7"
+              @click.prevent="() => props.onUpdateTemp(7)"
+            ></label>
             <input
               type="radio"
               value="6"
               id="temp-willpower6"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 6"
             />
-            <label for="temp-willpower6"></label>
+            <label
+              for="temp-willpower6"
+              @click.prevent="() => props.onUpdateTemp(6)"
+            ></label>
             <input
               type="radio"
               value="5"
               id="temp-willpower5"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 5"
             />
-            <label for="temp-willpower5"></label>
+            <label
+              for="temp-willpower5"
+              @click.prevent="() => props.onUpdateTemp(5)"
+            ></label>
             <input
               type="radio"
               value="4"
               id="temp-willpower4"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 4"
             />
-            <label for="temp-willpower4"></label>
+            <label
+              for="temp-willpower4"
+              @click.prevent="() => props.onUpdateTemp(4)"
+            ></label>
             <input
               type="radio"
               value="3"
               id="temp-willpower3"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 3"
             />
-            <label for="temp-willpower3"></label>
+            <label
+              for="temp-willpower3"
+              @click.prevent="() => props.onUpdateTemp(3)"
+            ></label>
             <input
               type="radio"
               value="2"
               id="temp-willpower2"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 2"
             />
-            <label for="temp-willpower2"></label>
+            <label
+              for="temp-willpower2"
+              @click.prevent="() => props.onUpdateTemp(2)"
+            ></label>
             <input
               type="radio"
               value="1"
               id="temp-willpower1"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 1"
             />
             <label
               for="temp-willpower1"
               @click.prevent="
                 () => {
-                  if (ratingBoxes == 1) {
-                    ratingBoxes = 0;
+                  if (props.valueTemp == 1) {
+                    props.onUpdateTemp(0);
                   } else {
-                    ratingBoxes = 1;
+                    props.onUpdateTemp(1);
                   }
                 }
               "
@@ -180,22 +234,19 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["initialValue", "onUpdate"]);
-
-const ratingDots = ref(props.initialValue);
-const ratingBoxes = ref(0);
-
-watch([ratingDots], (newRatingDots) => {
-  props.onUpdate(parseInt(newRatingDots));
-});
+const props = defineProps([
+  "valuePerm",
+  "onUpdatePerm",
+  "valueTemp",
+  "onUpdateTemp",
+]);
 </script>
 
 <style scoped>
 .perm-willpower {
   display: inline-flex;
   flex-direction: row-reverse;
-  gap: 0.15rem;
+  gap: 0.1rem;
 }
 
 .perm-willpower input {
@@ -203,8 +254,8 @@ watch([ratingDots], (newRatingDots) => {
 }
 
 .perm-willpower label {
-  width: 1rem;
-  height: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
   border-radius: 50%;
   border: 2px solid black;
   cursor: pointer;
@@ -225,7 +276,7 @@ watch([ratingDots], (newRatingDots) => {
 .temp-willpower {
   display: inline-flex;
   flex-direction: row-reverse;
-  gap: 0.15rem;
+  gap: 0.1rem;
 }
 
 .temp-willpower input {
@@ -233,8 +284,8 @@ watch([ratingDots], (newRatingDots) => {
 }
 
 .temp-willpower label {
-  width: 1rem;
-  height: 1rem;
+  width: 0.75rem;
+  height: 0.75rem;
   border: 2px solid black;
   cursor: pointer;
   background-color: transparent;

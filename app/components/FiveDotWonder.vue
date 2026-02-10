@@ -2,7 +2,27 @@
   <div class="rating">
     <input
       type="radio"
-      :value="3"
+      value="5"
+      :id="props.source + '-rating5'"
+      :checked="props.value === 5"
+    />
+    <label
+      :for="props.source + '-rating5'"
+      @click.prevent="() => props.onUpdate(5)"
+    ></label>
+    <input
+      type="radio"
+      value="4"
+      :id="props.source + '-rating4'"
+      :checked="props.value === 4"
+    />
+    <label
+      :for="props.source + '-rating4'"
+      @click.prevent="() => props.onUpdate(4)"
+    ></label>
+    <input
+      type="radio"
+      value="3"
       :id="props.source + '-rating3'"
       :checked="props.value === 3"
     />
@@ -12,7 +32,7 @@
     ></label>
     <input
       type="radio"
-      :value="2"
+      value="2"
       :id="props.source + '-rating2'"
       :checked="props.value === 2"
     />
@@ -22,7 +42,7 @@
     ></label>
     <input
       type="radio"
-      :value="1"
+      value="1"
       :id="props.source + '-rating1'"
       :checked="props.value === 1"
     />
@@ -42,7 +62,7 @@
 </template>
 
 <script setup>
-const props = defineProps(["value", "source", "onUpdate"]);
+const props = defineProps(["value", "onUpdate", "source"]);
 </script>
 
 <style scoped>

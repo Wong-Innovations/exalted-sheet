@@ -1,23 +1,45 @@
 <template>
-  <div class="container">
+  <div>
+    <div class="side-buttons-container">
+      <div class="side-buttons">
+        <button @click="saveSheet" title="Save As">
+          <img :src="saveFileIcon" width="36" alt="save as" />
+        </button>
+        <input
+          type="file"
+          accept=".sheet, .json"
+          hidden
+          id="sheet-upload"
+          @change="loadSheet"
+        />
+        <label for="sheet-upload" title="Upload Sheet">
+          <img :src="uploadFileIcon" width="36" alt="upload sheet" />
+        </label>
+        <button @click="openPrintDialog" title="Print Sheet">
+          <img :src="printIcon" width="36" alt="print sheet" />
+        </button>
+      </div>
+    </div>
+
     <div class="page">
-      <img :src="fullBar" style="width: 8.5in" alt="bar" />
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <table>
         <tbody>
           <tr>
             <td>
-              <img :src="logo" style="height: 1.15in" alt="exalted-2e-logo" />
+              <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
             </td>
             <td>
               <table>
                 <tbody>
-                  <tr>
+                  <tr style="line-height: 0.3">
                     <td><p>Name:</p></td>
                     <td>
                       <input
                         type="text"
                         class="text-input"
-                        style="width: 2.5in"
+                        v-model="characterNameRef"
+                        style="width: 2.25in"
                       />
                     </td>
                     <td style="padding-left: 0.15in">
@@ -27,7 +49,7 @@
                       <select
                         class="text-input"
                         v-model="exaltTypeRef"
-                        style="width: 1.5in"
+                        style="width: 1.25in"
                       >
                         <option
                           v-for="value in Object.keys(exaltData)"
@@ -38,13 +60,14 @@
                       </select>
                     </td>
                   </tr>
-                  <tr style="line-height: 0.8">
+                  <tr style="line-height: 0.3">
                     <td><p>Player:</p></td>
                     <td>
                       <input
                         type="text"
                         class="text-input"
-                        style="width: 2.5in"
+                        v-model="playerNameRef"
+                        style="width: 2.25in"
                       />
                     </td>
                     <td style="padding-left: 0.15in">
@@ -54,13 +77,13 @@
                       <select
                         class="text-input"
                         v-model="casteRef"
-                        style="width: 1.5in"
+                        style="width: 1.25in"
                       >
                         <option></option>
                         <option
                           v-if="
                             Object.keys(exaltData[exaltTypeRef]).includes(
-                              'attributes'
+                              'attributes',
                             )
                           "
                           v-for="(val, caste, index) in exaltData[exaltTypeRef]
@@ -75,7 +98,7 @@
                             .abilities"
                           v-if="
                             !Object.keys(exaltData[exaltTypeRef]).includes(
-                              'attributes'
+                              'attributes',
                             )
                           "
                           :key="caste"
@@ -93,7 +116,7 @@
         </tbody>
       </table>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div>Attributes</div>
       </div>
       <table style="width: 100%; margin-block: 0.1in">
@@ -102,20 +125,20 @@
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength'
+                    'strength',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength'
+                    'strength',
                   )
                 "
               />
@@ -126,7 +149,7 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="strengthRef"
                 :onUpdate="(n) => (strengthRef = n)"
                 source="strength"
               />
@@ -134,20 +157,20 @@
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma'
+                    'charisma',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma'
+                    'charisma',
                   )
                 "
               />
@@ -158,31 +181,28 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                initialValue="1"
+                :value="charismaRef"
                 :onUpdate="(n) => (charismaRef = n)"
                 source="charisma"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception'
+                    'perception',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception'
+                    'perception',
                   )
                 "
               />
@@ -193,12 +213,9 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="perceptionRef"
                 :onUpdate="(n) => (perceptionRef = n)"
                 source="perception"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
           </tr>
@@ -206,20 +223,20 @@
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity'
+                    'dexterity',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity'
+                    'dexterity',
                   )
                 "
               />
@@ -230,31 +247,28 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="dexterityRef"
                 :onUpdate="(n) => (dexterityRef = n)"
                 source="dexterity"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation'
+                    'manipulation',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation'
+                    'manipulation',
                   )
                 "
               />
@@ -265,31 +279,28 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="manipulationRef"
                 :onUpdate="(n) => (manipulationRef = n)"
                 source="manipulation"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence'
+                    'intelligence',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence'
+                    'intelligence',
                   )
                 "
               />
@@ -300,12 +311,9 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="intelligenceRef"
                 :onUpdate="(n) => (intelligenceRef = n)"
                 source="intelligence"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
           </tr>
@@ -313,20 +321,20 @@
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina'
+                    'stamina',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina'
+                    'stamina',
                   )
                 "
               />
@@ -337,31 +345,28 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="staminaRef"
                 :onUpdate="(n) => (staminaRef = n)"
                 source="stamina"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance'
+                    'appearance',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance'
+                    'appearance',
                   )
                 "
               />
@@ -372,18 +377,15 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="appearanceRef"
                 :onUpdate="(n) => (appearanceRef = n)"
                 source="appearance"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
             <td>
               <input
                 type="checkbox"
-                style="height: 16px; width: 16px"
+                style="height: 14px; width: 14px; margin-block: 0"
                 v-if="
                   Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
@@ -403,19 +405,16 @@
               }}
               <FiveDotRadio
                 class="attribute-dots"
-                :initialValue="1"
+                :value="witsRef"
                 :onUpdate="(n) => (witsRef = n)"
                 source="wits"
-                :checkbox="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
               />
             </td>
           </tr>
         </tbody>
       </table>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div>Abilities</div>
       </div>
       <table
@@ -427,21 +426,21 @@
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[0],
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[1]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[1],
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[2]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[2],
                 )
               }}
             </td>
@@ -463,7 +462,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -479,7 +478,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -487,7 +486,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -497,6 +496,13 @@
                         Object.keys(exaltData[exaltTypeRef].abilities)[0]
                       ][index]
                     ] = n)
+                "
+                :value="
+                  abilityScoreRefs[
+                    exaltData[exaltTypeRef].abilities[
+                      Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                    ][index]
+                  ]
                 "
               />
             </td>
@@ -512,7 +518,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -528,7 +534,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -536,7 +542,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -546,6 +552,13 @@
                         Object.keys(exaltData[exaltTypeRef].abilities)[1]
                       ][index]
                     ] = n)
+                "
+                :value="
+                  abilityScoreRefs[
+                    exaltData[exaltTypeRef].abilities[
+                      Object.keys(exaltData[exaltTypeRef].abilities)[1]
+                    ][index]
+                  ]
                 "
               />
             </td>
@@ -561,7 +574,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -577,7 +590,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -585,7 +598,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -596,18 +609,26 @@
                       ][index]
                     ] = n)
                 "
+                :value="
+                  abilityScoreRefs[
+                    exaltData[exaltTypeRef].abilities[
+                      Object.keys(exaltData[exaltTypeRef].abilities)[2]
+                    ][index]
+                  ]
+                "
                 v-if="
                   exaltData[exaltTypeRef].abilities[
                     Object.keys(exaltData[exaltTypeRef].abilities)[2]
                   ][index] != ''
                 "
               />
+              <!-- TODO: wire up these blanks -->
               <AbilityScore
                 :label="
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="'other' + (index - 5)"
@@ -629,14 +650,14 @@
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[3]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[3],
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[4]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[4],
                 )
               }}
             </td>
@@ -654,7 +675,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -670,7 +691,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -678,7 +699,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -689,6 +710,13 @@
                       ][index]
                     ] = n)
                 "
+                :value="
+                  abilityScoreRefs[
+                    exaltData[exaltTypeRef].abilities[
+                      Object.keys(exaltData[exaltTypeRef].abilities)[3]
+                    ][index]
+                  ]
+                "
               />
             </td>
             <td>
@@ -697,7 +725,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -713,7 +741,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -721,7 +749,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -732,9 +760,17 @@
                       ][index]
                     ] = n)
                 "
+                :value="
+                  abilityScoreRefs[
+                    exaltData[exaltTypeRef].abilities[
+                      Object.keys(exaltData[exaltTypeRef].abilities)[4]
+                    ][index]
+                  ]
+                "
               />
             </td>
             <td>
+              <!-- TODO: need to wire this up too -->
               <AbilityScore
                 label="__"
                 :source="'other' + index"
@@ -747,28 +783,28 @@
         </tbody>
       </table>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div>Essence</div>
       </div>
       <div style="display: flex">
         <div style="flex: 1">
           <div style="text-align: center">Anima Effects</div>
           <textarea
-            style="min-height: 1.75in; width: 100%; resize: none"
+            style="min-height: 1.6in; width: 100%; resize: none"
           ></textarea>
         </div>
         <div style="flex: 1">
           <div
             style="width: fit-content; margin-inline: auto; margin-block: 0.1in"
           >
-            <FiveDotRadio
-              :initialValue="1"
+            <FiveDotEssence
+              :value="essenceRef"
               :onUpdate="(n) => (essenceRef = n)"
               source="essence"
               v-if="exaltTypeRef != 'heroic-mortal'"
             />
             <ThreeDotEssence
-              :initialValue="1"
+              :value="essenceRef"
               :onUpdate="(n) => (essenceRef = n)"
               source="essence"
               v-if="exaltTypeRef == 'heroic-mortal'"
@@ -837,11 +873,11 @@
           </div>
         </div>
       </div>
-      <img :src="fullBar" style="width: 8.5in" alt="bar" />
-      <div style="display: flex; margin-bottom: 0.2in">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex; margin-bottom: 0.05in">
         <div style="flex: 4">
           <div style="text-align: center">Health Levels</div>
-          <table>
+          <table style="font-size: medium">
             <tbody>
               <tr>
                 <td valign="top">-0i Bruised</td>
@@ -909,7 +945,8 @@
               style="
                 font-size: x-small;
                 border-collapse: collapse;
-                width: 3.5in;
+                width: 3in;
+                margin-right: 0.4in;
               "
               id="health-level-time-table"
             >
@@ -930,85 +967,303 @@
             </table>
           </div>
         </div>
-        <div style="flex: 5">
+        <div style="flex: 2">
           <div style="text-align: center">Specialties</div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty1" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty2" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty1"
+              :value="specialtyRefs[0].dots"
+              :onUpdate="(value) => (specialtyRefs[0].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[0].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty2"
+              :value="specialtyRefs[1].dots"
+              :onUpdate="(value) => (specialtyRefs[1].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[1].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty3" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty4" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty3"
+              :value="specialtyRefs[2].dots"
+              :onUpdate="(value) => (specialtyRefs[2].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[2].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty4"
+              :value="specialtyRefs[3].dots"
+              :onUpdate="(value) => (specialtyRefs[3].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[3].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty5" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty6" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty5"
+              :value="specialtyRefs[4].dots"
+              :onUpdate="(value) => (specialtyRefs[4].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[4].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty6"
+              :value="specialtyRefs[5].dots"
+              :onUpdate="(value) => (specialtyRefs[5].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[5].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty7" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty8" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty7"
+              :value="specialtyRefs[6].dots"
+              :onUpdate="(value) => (specialtyRefs[6].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[6].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty8"
+              :value="specialtyRefs[7].dots"
+              :onUpdate="(value) => (specialtyRefs[7].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[7].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty9" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty10" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty9"
+              :value="specialtyRefs[8].dots"
+              :onUpdate="(value) => (specialtyRefs[8].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[8].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty10"
+              :value="specialtyRefs[9].dots"
+              :onUpdate="(value) => (specialtyRefs[9].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[9].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty11" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty12" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty11"
+              :value="specialtyRefs[10].dots"
+              :onUpdate="(value) => (specialtyRefs[10].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[10].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty12"
+              :value="specialtyRefs[11].dots"
+              :onUpdate="(value) => (specialtyRefs[11].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[11].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty13" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty14" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty13"
+              :value="specialtyRefs[12].dots"
+              :onUpdate="(value) => (specialtyRefs[12].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[12].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty14"
+              :value="specialtyRefs[13].dots"
+              :onUpdate="(value) => (specialtyRefs[13].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[13].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty15" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty16" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty15"
+              :value="specialtyRefs[14].dots"
+              :onUpdate="(value) => (specialtyRefs[14].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[14].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty16"
+              :value="specialtyRefs[15].dots"
+              :onUpdate="(value) => (specialtyRefs[15].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[15].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty17" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty18" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty17"
+              :value="specialtyRefs[16].dots"
+              :onUpdate="(value) => (specialtyRefs[16].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[16].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty18"
+              :value="specialtyRefs[17].dots"
+              :onUpdate="(value) => (specialtyRefs[17].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[17].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty19" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty20" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty19"
+              :value="specialtyRefs[18].dots"
+              :onUpdate="(value) => (specialtyRefs[18].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[18].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty20"
+              :value="specialtyRefs[19].dots"
+              :onUpdate="(value) => (specialtyRefs[19].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[19].name"
+              style="width: 1.25in"
+            />
           </div>
           <div style="display: flex; justify-content: end">
-            <ThreeDotRadio source="specialty21" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
-            <ThreeDotRadio source="specialty22" style="margin-top: 4px" />
-            <input type="text" class="text-input" style="width: 1.5in" />
+            <ThreeDotRadio
+              source="specialty21"
+              :value="specialtyRefs[20].dots"
+              :onUpdate="(value) => (specialtyRefs[20].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[20].name"
+              style="width: 1.25in"
+            />
+            <ThreeDotRadio
+              source="specialty22"
+              :value="specialtyRefs[21].dots"
+              :onUpdate="(value) => (specialtyRefs[21].dots = value)"
+              style="margin-top: 4px"
+            />
+            <input
+              type="text"
+              class="text-input"
+              v-model="specialtyRefs[21].name"
+              style="width: 1.25in"
+            />
           </div>
         </div>
       </div>
-      <img :src="fullBar" style="width: 8.5in" alt="bar" />
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
     </div>
 
-    <div style="height: 20px"></div>
-
     <div class="page">
-      <img :src="fullBar" style="width: 8.5in" alt="bar" />
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
-        <img :src="logo" style="height: 1.15in" alt="exalted-2e-logo" />
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
         <div style="width: 100%">
           <div style="text-align: center">Social Traits</div>
           <table style="width: 100%; position: relative; top: -0.1in">
@@ -1060,14 +1315,16 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Willpower:
             <WillpowerDots
-              :initial-value="willpowerRef"
-              :onUpdate="(n) => (willpowerRef = n)"
+              :valuePerm="willpowerPermRef"
+              :onUpdatePerm="(n) => (willpowerPermRef = n)"
+              :valueTemp="willpowerTempRef"
+              :onUpdateTemp="(n) => (willpowerTempRef = n)"
             />
           </div>
         </div>
       </div>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">Social Attacks</div>
       </div>
       <table
@@ -1093,7 +1350,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr style="background-color: #ddd">
+          <tr style="background-color: #eee">
             <td style="border: 1px solid black">Investigation</td>
             <td style="border: 1px solid black; text-align: center">5</td>
             <td style="border: 1px solid black; text-align: center"></td>
@@ -1109,7 +1366,7 @@
             <td style="border: 1px solid black; text-align: center">1</td>
             <td style="border: 1px solid black">Attacks a whole area</td>
           </tr>
-          <tr style="background-color: #ddd">
+          <tr style="background-color: #eee">
             <td style="border: 1px solid black">Presence</td>
             <td style="border: 1px solid black; text-align: center">4</td>
             <td style="border: 1px solid black; text-align: center"></td>
@@ -1120,7 +1377,7 @@
         </tbody>
       </table>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">In Debate</div>
       </div>
       <div style="display: flex">
@@ -1245,7 +1502,7 @@
         </div>
       </div>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">Virtues</div>
       </div>
       <div style="display: flex">
@@ -1264,16 +1521,20 @@
             <tr>
               <td style="padding-inline: 0.1in">
                 <VirtueDots
-                  :initialValue="1"
                   source="compassion"
-                  :onUpdate="(n) => (compassionRef = n)"
+                  :valuePerm="compassionPermRef"
+                  :onUpdatePerm="(n) => (compassionPermRef = n)"
+                  :valueTemp="compassionTempRef"
+                  :onUpdateTemp="(n) => (compassionTempRef = n)"
                 />
               </td>
               <td style="padding-inline: 0.1in">
                 <VirtueDots
-                  :initialValue="1"
                   source="temperance"
-                  :onUpdate="(n) => (temperanceRef = n)"
+                  :valuePerm="temperancePermRef"
+                  :onUpdatePerm="(n) => (temperancePermRef = n)"
+                  :valueTemp="temperanceTempRef"
+                  :onUpdateTemp="(n) => (temperanceTempRef = n)"
                 />
               </td>
             </tr>
@@ -1284,29 +1545,33 @@
             <tr>
               <td style="padding-inline: 0.1in">
                 <VirtueDots
-                  :initialValue="1"
                   source="conviction"
-                  :onUpdate="(n) => (convictionRef = n)"
+                  :valuePerm="convictionPermRef"
+                  :onUpdatePerm="(n) => (convictionPermRef = n)"
+                  :valueTemp="convictionTempRef"
+                  :onUpdateTemp="(n) => (convictionTempRef = n)"
                 />
               </td>
               <td style="padding-inline: 0.1in">
                 <VirtueDots
-                  :initialValue="1"
                   source="valor"
-                  :onUpdate="(n) => (valorRef = n)"
+                  :valuePerm="valorPermRef"
+                  :onUpdatePerm="(n) => (valorPermRef = n)"
+                  :valueTemp="valorTempRef"
+                  :onUpdateTemp="(n) => (valorTempRef = n)"
                 />
               </td>
             </tr>
           </tbody>
         </table>
-        <div style="margin-left: 0.1in">
+        <div style="margin-left: 0.1in; margin-top: 0.05in">
           <div style="display: flex; font-size: small">
             Virtue Flaw:
             <select
               class="text-input"
               style="width: 2.9in; background-color: white; font-size: x-small"
             ></select>
-            <div style="width: 2.95in; text-align: center">Limit points</div>
+            <div style="width: 2.2in; text-align: center">Limit points</div>
           </div>
           <div style="display: flex; font-size: small">
             Duration:
@@ -1315,14 +1580,19 @@
               class="text-input"
               style="width: 3.04in; font-size: x-small"
             />
-            <div style="width: 2.95in; text-align: center"><LimitPoints /></div>
+            <div style="width: 2.2in; text-align: center">
+              <LimitPoints
+                :value="limitRef"
+                :onUpdate="(n) => (limitRef = n)"
+              />
+            </div>
           </div>
-          <div style="display: flex; font-size: small">
+          <div style="display: flex; font-size: small; padding-top: 4px">
             Limit Break Condition:
             <input
               type="text"
               class="text-input"
-              style="width: 5.1in; font-size: x-small"
+              style="width: 4.3in; font-size: x-small"
             />
           </div>
           <div style="display: flex; font-size: small">
@@ -1330,7 +1600,7 @@
             <input
               type="text"
               class="text-input"
-              style="width: 5.59in; font-size: x-small"
+              style="width: 4.7in; font-size: x-small"
             />
           </div>
           <div style="display: flex; font-size: small">
@@ -1338,13 +1608,13 @@
             <input
               type="text"
               class="text-input"
-              style="width: 5.84in; font-size: x-small"
+              style="width: 4.89in; font-size: x-small"
             />
           </div>
         </div>
       </div>
       <div class="full-bar-with-text" style="margin-top: 0.1in">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">Intimacies</div>
       </div>
       <table
@@ -1371,23 +1641,21 @@
         </tbody>
       </table>
       <div class="full-bar-with-text" style="margin-top: 0.1in">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">Motivation</div>
       </div>
       <div style="width: 95%; margin-inline: auto; margin-block: 0.1in">
         <textarea style="width: 100%; height: 1.5in; resize: none"></textarea>
       </div>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
       </div>
     </div>
 
-    <div style="height: 20px"></div>
-
     <div class="page">
-      <img :src="fullBar" style="width: 8.5in" alt="bar" />
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
-        <img :src="logo" style="height: 1.15in" alt="exalted-2e-logo" />
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
         <div style="width: 100%">
           <div style="text-align: center">Soak and Defense</div>
           <table style="width: 100%">
@@ -1396,7 +1664,7 @@
                 <td
                   style="
                     line-height: 0.7;
-                    padding-left: 0.65in;
+                    padding-left: 0.25in;
                     padding-block: 0;
                   "
                 >
@@ -1431,7 +1699,7 @@
                 <td
                   style="
                     font-size: x-small;
-                    padding-left: 0.65in;
+                    padding-left: 0.25in;
                     padding-block: 0;
                   "
                 >
@@ -1450,7 +1718,7 @@
                 <td
                   style="
                     line-height: 0.7;
-                    padding-left: 0.65in;
+                    padding-left: 0.25in;
                     padding-block: 0;
                   "
                 >
@@ -1492,7 +1760,7 @@
                 <td
                   style="
                     font-size: x-small;
-                    padding-left: 0.65in;
+                    padding-left: 0.25in;
                     padding-block: 0;
                   "
                 >
@@ -1510,7 +1778,7 @@
         </div>
       </div>
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">Weapons</div>
       </div>
 
@@ -1530,7 +1798,13 @@
           </tr>
         </thead>
         <tbody style="font-size: xx-small">
-          <tr v-for="(val, index) in weaponAccRefs">
+          <tr
+            v-for="(val, index) in weaponAccRefs"
+            :key="`weapon-table-row-${index}`"
+            :style="{
+              backgroundColor: index % 2 === 0 ? '#eee' : 'white',
+            }"
+          >
             <td style="border: 1px solid black; padding: 0; width: 20%">
               <input
                 type="text"
@@ -1703,6 +1977,7 @@
                   border: none;
                   width: 100%;
                   font-size: xx-small;
+                  background: transparent;
                 "
                 v-model="weaponTypeRefs[index]"
               >
@@ -1717,7 +1992,7 @@
       </table>
 
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">Armor</div>
       </div>
 
@@ -1735,7 +2010,13 @@
           </tr>
         </thead>
         <tbody style="font-size: xx-small">
-          <tr v-for="(val, index) in armorSoakRefs">
+          <tr
+            v-for="(val, index) in armorSoakRefs"
+            :key="`armor-table-row-${index}`"
+            :style="{
+              backgroundColor: index % 2 === 0 ? '#eee' : 'white',
+            }"
+          >
             <td style="border: 1px solid black; padding: 0; width: 20%">
               <input
                 type="text"
@@ -1769,13 +2050,13 @@
                   type="text"
                   style="
                     border: none;
-                    width: 35%;
+                    width: 50%;
                     height: 100%;
-                    font-size: xx-small;
+                    font-size: small;
                     background-color: transparent;
-                    text-align: right;
+                    text-align: center;
                   "
-                  v-model="armorSoakRefs[index].value"
+                  v-model="armorSoakRefs[index][0]"
                 />
                 <input
                   type="text"
@@ -1783,11 +2064,11 @@
                     border: none;
                     width: 50%;
                     height: 100%;
-                    font-size: xx-small;
+                    font-size: small;
                     background-color: transparent;
-                    text-align: left;
+                    text-align: center;
                   "
-                  v-model="armorSoakRefs[index]"
+                  v-model="armorSoakRefs[index][1]"
                 />
               </div>
             </td>
@@ -1798,7 +2079,7 @@
                   border: none;
                   width: 95%;
                   height: 100%;
-                  font-size: xx-small;
+                  font-size: small;
                   background-color: transparent;
                   text-align: center;
                 "
@@ -1812,7 +2093,7 @@
                   border: none;
                   width: 95%;
                   height: 100%;
-                  font-size: xx-small;
+                  font-size: small;
                   background-color: transparent;
                   text-align: center;
                 "
@@ -1826,7 +2107,7 @@
                   border: none;
                   width: 95%;
                   height: 100%;
-                  font-size: xx-small;
+                  font-size: small;
                   background-color: transparent;
                 "
                 v-model="armorMobilityRefs[index]"
@@ -1872,18 +2153,2327 @@
       </table>
 
       <div class="full-bar-with-text">
-        <img :src="fullBar" style="width: 8.5in" alt="bar" />
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
         <div style="padding-block: 0">In Combat</div>
       </div>
+
+      <div style="display: flex">
+        <div style="width: 31%">
+          <div style="text-align: center">Grappling (Clinch Attack)</div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >If clinch is successful victim is Inactive, attacker can choose
+              to:</span
+            >
+          </div>
+          <div style="height: 0.1in"></div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Break Hold:</span
+            >
+            Throw opponent Strength yards away -> knockback check. Or throw to
+            ground -> prone. Or release opponent.
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"> Crush:</span>
+            Strenth + additional successes from attack. Piercing bashing.
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"> Hold:</span>
+            Maintain the clinch.
+          </div>
+          <div style="height: 0.1in"></div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              On additional actions:</span
+            >
+            Opposed Strength or Dexterity + Martial Arts to maintain clinch.
+          </div>
+        </div>
+        <div style="width: 3%"></div>
+        <div style="width: 31%">
+          <div style="text-align: center">Effects</div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold">Bleeding:</span>
+            Stamina + Resistance difficulty 2 to stop.
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold">Knock back:</span>
+            1 yard per 3 raw damage, will be prone.
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold">Knockdown:</span>
+            If raw damage > Stamina + Resistance, then Strength or Dexterity +
+            Athletics or Resistance.
+            <span style="font-size: small; font-weight: bold">Difficulty:</span>
+            2, will be prone.
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold">Stunned:</span>
+            If damage > Stamina, then Strength + Resistance.
+            <span style="font-size: small; font-weight: bold">Difficulty:</span>
+            damange - stamina.
+          </div>
+        </div>
+        <div style="width: 3%"></div>
+        <div style="width: 31%">
+          <div style="text-align: center">Special Attacks</div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Coup de Grace (-1e):</span
+            >
+            Maim instead of killing.
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Disarming (-2e close or -4e range):</span
+            >
+            Wits + Ability to hold on to weapon.
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Fierce Blows (-1e):</span
+            >
+            +2 Leathal or Aggrivated, or +3 Bashing to target.
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Pulling Blows (-1e):</span
+            >
+            Deal bashing damage instead of leathal or aggrivated.
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Showing Off (-1e to -4e):</span
+            >
+            Example slash a 'Z' across opponent's chest.
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Sweeping (-1e):</span
+            >
+            Target must test for knockdown.
+          </div>
+        </div>
+      </div>
+      <div style="display: flex">
+        <div style="width: 42%">
+          <div style="text-align: center">
+            Action Options (Speed/DV modifier)
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack(weapon/-2):</span
+            >
+            Attack a target
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Coordinated Attack(5/-2):</span
+            >
+            Charisma + Socialize, diff: number of participants / 2
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Dash(3/-3):</span
+            >
+            Sprint 10 * (Dexterity + 6 - Armor mobility) meters per long tick
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Flurry(longest action/sum of defense penalties):</span
+            >
+            Multiple actions
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Guard(3/none):</span
+            >
+            Doing nothing, may be aborted
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Inactive(3/special):</span
+            >
+            Social invulnerable
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Miscellaneous Action(5/-1 to -3):</span
+            >
+            Do something else
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Monologue/Study(3/-2):</span
+            >
+            +1D per long tick, may be aborted to attack
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold">
+              Move(0/none):</span
+            >
+            Move 10 * (Dexterity - Armor mobility) meters per long tick
+          </div>
+        </div>
+        <div style="width: 3%"></div>
+        <div style="width: 55%">
+          <div style="text-align: center">Additional</div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack supporting/against an Intimacy:</span
+            >
+            &plusmn;1 to DV
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack according to/opposed to dominating Virtue(rate 3+):</span
+            >
+            &plusmn;2 to DV
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold"
+              >Attack supporting/against an Intimacy:</span
+            >
+            &plusmn;1 to DV
+          </div>
+          <div style="font-size: small">
+            <span style="font-size: small; font-weight: bold">Appearance:</span>
+            (Defender's App - Attacker's App) to DV (max &plusmn;3)
+          </div>
+          <div style="height: 0.1in"></div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >If the attack violates Motivation:</span
+            >
+            Must refuse to consent
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Natural persuasion:</span
+            >
+            Can only spend 2wp per scene, will become jaded and suspicious
+            (attack automatically fails). A stunt and new attack approach is
+            needed for further attacks
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Unnatural persuasion:</span
+            >
+            Exalted gain 1 point of Limit when resisting the attack
+          </div>
+          <div style="height: 0.1in"></div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Consent to the attack:</span
+            >
+            Performing the behavior described in the initial attack
+          </div>
+          <div style="font-size: x-small">
+            <span style="font-size: small; font-weight: bold"
+              >Refuse to consent:</span
+            >
+            Reflexively pay 1wp to resist
+          </div>
+        </div>
+      </div>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">Languages</div>
+          <table style="width: 100%; border-collapse: collapse">
+            <tbody style="font-size: small">
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[0].value"
+                      style="margin-block: 0"
+                    />
+                    Clawspeak
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[1].value"
+                      style="margin-block: 0"
+                    />
+                    Seatongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[2].value"
+                      style="margin-block: 0"
+                    />
+                    Old Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[3].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[3].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[4].value"
+                      style="margin-block: 0"
+                    />
+                    Flametongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[5].value"
+                      style="margin-block: 0"
+                    />
+                    Skytongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[6].value"
+                      style="margin-block: 0"
+                    />
+                    High Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[7].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[7].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[8].value"
+                      style="margin-block: 0"
+                    />
+                    Forest Tongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[9].value"
+                      style="margin-block: 0"
+                    />
+                    Fair Folk
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[10].value"
+                      style="margin-block: 0"
+                    />
+                    Low Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[11].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[11].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[12].value"
+                      style="margin-block: 0"
+                    />
+                    Guild Cant
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[13].value"
+                      style="margin-block: 0"
+                    />
+                    Demonic
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[14].value"
+                      style="margin-block: 0"
+                    />
+                    Celestial
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[15].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[15].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Charms</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Charm</th>
+            <th>Cost</th>
+            <th>Duration</th>
+            <th>Type</th>
+            <th>Keywords</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in charmRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 2in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="charmRefs[index].name"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.5in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="charmRefs[index].cost"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.6in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="charmRefs[index].duration"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.6in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="charmRefs[index].type"
+                />
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.8in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="charmRefs[index].keywords"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 2.6in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="charmRefs[index].effect"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">Languages</div>
+          <table style="width: 100%; border-collapse: collapse">
+            <tbody style="font-size: small">
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[0].value"
+                      style="margin-block: 0"
+                    />
+                    Clawspeak
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[1].value"
+                      style="margin-block: 0"
+                    />
+                    Seatongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[2].value"
+                      style="margin-block: 0"
+                    />
+                    Old Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[3].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[3].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[4].value"
+                      style="margin-block: 0"
+                    />
+                    Flametongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[5].value"
+                      style="margin-block: 0"
+                    />
+                    Skytongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[6].value"
+                      style="margin-block: 0"
+                    />
+                    High Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[7].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[7].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[8].value"
+                      style="margin-block: 0"
+                    />
+                    Forest Tongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[9].value"
+                      style="margin-block: 0"
+                    />
+                    Fair Folk
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[10].value"
+                      style="margin-block: 0"
+                    />
+                    Low Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[11].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[11].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[12].value"
+                      style="margin-block: 0"
+                    />
+                    Guild Cant
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[13].value"
+                      style="margin-block: 0"
+                    />
+                    Demonic
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[14].value"
+                      style="margin-block: 0"
+                    />
+                    Celestial
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[15].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[15].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Combos</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Combo</th>
+            <th>Cost</th>
+            <th>Charms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in comboRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 2in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="comboRefs[index].name"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="comboRefs[index].cost"
+                />
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 2.6in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="comboRefs[index].charms"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">Languages</div>
+          <table style="width: 100%; border-collapse: collapse">
+            <tbody style="font-size: small">
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[0].value"
+                      style="margin-block: 0"
+                    />
+                    Clawspeak
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[1].value"
+                      style="margin-block: 0"
+                    />
+                    Seatongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[2].value"
+                      style="margin-block: 0"
+                    />
+                    Old Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[3].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[3].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[4].value"
+                      style="margin-block: 0"
+                    />
+                    Flametongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[5].value"
+                      style="margin-block: 0"
+                    />
+                    Skytongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[6].value"
+                      style="margin-block: 0"
+                    />
+                    High Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[7].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[7].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[8].value"
+                      style="margin-block: 0"
+                    />
+                    Forest Tongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[9].value"
+                      style="margin-block: 0"
+                    />
+                    Fair Folk
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[10].value"
+                      style="margin-block: 0"
+                    />
+                    Low Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[11].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[11].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[12].value"
+                      style="margin-block: 0"
+                    />
+                    Guild Cant
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[13].value"
+                      style="margin-block: 0"
+                    />
+                    Demonic
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[14].value"
+                      style="margin-block: 0"
+                    />
+                    Celestial
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[15].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[15].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Sorcery</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Sorcery</th>
+            <th>Cost</th>
+            <th>Type</th>
+            <th>Duration</th>
+            <th>Target</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in sorceryRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 2in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="sorceryRefs[index].name"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.5in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="sorceryRefs[index].cost"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.6in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="sorceryRefs[index].type"
+                />
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.8in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="sorceryRefs[index].duration"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.8in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="sorceryRefs[index].target"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 2.6in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="sorceryRefs[index].effect"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">Languages</div>
+          <table style="width: 100%; border-collapse: collapse">
+            <tbody style="font-size: small">
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[0].value"
+                      style="margin-block: 0"
+                    />
+                    Clawspeak
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[1].value"
+                      style="margin-block: 0"
+                    />
+                    Seatongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[2].value"
+                      style="margin-block: 0"
+                    />
+                    Old Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[3].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[3].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[4].value"
+                      style="margin-block: 0"
+                    />
+                    Flametongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[5].value"
+                      style="margin-block: 0"
+                    />
+                    Skytongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[6].value"
+                      style="margin-block: 0"
+                    />
+                    High Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[7].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[7].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[8].value"
+                      style="margin-block: 0"
+                    />
+                    Forest Tongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[9].value"
+                      style="margin-block: 0"
+                    />
+                    Fair Folk
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[10].value"
+                      style="margin-block: 0"
+                    />
+                    Low Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[11].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[11].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[12].value"
+                      style="margin-block: 0"
+                    />
+                    Guild Cant
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[13].value"
+                      style="margin-block: 0"
+                    />
+                    Demonic
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[14].value"
+                      style="margin-block: 0"
+                    />
+                    Celestial
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[15].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[15].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Artifacts & Panoply</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Rating</th>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in artifactRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: none;
+                  padding: 0;
+                  padding-right: 0.05in;
+                  width: 0.5in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <FiveDotWonder
+                  :source="`artifact${index}`"
+                  :value="artifactRefs[index].rating"
+                  :onUpdate="
+                    (value) => {
+                      artifactRefs[index].rating = value;
+                    }
+                  "
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1.75in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="artifactRefs[index].name"
+                />
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 4.5in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="artifactRefs[index].description"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">Languages</div>
+          <table style="width: 100%; border-collapse: collapse">
+            <tbody style="font-size: small">
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[0].value"
+                      style="margin-block: 0"
+                    />
+                    Clawspeak
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[1].value"
+                      style="margin-block: 0"
+                    />
+                    Seatongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[2].value"
+                      style="margin-block: 0"
+                    />
+                    Old Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[3].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[3].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[4].value"
+                      style="margin-block: 0"
+                    />
+                    Flametongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[5].value"
+                      style="margin-block: 0"
+                    />
+                    Skytongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[6].value"
+                      style="margin-block: 0"
+                    />
+                    High Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[7].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[7].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[8].value"
+                      style="margin-block: 0"
+                    />
+                    Forest Tongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[9].value"
+                      style="margin-block: 0"
+                    />
+                    Fair Folk
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[10].value"
+                      style="margin-block: 0"
+                    />
+                    Low Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[11].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[11].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[12].value"
+                      style="margin-block: 0"
+                    />
+                    Guild Cant
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[13].value"
+                      style="margin-block: 0"
+                    />
+                    Demonic
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[14].value"
+                      style="margin-block: 0"
+                    />
+                    Celestial
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[15].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[15].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Manse & Heathstones</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Rating</th>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in artifactRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: none;
+                  padding: 0;
+                  padding-right: 0.05in;
+                  width: 0.5in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <FiveDotWonder
+                  :source="`artifact${index}`"
+                  :value="artifactRefs[index].rating"
+                  :onUpdate="
+                    (value) => {
+                      manseRefs[index].rating = value;
+                    }
+                  "
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1.75in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="manseRefs[index].name"
+                />
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 4.5in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="manseRefs[index].description"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">Languages</div>
+          <table style="width: 100%; border-collapse: collapse">
+            <tbody style="font-size: small">
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[0].value"
+                      style="margin-block: 0"
+                    />
+                    Clawspeak
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[1].value"
+                      style="margin-block: 0"
+                    />
+                    Seatongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[2].value"
+                      style="margin-block: 0"
+                    />
+                    Old Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[3].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[3].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[4].value"
+                      style="margin-block: 0"
+                    />
+                    Flametongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[5].value"
+                      style="margin-block: 0"
+                    />
+                    Skytongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[6].value"
+                      style="margin-block: 0"
+                    />
+                    High Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[7].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[7].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[8].value"
+                      style="margin-block: 0"
+                    />
+                    Forest Tongue
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[9].value"
+                      style="margin-block: 0"
+                    />
+                    Fair Folk
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[10].value"
+                      style="margin-block: 0"
+                    />
+                    Low Realm
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[11].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[11].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[12].value"
+                      style="margin-block: 0"
+                    />
+                    Guild Cant
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[13].value"
+                      style="margin-block: 0"
+                    />
+                    Demonic
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[14].value"
+                      style="margin-block: 0"
+                    />
+                    Celestial
+                  </div>
+                </td>
+                <td style="width: 1.75in">
+                  <div style="display: flex">
+                    <input
+                      type="checkbox"
+                      v-model="languageRefs[15].value"
+                      style="margin-block: 0"
+                    />
+                    <input
+                      type="text"
+                      v-model="languageRefs[15].name"
+                      class="text-input"
+                      style="width: 1.5in"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Backgrounds</div>
+      </div>
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          margin-top: 0.05in;
+        "
+      >
+        <datalist id="background-options">
+          <option
+            v-for="value in exaltData[exaltTypeRef].backgrounds"
+            :value="value"
+          >
+            {{ value }}
+          </option>
+        </datalist>
+        <div
+          v-for="(value, index) in backgroundRefs"
+          style="max-width: 48.5%; width: 100%"
+        >
+          <div style="display: flex; justify-content: space-between">
+            <div style="display: flex">
+              <input
+                v-model="backgroundRefs[index].name"
+                list="background-options"
+                style="width: 2in"
+              />
+            </div>
+            <SixDotBackground
+              :value="backgroundRefs[index].rating"
+              :onUpdate="(val) => (backgroundRefs[index].rating = val)"
+              :source="`background${index}`"
+            />
+          </div>
+          <textarea
+            style="
+              height: 0.6in;
+              box-sizing: border-box;
+              width: 100%;
+              resize: none;
+            "
+          ></textarea>
+        </div>
+      </div>
+
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">Possessions</div>
+          <textarea
+            v-model="possessionsRef"
+            style="
+              width: 95%;
+              height: 0.8in;
+              box-sizing: border-box;
+              margin-left: 0.1in;
+              resize: none;
+            "
+          ></textarea>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between">
+        <div style="max-width: 48.5%; width: 100%">
+          <div class="full-bar-with-text">
+            <img :src="halfBar" style="width: 100%; height: 11px" alt="bar" />
+            <div style="padding-block: 0">Experience</div>
+          </div>
+          <div style="display: flex">
+            Total:
+            <input
+              type="text"
+              v-model="totalXpRef"
+              class="text-input"
+              style="width: 0.5in"
+            />
+          </div>
+          <div style="display: flex">
+            Total Spent:
+            <input
+              type="text"
+              v-model="totalXpSpentRef"
+              class="text-input"
+              style="width: 0.5in"
+            />
+          </div>
+          <div style="display: flex; width: 100%; justify-content: center">
+            Spent On
+          </div>
+          <textarea
+            v-model="xpSpentOnRef"
+            style="
+              width: 100%;
+              height: 5in;
+              box-sizing: border-box;
+              resize: none;
+            "
+          ></textarea>
+        </div>
+        <div style="max-width: 48.5%; width: 100%">
+          <div class="full-bar-with-text">
+            <img :src="halfBar" style="width: 100%; height: 11px" alt="bar" />
+            <div style="padding-block: 0">Description</div>
+          </div>
+          <div
+            style="display: flex; width: 100%; justify-content: space-between"
+          >
+            <div>
+              Age (actual):
+              <input
+                type="text"
+                v-model="ageActualRef"
+                class="text-input"
+                style="width: 0.4in"
+              />
+            </div>
+            <div>
+              Age (apparent):
+              <input
+                type="text"
+                v-model="ageApparentRef"
+                class="text-input"
+                style="width: 0.4in"
+              />
+            </div>
+          </div>
+
+          <div
+            style="display: flex; width: 100%; justify-content: space-between"
+          >
+            <div>
+              Height:
+              <input
+                type="text"
+                v-model="heightRef"
+                class="text-input"
+                style="width: 0.6in"
+              />
+            </div>
+            <div>
+              Weight:
+              <input
+                type="text"
+                v-model="weightRef"
+                class="text-input"
+                style="width: 0.6in"
+              />
+            </div>
+          </div>
+
+          <div
+            style="display: flex; width: 100%; justify-content: space-between"
+          >
+            <div>
+              Gender:
+              <input
+                type="text"
+                v-model="genderRef"
+                class="text-input"
+                style="width: 1in"
+              />
+            </div>
+            <div>
+              Eye Color:
+              <input
+                type="text"
+                v-model="eyeColorRef"
+                class="text-input"
+                style="width: 1in"
+              />
+            </div>
+          </div>
+
+          <div
+            style="display: flex; width: 100%; justify-content: space-between"
+          >
+            <div>
+              Hair Color:
+              <input
+                type="text"
+                v-model="hairColorRef"
+                class="text-input"
+                style="width: 1in"
+              />
+            </div>
+            <div>
+              Skin:
+              <input
+                type="text"
+                v-model="skinRef"
+                class="text-input"
+                style="width: 1in"
+              />
+            </div>
+          </div>
+
+          <div
+            style="display: flex; width: 100%; justify-content: space-between"
+          >
+            <div>
+              Homeland:
+              <input
+                type="text"
+                v-model="homelandRef"
+                class="text-input"
+                style="width: 2in"
+              />
+            </div>
+          </div>
+
+          <div class="full-bar-with-text">
+            <img
+              :src="halfBar"
+              style="width: 100%; height: 11px; margin-top: 0.1in"
+              alt="bar"
+            />
+            <div style="padding-block: 0">Picture</div>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <img
+              :src="playerImageBase64"
+              style="
+                max-width: 100%;
+                max-height: 4in;
+                border: 1px solid #ccc;
+                padding: 4px;
+                box-sizing: border-box;
+              "
+              :style="{ display: playerImageBase64 === '' ? 'none' : 'block' }"
+            />
+          </div>
+          <div style="display: flex; justify-content: center">
+            <input
+              type="file"
+              accept="image/*"
+              @change="onImageUpload"
+              id="selectedFile"
+              style="display: none"
+            />
+            <input
+              type="button"
+              value="Choose File"
+              onclick="document.getElementById('selectedFile').click()"
+              style="margin-top: 0.05in"
+              id="selectImageButton"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Backstory</div>
+      </div>
+
+      <textarea
+        v-model="backstoryRef"
+        style="
+          width: 7.5in;
+          height: 2.5in;
+          box-sizing: border-box;
+          resize: none;
+        "
+      ></textarea>
+
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
     </div>
   </div>
 </template>
 
 <script setup>
 import fullBar from "@/assets/img/full-length-bar-2e.png";
+import halfBar from "@/assets/img/one-column-bar-split-2e.png";
 import logo from "@/assets/img/exalted-2e-logo.jpg";
+import saveFileIcon from "@/assets/img/file_save.svg";
+import uploadFileIcon from "@/assets/img/upload_file.svg";
+import printIcon from "@/assets/img/print.svg";
 import FiveDotRadio from "./components/FiveDotRadio.vue";
-import { ref, watch, computed } from "vue";
+import FiveDotWonder from "./components/FiveDotWonder.vue";
+import { ref, watch, computed, toRaw } from "vue";
 import ThreeDotRadio from "./components/ThreeDotRadio.vue";
 import HealthLevelRow from "./components/HealthLevelRow.vue";
 import { exaltData } from "./exalt-data";
@@ -1892,6 +4482,8 @@ import WillpowerDots from "./components/WillpowerDots.vue";
 import VirtueDots from "./components/VirtueDots.vue";
 import LimitPoints from "./components/LimitPoints.vue";
 
+const characterNameRef = ref("");
+const playerNameRef = ref("");
 const exaltTypeRef = ref("solar");
 const casteRef = ref("");
 const strengthRef = ref(1);
@@ -1934,12 +4526,44 @@ const abilityScoreRefs = ref({
 
 const essenceRef = ref(1);
 
-const willpowerRef = ref(1);
+const specialtyRefs = ref([
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+  { dots: 0, name: "" },
+]);
 
-const compassionRef = ref(1);
-const temperanceRef = ref(1);
-const convictionRef = ref(1);
-const valorRef = ref(1);
+const willpowerPermRef = ref(1);
+const willpowerTempRef = ref(0);
+
+const compassionPermRef = ref(1);
+const compassionTempRef = ref(0);
+const temperancePermRef = ref(1);
+const temperanceTempRef = ref(0);
+const convictionPermRef = ref(1);
+const convictionTempRef = ref(0);
+const valorPermRef = ref(1);
+const valorTempRef = ref(0);
+
+const limitRef = ref(0);
 
 const weaponNameRefs = ref([
   "",
@@ -2179,7 +4803,16 @@ const armorNameRefs = ref(["", "", "", "", "", "", "", ""]);
 
 const armorTypeRefs = ref(["", "", "", "", "", "", "", ""]);
 
-const armorSoakRefs = ref(["", "", "", "", "", "", "", ""]);
+const armorSoakRefs = ref([
+  ["0", "0"],
+  ["", ""],
+  ["", ""],
+  ["", ""],
+  ["", ""],
+  ["", ""],
+  ["", ""],
+  ["", ""],
+]);
 
 const armorHardnessRefs = ref(["", "", "", "", "", "", "", ""]);
 
@@ -2200,13 +4833,230 @@ const armorEquippedRefs = ref([
   false,
 ]);
 
+const languageRefs = ref([
+  { name: "clawspeak", value: false },
+  { name: "seatongue", value: false },
+  { name: "old-realm", value: false },
+  { name: "", value: false },
+
+  { name: "flametongue", value: false },
+  { name: "skytongue", value: false },
+  { name: "high-realm", value: false },
+  { name: "", value: false },
+
+  { name: "forest-tongue", value: false },
+  { name: "fair-folk", value: false },
+  { name: "low-realm", value: false },
+  { name: "", value: false },
+
+  { name: "guild-cant", value: false },
+  { name: "demonic", value: false },
+  { name: "celestial", value: false },
+  { name: "", value: false },
+]);
+
+const charmRefs = ref([
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+]);
+
+const comboRefs = ref([
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+  { name: "", cost: "", charms: "" },
+]);
+
+const sorceryRefs = ref([
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
+]);
+
+const artifactRefs = ref([
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+  { name: "", rating: "", description: "" },
+]);
+
+const manseRefs = ref([
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+]);
+
+const backgroundRefs = ref([
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+  { name: "", rating: 0, description: "" },
+]);
+
+const possessionsRef = ref("");
+
+const totalXpRef = ref(0);
+const totalXpSpentRef = ref(0);
+const xpSpentOnRef = ref("");
+
+const ageActualRef = ref(0);
+const ageApparentRef = ref(0);
+const heightRef = ref("");
+const weightRef = ref("");
+const genderRef = ref("");
+const eyeColorRef = ref("");
+const hairColorRef = ref("");
+const homelandRef = ref("");
+const skinRef = ref("");
+
+const playerImageBase64 = ref("");
+
+const backstoryRef = ref("");
+
+function onImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    playerImageBase64.value = reader.result;
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function openPrintDialog() {
+  window.print();
+}
+
 // watch(abilityScoreRefs, () => {
-//   console.log(`Integrity: ${abilityScoreRefs.value["integrity"]}`);
+//   console.log(`Integrity: ${abilityScoreRefs.value.integrity}`);
 // });
 
 const dodgeMdvComputed = computed(() => {
   var mdv =
-    (willpowerRef.value +
+    (willpowerPermRef.value +
       abilityScoreRefs.value["integrity"] +
       essenceRef.value) /
     2;
@@ -2241,7 +5091,7 @@ watch(
       }
     }
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
@@ -2259,13 +5109,13 @@ watch(
           weaponDamageBonusRefs.value[i].split("/")[0].includes("A")
             ? "A"
             : weaponDamageBonusRefs.value[i].split("/")[0].includes("L")
-            ? "L"
-            : "B"
+              ? "L"
+              : "B"
         }`;
       }
     }
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
@@ -2287,7 +5137,7 @@ watch(
       }
     }
   },
-  { deep: true }
+  { deep: true },
 );
 
 function bonusToInt(string) {
@@ -2299,7 +5149,7 @@ function bonusToInt(string) {
       .split("/")[0]
       .replaceAll("B", "")
       .replaceAll("L", "")
-      .replaceAll("A", "")
+      .replaceAll("A", ""),
   );
 }
 
@@ -2315,9 +5165,236 @@ function capitalizeFirstLetter(string) {
   // Directly return the joined string
   return splitStr.join(" ");
 }
+
+async function saveSheet() {
+  const json = JSON.stringify(
+    {
+      characterName: characterNameRef.value,
+      playerName: playerNameRef.value,
+      exaltType: exaltTypeRef.value,
+      caste: casteRef.value,
+      strength: strengthRef.value,
+      dexterity: dexterityRef.value,
+      stamina: staminaRef.value,
+      charisma: charismaRef.value,
+      manipulation: manipulationRef.value,
+      appearance: appearanceRef.value,
+      perception: perceptionRef.value,
+      intelligence: intelligenceRef.value,
+      wits: witsRef.value,
+      abilityScore: toRaw(abilityScoreRefs.value),
+      essence: essenceRef.value,
+      specialty: toRaw(specialtyRefs.value),
+      willpowerPerm: willpowerPermRef.value,
+      willpowerTemp: willpowerTempRef.value,
+      compassion: compassionPermRef.value,
+      temperance: temperancePermRef.value,
+      conviction: convictionPermRef.value,
+      valor: valorPermRef.value,
+      limit: limitRef.value,
+      weapon: {
+        name: toRaw(weaponNameRefs.value),
+        speed: toRaw(weaponSpeedRefs.value),
+        acc: toRaw(weaponAccRefs.value),
+        "acc-bonus": toRaw(weaponAccBonusRefs.value),
+        damage: toRaw(weaponDamageRefs.value),
+        "damage-bonus": toRaw(weaponDamageBonusRefs.value),
+        pdv: toRaw(weaponPdvRefs.value),
+        "pdv-bonus": toRaw(weaponPdvBonusRefs.value),
+        rate: toRaw(weaponRateRefs.value),
+        range: toRaw(weaponRangeRefs.value),
+        tag: toRaw(weaponTagRefs.value),
+        notes: toRaw(weaponNotesRefs.value),
+        type: toRaw(weaponTypeRefs.value),
+      },
+      armor: {
+        name: toRaw(armorNameRefs.value),
+        type: toRaw(armorTypeRefs.value),
+        soak: toRaw(armorSoakRefs.value),
+        hardness: toRaw(armorHardnessRefs.value),
+        fatigue: toRaw(armorFatigueRefs.value),
+        mobility: toRaw(armorMobilityRefs.value),
+        notes: toRaw(armorNotesRefs.value),
+        equipped: toRaw(armorEquippedRefs.value),
+      },
+      language: toRaw(languageRefs.value),
+      charm: toRaw(charmRefs.value),
+      combo: toRaw(comboRefs.value),
+      sorcery: toRaw(sorceryRefs.value),
+      artifact: toRaw(artifactRefs.value),
+      manse: toRaw(manseRefs.value),
+      background: toRaw(backgroundRefs.value),
+      possessions: possessionsRef.value,
+      totalXp: totalXpRef.value,
+      totalXpSpent: totalXpSpentRef.value,
+      xpSpentOn: xpSpentOnRef.value,
+      ageActual: ageActualRef.value,
+      ageApparent: ageApparentRef.value,
+      height: heightRef.value,
+      weight: weightRef.value,
+      gender: genderRef.value,
+      eyeColor: eyeColorRef.value,
+      hairColor: hairColorRef.value,
+      homeland: homelandRef.value,
+      skin: skinRef.value,
+      playerImage: playerImageBase64.value,
+      backstory: backstoryRef.value,
+    },
+    null,
+    2,
+  );
+
+  const filename =
+    characterNameRef.value !== ""
+      ? characterNameRef.value.toLowerCase().replaceAll(" ", "-") + ".sheet"
+      : exaltTypeRef.value.toLowerCase().replaceAll(" ", "-") + ".sheet";
+
+  if ("showSaveFilePicker" in window) {
+    // Chromium browsers
+    const handle = await window.showSaveFilePicker({
+      suggestedName: filename,
+      types: [
+        {
+          description: "Exalted Sheet Data",
+          accept: { "application/sheet": [".sheet"] },
+        },
+      ],
+    });
+    const writable = await handle.createWritable();
+    await writable.write(json);
+    await writable.close();
+  } else {
+    // Standards-only fallback
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+}
+
+function loadSheet(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      // Deserialize JSON
+      const loadedFile = JSON.parse(reader.result);
+      console.log("Loaded document:", loadedFile);
+      characterNameRef.value = loadedFile.characterName;
+      playerNameRef.value = loadedFile.playerName;
+      exaltTypeRef.value = loadedFile.exaltType;
+      casteRef.value = loadedFile.caste;
+      strengthRef.value = loadedFile.strength;
+      dexterityRef.value = loadedFile.dexterity;
+      staminaRef.value = loadedFile.stamina;
+      charismaRef.value = loadedFile.charisma;
+      manipulationRef.value = loadedFile.manipulation;
+      appearanceRef.value = loadedFile.appearance;
+      perceptionRef.value = loadedFile.perception;
+      intelligenceRef.value = loadedFile.intelligence;
+      witsRef.value = loadedFile.wits;
+      abilityScoreRefs.value = loadedFile.abilityScore;
+      essenceRef.value = loadedFile.essence;
+      specialtyRefs.value = loadedFile.specialty;
+      willpowerPermRef.value = loadedFile.willpowerPerm;
+      willpowerTempRef.value = loadedFile.willpowerTemp;
+      compassionPermRef.value = loadedFile.compassion;
+      temperancePermRef.value = loadedFile.temperance;
+      convictionPermRef.value = loadedFile.conviction;
+      valorPermRef.value = loadedFile.valor;
+      limitRef.value = loadedFile.limit;
+      weaponNameRefs.value = loadedFile.weapon.name;
+      weaponSpeedRefs.value = loadedFile.weapon.speed;
+      weaponAccRefs.value = loadedFile.weapon.acc;
+      weaponAccRefs.value = loadedFile.weapon["acc-bonus"];
+      weaponDamageRefs.value = loadedFile.weapon.damage;
+      weaponDamageRefs.value = loadedFile.weapon["damage-bonus"];
+      weaponPdvRefs.value = loadedFile.weapon.pdv;
+      weaponPdvRefs.value = loadedFile.weapon["pdv-bonus"];
+      weaponRateRefs.value = loadedFile.weapon.rate;
+      weaponRangeRefs.value = loadedFile.weapon.range;
+      weaponTagRefs.value = loadedFile.weapon.tag;
+      weaponNotesRefs.value = loadedFile.weapon.notes;
+      weaponTypeRefs.value = loadedFile.weapon.type;
+      armorNameRefs.value = loadedFile.armor.name;
+      armorTypeRefs.value = loadedFile.armor.type;
+      armorSoakRefs.value = loadedFile.armor.soak;
+      armorHardnessRefs.value = loadedFile.armor.hardness;
+      armorFatigueRefs.value = loadedFile.armor.fatigue;
+      armorMobilityRefs.value = loadedFile.armor.mobility;
+      armorNotesRefs.value = loadedFile.armor.notes;
+      armorEquippedRefs.value = loadedFile.armor.equipped;
+      languageRefs.value = loadedFile.language;
+      charmRefs.value = loadedFile.charm;
+      comboRefs.value = loadedFile.combo;
+      sorceryRefs.value = loadedFile.sorcery;
+      artifactRefs.value = loadedFile.artifact;
+      manseRefs.value = loadedFile.manse;
+      backgroundRefs.value = loadedFile.background;
+      possessionsRef.value = loadedFile.possessions;
+      totalXpRef.value = loadedFile.totalXp;
+      totalXpSpentRef.value = loadedFile.totalXpSpent;
+      xpSpentOnRef.value = loadedFile.xpSpentOn;
+      ageActualRef.value = loadedFile.ageActual;
+      ageApparentRef.value = loadedFile.ageApparent;
+      heightRef.value = loadedFile.height;
+      weightRef.value = loadedFile.weight;
+      genderRef.value = loadedFile.gender;
+      eyeColorRef.value = loadedFile.eyeColor;
+      hairColorRef.value = loadedFile.hairColor;
+      homelandRef.value = loadedFile.homeland;
+      skinRef.value = loadedFile.skin;
+      playerImageBase64.value = loadedFile.playerImage;
+      backstoryRef.value = loadedFile.backstory;
+    } catch (err) {
+      console.error("Invalid JSON file:", err);
+      alert("Error: The file is not valid .sheet file.");
+    }
+  };
+
+  reader.readAsText(file);
+}
 </script>
 
 <style>
+.side-buttons-container {
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0.1in;
+  height: 100vh;
+}
+
+.side-buttons {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.1in;
+  border-radius: 0.1in;
+  margin-block: auto;
+  gap: 0.05in;
+}
+
+.side-buttons > button,
+.side-buttons > label {
+  border-radius: 0.1in;
+  border: none;
+  background: transparent;
+  aspect-ratio: 1 / 1;
+  padding: 4px;
+}
+
+.side-buttons > button:hover,
+.side-buttons > label:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Required for printing backgrounds */
 * {
   -webkit-print-color-adjust: exact !important;
@@ -2326,11 +5403,12 @@ function capitalizeFirstLetter(string) {
 
 .page {
   width: 8.5in;
-  height: 11.5in;
-  padding: 0.75in;
-  padding-top: 0.6in;
+  height: 11in;
+  padding: 0.5in;
+  padding-top: 0.4in;
   background-color: white;
-  margin: auto;
+  margin: 1rem auto;
+  box-sizing: border-box;
 }
 .text-input {
   border: none;
@@ -2358,6 +5436,19 @@ function capitalizeFirstLetter(string) {
 @media print {
   #health-level-time-table td {
     border: 1pt solid black !important;
+  }
+
+  #selectImageButton {
+    display: none;
+  }
+
+  .side-buttons-container {
+    display: none;
+  }
+
+  .page {
+    page-break-after: always;
+    margin: none;
   }
 }
 </style>

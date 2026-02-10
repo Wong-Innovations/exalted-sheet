@@ -56,15 +56,7 @@
     />
     <label
       :for="props.source + '-rating1'"
-      @click.prevent="
-        () => {
-          if (props.value === 1 && !(props.value > 5)) {
-            props.onUpdate(0);
-          } else {
-            handleUpdate(1);
-          }
-        }
-      "
+      @click.prevent="() => handleUpdate(1)"
     >
       <div v-if="props.value > 5"></div>
     </label>
@@ -95,16 +87,16 @@ const handleUpdate = (newVal) =>
 }
 
 .rating button {
-  width: 16px;
-  height: 16px;
-  font-size: x-small;
+  width: 20px;
+  height: 20px;
+  font-size: small;
   padding-left: 0px;
   padding-top: 0px;
 }
 
 .rating label {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   border: 2px solid black;
   cursor: pointer;
@@ -120,8 +112,8 @@ const handleUpdate = (newVal) =>
   left: 1px;
   top: 1px;
   pointer-events: none;
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
 }
 

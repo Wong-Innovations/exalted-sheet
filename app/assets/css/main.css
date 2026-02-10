@@ -4,3 +4,9 @@
 
 .html {
 }
+
+@media print {
+  :root {
+    background-color: white;
+  }
+}

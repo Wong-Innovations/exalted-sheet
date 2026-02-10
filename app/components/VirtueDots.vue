@@ -8,44 +8,56 @@
               type="radio"
               value="5"
               :id="`perm-${props.source}5`"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 5"
             />
-            <label :for="`perm-${props.source}5`"></label>
+            <label
+              :for="`perm-${props.source}5`"
+              @click.prevent="() => props.onUpdatePerm(5)"
+            ></label>
             <input
               type="radio"
               value="4"
               :id="`perm-${props.source}4`"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 4"
             />
-            <label :for="`perm-${props.source}4`"></label>
+            <label
+              :for="`perm-${props.source}4`"
+              @click.prevent="() => props.onUpdatePerm(4)"
+            ></label>
             <input
               type="radio"
               value="3"
               :id="`perm-${props.source}3`"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 3"
             />
-            <label :for="`perm-${props.source}3`"></label>
+            <label
+              :for="`perm-${props.source}3`"
+              @click.prevent="() => props.onUpdatePerm(3)"
+            ></label>
             <input
               type="radio"
               value="2"
               :id="`perm-${props.source}2`"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 2"
             />
-            <label :for="`perm-${props.source}2`"></label>
+            <label
+              :for="`perm-${props.source}2`"
+              @click.prevent="() => props.onUpdatePerm(2)"
+            ></label>
             <input
               type="radio"
               value="1"
               :id="`perm-${props.source}1`"
-              v-model="ratingDots"
+              :checked="props.valuePerm === 1"
             />
             <label
               :for="`perm-${props.source}1`"
               @click.prevent="
                 () => {
-                  if (ratingDots == 1) {
-                    ratingDots = 0;
+                  if (props.valuePerm === 1) {
+                    props.onUpdatePerm(0);
                   } else {
-                    ratingDots = 1;
+                    props.onUpdatePerm(1);
                   }
                 }
               "
@@ -60,44 +72,56 @@
               type="radio"
               value="5"
               :id="`temp-${props.source}5`"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 5"
             />
-            <label :for="`temp-${props.source}5`"></label>
+            <label
+              :for="`temp-${props.source}5`"
+              @click.prevent="() => props.onUpdateTemp(5)"
+            ></label>
             <input
               type="radio"
               value="4"
               :id="`temp-${props.source}4`"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 4"
             />
-            <label :for="`temp-${props.source}4`"></label>
+            <label
+              :for="`temp-${props.source}4`"
+              @click.prevent="() => props.onUpdateTemp(4)"
+            ></label>
             <input
               type="radio"
               value="3"
               :id="`temp-${props.source}3`"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 3"
             />
-            <label :for="`temp-${props.source}3`"></label>
+            <label
+              :for="`temp-${props.source}3`"
+              @click.prevent="() => props.onUpdateTemp(3)"
+            ></label>
             <input
               type="radio"
               value="2"
               :id="`temp-${props.source}2`"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 2"
             />
-            <label :for="`temp-${props.source}2`"></label>
+            <label
+              :for="`temp-${props.source}2`"
+              @click.prevent="() => props.onUpdateTemp(2)"
+            ></label>
             <input
               type="radio"
               value="1"
               :id="`temp-${props.source}1`"
-              v-model="ratingBoxes"
+              :checked="props.valueTemp === 1"
             />
             <label
               :for="`temp-${props.source}1`"
               @click.prevent="
                 () => {
-                  if (ratingBoxes == 1) {
-                    ratingBoxes = 0;
+                  if (props.valueTemp === 1) {
+                    props.onUpdateTemp(0);
                   } else {
-                    ratingBoxes = 1;
+                    props.onUpdateTemp(1);
                   }
                 }
               "
@@ -110,15 +134,13 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-const props = defineProps(["initialValue", "onUpdate", "source"]);
-
-const ratingDots = ref(props.initialValue);
-const ratingBoxes = ref(0);
-
-watch([ratingDots], (newRatingDots) => {
-  props.onUpdate(parseInt(newRatingDots));
-});
+const props = defineProps([
+  "valuePerm",
+  "onUpdatePerm",
+  "valueTemp",
+  "onUpdateTemp",
+  "source",
+]);
 </script>
 
 <style scoped>

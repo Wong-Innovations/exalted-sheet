@@ -2,7 +2,7 @@
   <div class="ability-container">
     <input
       type="checkbox"
-      style="height: 14px; width: 14px"
+      style="height: 14px; width: 14px; margin-block: 0px"
       v-if="props.checkbox"
       :checked="props.checked"
       :disabled="props.disabled"
@@ -11,67 +11,82 @@
     <div class="rating">
       <input
         type="radio"
-        value="5"
+        :value="5"
         :id="props.source + '-rating5'"
-        v-model="ratingDots"
+        :checked="props.value === 5 || props.value === 10"
       />
-      <label :for="props.source + '-rating5'">
-        <div v-if="plusFive"></div>
+      <label
+        :for="props.source + '-rating5'"
+        @click.prevent="() => handleUpdate(5)"
+      >
+        <div v-if="props.value > 5"></div>
       </label>
       <input
         type="radio"
-        value="4"
+        :value="4"
         :id="props.source + '-rating4'"
-        v-model="ratingDots"
+        :checked="props.value === 4 || props.value === 9"
       />
-      <label :for="props.source + '-rating4'">
-        <div v-if="plusFive"></div>
+      <label
+        :for="props.source + '-rating4'"
+        @click.prevent="() => handleUpdate(4)"
+      >
+        <div v-if="props.value > 5"></div>
       </label>
       <input
         type="radio"
-        value="3"
+        :value="3"
         :id="props.source + '-rating3'"
-        v-model="ratingDots"
+        :checked="props.value === 3 || props.value === 8"
       />
-      <label :for="props.source + '-rating3'">
-        <div v-if="plusFive"></div>
+      <label
+        :for="props.source + '-rating3'"
+        @click.prevent="() => handleUpdate(3)"
+      >
+        <div v-if="props.value > 5"></div>
       </label>
       <input
         type="radio"
-        value="2"
+        :value="2"
         :id="props.source + '-rating2'"
-        v-model="ratingDots"
+        :checked="props.value === 2 || props.value === 7"
       />
-      <label :for="props.source + '-rating2'">
-        <div v-if="plusFive"></div>
+      <label
+        :for="props.source + '-rating2'"
+        @click.prevent="() => handleUpdate(2)"
+      >
+        <div v-if="props.value > 5"></div>
       </label>
       <input
         type="radio"
-        value="1"
+        :value="1"
         :id="props.source + '-rating1'"
-        v-model="ratingDots"
+        :checked="props.value === 1 || props.value === 6"
       />
       <label
         :for="props.source + '-rating1'"
         @click.prevent="
           () => {
-            if (ratingDots == 1 && !plusFive) {
-              ratingDots = 0;
+            if (props.value === 1 && !(props.value > 5)) {
+              props.onUpdate(0);
             } else {
-              ratingDots = 1;
+              handleUpdate(1);
             }
           }
         "
       >
-        <div v-if="plusFive"></div>
+        <div v-if="props.value > 5"></div>
       </label>
-      <button @click="plusFive = !plusFive">+5</button>
+      <button
+        @click="() => props.onUpdate(props.value + (props.value > 5 ? -5 : 5))"
+      >
+        +5
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
 const props = defineProps([
   "label",
   "source",
@@ -79,20 +94,17 @@ const props = defineProps([
   "checked",
   "disabled",
   "onUpdate",
+  "value",
 ]);
 
-const ratingDots = ref(0);
-const plusFive = ref(false);
-
-watch([ratingDots, plusFive], ([newRatingDots, newPlusFive]) => {
-  props.onUpdate(parseInt(newRatingDots) + (newPlusFive ? 5 : 0));
-});
+const handleUpdate = (newVal) =>
+  props.onUpdate(newVal + (props.value > 5 ? 5 : 0));
 </script>
 
 <style scoped>
 .ability-container {
   display: flex;
-  height: 16px;
+  height: 14px;
 }
 
 .rating {
@@ -108,16 +120,16 @@ watch([ratingDots, plusFive], ([newRatingDots, newPlusFive]) => {
 }
 
 .rating button {
-  width: 16px;
-  height: 16px;
-  font-size: x-small;
+  width: 14px;
+  height: 14px;
+  font-size: xx-small;
   padding-left: 0px;
   padding-top: 0px;
 }
 
 .rating label {
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.6rem;
+  height: 0.6rem;
   border-radius: 50%;
   border: 2px solid black;
   cursor: pointer;
@@ -130,8 +142,6 @@ watch([ratingDots, plusFive], ([newRatingDots, newPlusFive]) => {
   content: "";
   display: block;
   position: relative;
-  left: 1px;
-  top: 1px;
   pointer-events: none;
   width: 6px;
   height: 6px;
