@@ -13,6 +13,23 @@ export const exaltData = {
       night: ["athletics", "awareness", "dodge", "larceny", "stealth"],
       eclipse: ["bureaucracy", "linguistics", "ride", "sail", "socialize"],
     },
+    animaBannerLevels: [
+      "1-3 Motes: Weak caste mark",
+      "Perception + Awareness to notice",
+      "4-7 motes: Strong caste mark",
+      "Stealth at -2e difficulty",
+      "8-10 motes: Mild aura",
+      "Stealth Impossible",
+      "11-15 motes: Bonfire aura",
+      "Anima power auto-activation",
+      "16+: Iconic aura",
+      "Fades when no peripheral essence is used",
+    ],
+    animaEffects: [
+      "Cause the caste mark to glow brightly for a scene (1 mote).",
+      "Cause the anima to glow brightly enough to read by for a scene (1 mote).",
+      "Know the precise time of the day (1 mote).",
+    ],
     backgrounds: [
       "Allies",
       "Artifact",
@@ -26,6 +43,26 @@ export const exaltData = {
       "Mentor",
       "Resources",
     ],
+    casteAnimaEffects: {
+      dawn: [
+        "Appear glorious and terrifying for a scene: +2 to DV, attackers suffer -1e to attacking (5WP to resist), +2 diff to coordinate attacks. Works automatically after spending 11 motes peripheral essence.",
+      ],
+      zenith: [
+        "Can burn a dead body to ash (1 mote per body).",
+        "Gains Essence to Soak and adds 1 to minimum dice rolled for damage (effective minimum: Weapon Overwhelming or 2 * Essence), against Creatures of Darkness, and illuminate an area Essence * 10 m wide (10 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      twilight: [
+        "After damage has been rolled (in step 10), reduce incoming damage by Essence health levels (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      night: [
+        "Can mute Anima banner from charm use: Charms without the Obvious keyword (1 + charm cost motes), with Obvious keyword (charm cost * 2 motes). +(Essence / 2 (round up)) to diff. to detect (10 motes). Works automatically after spending 11 motes peripheral Essence and is only seen as a shadow without features.",
+      ],
+      eclipse: [
+        "Have diplomatic immunity (and companions) against Demons, Fair Folk, and Spirits if on legal business.",
+        "Can learn, with a tutor, charms from Demons, Spirits, other Exalted, and Fair Folk.",
+        "Can sanctify a oath (10 motes, 1 WP). Works automatically after spending 11 motes peripheral essence.",
+      ],
+    },
     health: {
       zero: [
         [
@@ -115,6 +152,92 @@ export const exaltData = {
         ],
       ],
     },
+    virtueFlaws: {
+      "Ascetic Drive (Temperance)": {
+        duration: "One full day.",
+        limitBreak: "Confronted by own inadequacies or human weakness.",
+        partialControl:
+          "Doesn't need to retreat from the world or destroy possessions. Cannot induge in luxuries, small talk, etc.",
+        noControl:
+          "Immediately turns your back on worldly affairs, to seek tranquility and purification through withdrawal and meditation.",
+      },
+      "Berserk Anger (Valor)": {
+        duration: "One full scene.",
+        limitBreak:
+          "Is insulted, belittled, demeaned or deliberately frustrated.",
+        partialControl:
+          "Can avoid attacking allies or anyone sworn to protect.",
+        noControl: "Attacks anything that moves. If it runs, it's a hunt.",
+      },
+      "Compassionate Martyrdom (Compassion)": {
+        duration: "One scene in combat, else one day.",
+        limitBreak:
+          "Witness innocents suffering through no fault of their own.",
+        partialControl: "Can choose to aid those that suffer effectively.",
+        noControl:
+          "Will throw yourself into helping the victims in the most direct and dramatic fashion possible.",
+      },
+      "Contempt of the Virtuous (Temperance)": {
+        duration: "One full day.",
+        limitBreak:
+          "Is hindered by the self-indulgent and intemperate nature of others.",
+        partialControl:
+          "Only needs to prevent immoderate or dishonorable behavior among companions.",
+        noControl:
+          "Disdains anyone you has previously witnessed overindulging or acting dishonorably.",
+      },
+      "Deliberate Cruelty (Conviction)": {
+        duration: "One full day.",
+        limitBreak: "Subject to severe stress or backed against the wall.",
+        partialControl:
+          "Can show restraints when cruelty would be less effective. -1 die to social interactions.",
+        noControl:
+          "Uses terror and cruelty to accomplish any goal in the most efficient way conceivable.",
+      },
+      "Foolhardy Contempt (Valor)": {
+        duration: "One full day.",
+        limitBreak:
+          "Fighting against losing odds, is challanged to single combat, or can prove bravery.",
+        partialControl: "Is without fear but not without sense.",
+        noControl: "Knows no fear. Challenges the enemy to single combat.",
+      },
+      "Heart of Flint (Conviction)": {
+        duration: "One full day.",
+        limitBreak:
+          "Is frustrated by the intemperate or childish nature of others.",
+        partialControl:
+          "Emotions are muted but still present. -2i to social interactions, but can avoid strong emotional aversions.",
+        noControl:
+          "Feels and express no emotions, lacking all empathy and feelings.",
+      },
+      "Heart of Tears (Compassion)": {
+        duration: "One scene in combat, else one day.",
+        limitBreak:
+          "Witness innocents suffering and can't ameliorate their pain.",
+        partialControl:
+          "Can defend and doesn't need to flee combat. -2i to attacks and can't use social or mental Abilities or Charms.",
+        noControl:
+          "Cannot function and will attempt to flee if attacked. Defends: -2i.",
+      },
+      "Overindulgence (Temperance)": {
+        duration: "One full day.",
+        limitBreak:
+          "Must pass a favorite pleasure or vice in order to act in a moral fashion.",
+        partialControl:
+          "Can be talked into essential duties, will still indulges in every spare moment.",
+        noControl:
+          "Your self-control completely fails, and you surrender to all forms of excess.",
+      },
+      "Red Rage of Compassion (Compassion)": {
+        duration: "One scene in combat, else Compassion hours.",
+        limitBreak:
+          "Sees innocents suffering and is unable to effectively intervene.",
+        partialControl:
+          "Can apply her rage effectly (use weapons, charms, etc.).",
+        noControl:
+          "Immediately attacks the most obvious cause to others suffering.",
+      },
+    },
   },
   infernal: {
     abilities: {
@@ -130,6 +253,23 @@ export const exaltData = {
       scourge: ["athletics", "awareness", "dodge", "larceny", "stealth"],
       fiend: ["bureaucracy", "linguistics", "ride", "sail", "socialize"],
     },
+    animaBannerLevels: [
+      "1-3 Motes: Weak caste mark",
+      "Perception + Awareness to notice",
+      "4-7 motes: Strong caste mark",
+      "Stealth at -2e difficulty",
+      "8-10 motes: Baleful green aura",
+      "Stealth Impossible",
+      "11-15 motes: Green bonfire aura",
+      "Anima power auto-activation",
+      "16+: Iconic cold aura",
+      "Fades when no peripheral essence is used",
+    ],
+    animaEffects: [
+      "Cause the caste mark to glow brightly for a scene (1 mote).",
+      "Cause the anima to glow brightly enough to read by for a scene (1 mote).",
+      "Sense the nearest entry to Malfeas (1 mote).",
+    ],
     backgrounds: [
       "Allies",
       "Artifact",
@@ -147,6 +287,29 @@ export const exaltData = {
       "Savant",
       "Spies",
     ],
+    casteAnimaEffects: {
+      slayer: [
+        "Appear huge and terrifying for a scene: Gains +2 to DV against creatures with a lower Valor than own Essence. Mortals must roll Valor (diff. 1) to stay and fight (10 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      malefactor: [
+        "Create unholy area once a day, diff: 7 - Essence of sacrificed victim, Radius: 100m * successes (1 mote).",
+        "Gains Essence to Soak and adds Essence to minimum dice rolled for damage (effective minimum: Weapon Overwhelming or 2 * Essence), against Holy beings, and illuminate an area Essence * 10m wide (10 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      defiler: [
+        "After damage has been rolled (in step 10), reduce incoming damage by Essence health levels (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      scourge: [
+        "Can mute Anima banner from charm use: Charms without the Obvious keyword (1 + charm cost motes), with Obvious keyword (charm cost * 2 motes).",
+        "Become utterly silent for a scene (5 motes), +Essence to stealth.",
+        "Zone of perfect silence, radius: Essence * 1 m. Works automatically after spending 11 motes peripheral Essence. Works automatically after spending 11 motes peripheral essence.",
+      ],
+      fiend: [
+        "Have diplomatic immunity (and companions) against Demons, Fair Folk, and Spirits if on legal business.",
+        "Can learn, with a tutor, charms from Demons, Spirits, other Exalted, and Fair Folk.",
+        "Suspend a sanctified oat by comming 5 motes of essence.",
+        "Can sanctify a oath (10 motes, 1 WP). Works automatically after spending 11 motes peripheral essence.",
+      ],
+    },
     health: {
       zero: [[""]],
       one: [["", ""]],
@@ -236,6 +399,23 @@ export const exaltData = {
       day: ["athletics", "awareness", "dodge", "larceny", "stealth"],
       moonshadow: ["bureaucracy", "linguistics", "ride", "sail", "socialize"],
     },
+    animaBannerLevels: [
+      "1-3 motes: Prominent caste mark",
+      "Perception + Awareness to notice",
+      "4-7 motes: Bleeding caste mark",
+      "Stealth at -2e difficulty",
+      "8-10 motes: Dark aura",
+      "Stealth Impossible",
+      "11-15 motes: Bonfire dark aura",
+      "Anima power auto-activation",
+      "16+: Iconic cold aura",
+      "Fades when no peripheral essence is used. Mortals must role valor, on botch spend 1wp to not gouge eyes out",
+    ],
+    animaEffects: [
+      "Cause the anima to glow brightly enough to read by for a scene (1 mote).",
+      "Sense any Shadowland and Underworld infused creatures and objects within Essence x 100m (1 mote).",
+      "Feeding, causing lethal damage from a grapple: Gains motes = health levels + dying levels (extras = 7 + stamina).",
+    ],
     backgrounds: [
       "Abyssal Command",
       "Allies",
@@ -254,6 +434,26 @@ export const exaltData = {
       "Underworld Manse",
       "Whispers",
     ],
+    casteAnimaEffects: {
+      dusk: [
+        "Aura of Dread. Gains +2 to DV against creatures with a lower Valor than own Essence. Mortals must roll Valor (diff. 1) to stay and fight (10 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      midnight: [
+        "Smite a mortal (or natural animal or ghost). Speed: 3, Accuracy: +0, Damage: Essence aggravated levels, DV: -1, Range: 10m, Notes: unblockable, undodgeable (5 motes).",
+        "Can reanimate a corpse as a zombie by touch (speed 5, DV -0) (5 motes). Works automatically, with a 10 meter range, after spending 11 motes peripheral essence, on one corpse per action.",
+      ],
+      daybreak: [
+        "After damage has been rolled (in step 10), reduce incoming damage by Essence health levels (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      day: [
+        "Can mute Anima banner from charm use: Charms without the Obvious keyword (1 + charm cost motes), with Obvious keyword (charm cost * 2 motes). +(Essence / 2 (round up)) to diff. to detect (10 motes). Works automatically after spending 11 motes peripheral Essence and is only seen as the anima banner without features.",
+      ],
+      moonshadow: [
+        "Have diplomatic immunity (and companions) against creatures of death after showning caste mark and invoking Oblivion.",
+        "Can learn, with a tutor, charms from Demons, Spirits, other Exalted, and Fair Folk.",
+        "Can sanctify a promise (10 motes, 1 WP). Works automatically after spending 11 motes peripheral essence.",
+      ],
+    },
     health: {
       zero: [
         [
@@ -383,6 +583,24 @@ export const exaltData = {
         "",
       ],
     },
+    animaBannerLevels: [
+      "1-3 Motes: Weak caste mark and tell",
+      "Perception + Awareness to notice",
+      "4-7 motes: Strong caste mark",
+      "Tell can't be hidden. Stealth at -2e difficulty",
+      "8-10 motes: Mild aura",
+      "Stealth Impossible. Returned to True form",
+      "11-15 motes: Bonfire aura",
+      "Anima power auto-activation",
+      "16+: Iconic aura",
+      "Fades when no peripheral essence is used",
+    ],
+    animaEffects: [
+      "Cause the caste mark and tattoos to glow brightly for a scene (1 mote).",
+      "Cause the anima to glow brightly enough to read by for a scene (1 mote).",
+      "Cause tell to become unmistakable (1 mote).",
+      "Know the precise time of the day, day of month, and moon phase (1 mote).",
+    ],
     attributes: {
       casteless: [],
       "changing-moon": ["dexterity"],
@@ -407,6 +625,19 @@ export const exaltData = {
       "Taboo",
       "Tattoo Artifact",
     ],
+    casteAnimaEffects: {
+      casteless: ["Has the anima power of the moon phase."],
+      "changing-moon": [
+        "Craft an illusion as any personally known person for a scene.",
+        "Adding Essence to social actions of trustworthiness. Anima banner will end the effect, but adding instead Essence to difficulty to identify (10 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      "full-moon": [
+        "Double movement and leaping distance, and Strength during feats of strength for a scene (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      "no-moon": [
+        "Becomes more shadowry (-1e to attackers), reduces cost of charms and spells with an Occult roll for each mote spend, on the anima power activation, for a scene (1 – Essence * 2 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+    },
     health: {
       zero: [[""]],
       one: [
@@ -541,6 +772,23 @@ export const exaltData = {
         "medicine",
       ],
     },
+    animaBannerLevels: [
+      "1-3 Motes: Caste mark glitters",
+      "Perception + Awareness (diff 3) to notice",
+      "4-7 motes: Weak caste mark",
+      "Perception + Awareness to notice. Astrology at +1e difficulty",
+      "8-10 motes: Strong caste mark",
+      "Stealth at -2e difficulty. Astrology at +2e difficulty",
+      "11-15 motes: Shining aura",
+      "Stealth Impossible. Anima power costs 5m",
+      "16+: Burning halo",
+      "Fades when no peripheral essence is used. Anima power costs 1 mote.",
+    ],
+    animaEffects: [
+      "Cause the caste mark and tattoos to glow brightly for a scene (1 mote).",
+      "Recognize any gateway to Yu-Shan or Malfeas within Essence * 100m (1 mote).",
+      "Know the precise time of the day and date (1 mote).",
+    ],
     backgrounds: [
       "Acquaintances",
       "Allies",
@@ -558,6 +806,23 @@ export const exaltData = {
       "Savant",
       "Sifu",
     ],
+    casteAnimaEffects: {
+      journeys: [
+        "Triple Move and Dash action distance, this affect steeds as well, as long as the creature's feet touch the ground while traveling, including movement by allies with Essence * 10 meters (10/5/1 mote(s)).",
+      ],
+      serenity: [
+        "Adds Essence to all Performance rolls for a scene, including rolls by allies with Essence * 10 meters (10/5/1 mote(s)).",
+      ],
+      battles: [
+        "Reduce one from damage, in step 10, from all attacks suffered for a scene (to a minimum of 1 level of damage, and is calculated after other damage reducing effects), including damage to allies with Essence * 10 meters (10/5/1 mote(s)).",
+      ],
+      secrets: [
+        "Is immune to mind-reading and mental attacks from opponents with a lower Essence for a scene, including attacks against allies with Essence * 10 meters (10/5/1 mote(s)).",
+      ],
+      endings: [
+        "Adds one to damage in step 10 to all attacks that give any damage for a scene, including attacks by allies with Essence * 10 meters (10/5/1 mote(s)).",
+      ],
+    },
     health: {
       zero: [
         [
@@ -608,6 +873,19 @@ export const exaltData = {
       ],
       wood: ["archery", "medicine", "performance", "ride", "survival"],
     },
+    animaBannerLevels: [
+      "1-3 Motes: Weak caste mark",
+      "Perception + Awareness to notice",
+      "4-7 motes: Strong caste mark",
+      "Stealth at -2e difficulty",
+      "8-10 motes: Mild aura",
+      "Stealth Impossible. Anima Flux: 1L/minute within essence feet",
+      "11-15 motes: Bonfire aura",
+      "Anima Flux: 1L/9 ticks",
+      "16+: Iconic aura",
+      "Fades when no peripheral essence is used. Anima Flux: 1L/tick - against Exalted too",
+    ],
+    animaEffects: [],
     backgrounds: [
       "Allies",
       "Arsenal",
@@ -625,6 +903,55 @@ export const exaltData = {
       "Resources",
       "Retainers",
     ],
+    casteAnimaEffects: {
+      air: [
+        "May triple leaping distance, and takes no damage from falls.",
+        "Adds Essence to DV against Thrown and Archery attacks.",
+        "",
+        "Cost: 5 motes",
+        "Duration: One scene",
+        "Works automatic after spending 11 motes peripheral essence.",
+      ],
+      earth: [
+        "May soak lethal damage with full stamina.",
+        "Adds Essence to resist grappling attacks and avoid knockback.",
+        "Adds Essence to Stamina for all purposes while standing on earth or stone.",
+        "",
+        "Cost: 5 motes",
+        "Duration: One scene",
+        "Works automatic after spending 11 motes peripheral essence.",
+      ],
+      fire: [
+        "Is surrounded by a corona of flames. Affects everything touched, except own possessions, as normal flames.",
+        "Attackers suffer Essence dice of lethal damage.",
+        "Targets suffers normal damage dice, plus Essence lethal damage dice.",
+        "",
+        "Cost: 5 motes",
+        "Duration: One scene",
+        "Works automatic after spending 11 motes peripheral essence.",
+      ],
+      water: [
+        "Has completely freedom in water, can breath normally, suffers no environmental penalty for actions while underwater.",
+        "Can walk on water as on land.",
+        "",
+        "Cost: 5 motes",
+        "Duration: One scene",
+        "Works automatic after spending 11 motes peripheral essence.",
+      ],
+      wood: [
+        "Become immune to any plant-based poison. ",
+        "Is toxic by skin-to-skin contact, target rolls Stamina + Resistance. Difficulty: attackers Essence to resist getting it. Poison: ",
+        "    Damage: Essence/ minutes",
+        "    Toxicity: Essence",
+        "    Tolerance: - / -",
+        "    Penalty: 1/2 Essence, rounded up",
+        "Adds Essence to DV against Archery attacks or attacks with a wooden or wood-hafted weapon.",
+        "",
+        "Cost: 5 motes",
+        "Duration: One scene",
+        "Works automatic after spending 11 motes peripheral essence.",
+      ],
+    },
     health: {
       zero: [[""]],
       one: [
@@ -675,6 +1002,36 @@ export const exaltData = {
           "locked",
         ],
       ],
+    },
+    virtues: {
+      Compassion: {
+        duration: "One full day.",
+        limitBreak: "Violating or ignoring Compassion",
+        partialControl: "Storytellers discretion.",
+        noControl:
+          "Driven to rage or despair when the institutions you cherishes are jeopardized.",
+      },
+      Conviction: {
+        duration: "One full day.",
+        limitBreak: "Violating or ignoring Conviction",
+        partialControl: "Storytellers discretion.",
+        noControl:
+          "Pushed to cruel extremes to protect your traditions and ideals, and punish those who treaten them.",
+      },
+      Temperance: {
+        duration: "One full day.",
+        limitBreak: "Violating or ignoring Temperance",
+        partialControl: "Storytellers discretion.",
+        noControl:
+          "Focus your totality on things you consider important and to destroy those that do not match these levels of devotion.",
+      },
+      Valor: {
+        duration: "One full day.",
+        limitBreak: "Violating or ignoring Valor",
+        partialControl: "Storytellers discretion.",
+        noControl:
+          "Forces you to react with rage when beloved traditions are challenged.",
+      },
     },
   },
   "heroic-mortal": {
@@ -798,6 +1155,21 @@ export const exaltData = {
       ],
       learning: ["bureaucracy", "investigation", "lore", "medicine", "occult"],
     },
+    animaBannerLevels: [
+      "1-3 Motes: Soulgem sparks",
+      "Perception + Awareness to notice",
+      "4-7 motes: Soulgem arcs",
+      "Stealth at -2e difficulty",
+      "8-10 motes: Mild aura",
+      "Stealth Impossible. Magic material dissipate after Essence actions",
+      "11-15 motes: Radiant aura",
+      "Anima power auto-activation. Magic material dissipate after 2 hours",
+      "16+: Iconic aura",
+      "Fades when no peripheral essence is used",
+    ],
+    animaEffects: [
+      "Can flare their anima banner to any desired level (1 mote).",
+    ],
     attributes: {
       orichalcum: ["strength", "charisma", "intelligence"],
       moonsilver: ["dexterity", "appearance", "wits"],
@@ -818,6 +1190,26 @@ export const exaltData = {
       "Familiar",
       "Savant",
     ],
+    casteAnimaEffects: {
+      orichalcum: [
+        "Add Essence to damage of all attacks for a Scene (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      moonsilver: [
+        "Reduce by one (to a minimum of 3) the Speed of all actions for a Scene (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      starmetal: [
+        "Adds Essence / 2 to all attack, damage and Join Battle rolls for a Scene (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      jade: [
+        "Adds Essence to natural bashing and lethal soak for a Scene (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      soulsteel: [
+        "Impose an external penalty of Essence / 2 on all incoming attacks for a Scene (5 motes). Works automatically after spending 11 motes peripheral essence.",
+      ],
+      adamant: [
+        "Radiate an unnatural Illusion effect for a Scene (5 motes). Cost Essence (maximum of 5) Willpower points to resist when leaving the presence of the Exalt. Works automatically after spending 11 motes peripheral essence.",
+      ],
+    },
     health: {
       zero: [[""]],
       one: [
