@@ -10,11 +10,14 @@
           accept=".sheet, .json"
           hidden
           id="sheet-upload"
-          @change="loadSheet"
+          @change="loadSheetFromLocal"
         />
         <label for="sheet-upload" title="Upload Sheet">
           <img :src="uploadFileIcon" width="36" alt="upload sheet" />
         </label>
+        <button @click="driveIconClicked" title="Cloud File Upload">
+          <img :src="cloudIcon" width="36" alt="cload upload" />
+        </button>
         <button @click="openPrintDialog" title="Print Sheet">
           <img :src="printIcon" width="36" alt="print sheet" />
         </button>
@@ -83,7 +86,7 @@
                         <option
                           v-if="
                             Object.keys(exaltData[exaltTypeRef]).includes(
-                              'attributes',
+                              'attributes'
                             )
                           "
                           v-for="(val, caste, index) in exaltData[exaltTypeRef]
@@ -98,7 +101,7 @@
                             .abilities"
                           v-if="
                             !Object.keys(exaltData[exaltTypeRef]).includes(
-                              'attributes',
+                              'attributes'
                             )
                           "
                           :key="caste"
@@ -132,13 +135,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength',
+                    'strength'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength',
+                    'strength'
                   )
                 "
               />
@@ -164,13 +167,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma',
+                    'charisma'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma',
+                    'charisma'
                   )
                 "
               />
@@ -196,13 +199,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception',
+                    'perception'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception',
+                    'perception'
                   )
                 "
               />
@@ -230,13 +233,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity',
+                    'dexterity'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity',
+                    'dexterity'
                   )
                 "
               />
@@ -262,13 +265,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation',
+                    'manipulation'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation',
+                    'manipulation'
                   )
                 "
               />
@@ -294,13 +297,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence',
+                    'intelligence'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence',
+                    'intelligence'
                   )
                 "
               />
@@ -328,13 +331,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina',
+                    'stamina'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina',
+                    'stamina'
                   )
                 "
               />
@@ -360,13 +363,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance',
+                    'appearance'
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance',
+                    'appearance'
                   )
                 "
               />
@@ -426,21 +429,21 @@
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[0],
+                  Object.keys(exaltData[exaltTypeRef].abilities)[0]
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[1],
+                  Object.keys(exaltData[exaltTypeRef].abilities)[1]
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[2],
+                  Object.keys(exaltData[exaltTypeRef].abilities)[2]
                 )
               }}
             </td>
@@ -462,7 +465,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index],
+                    ][index]
                   ) + '__'
                 "
                 :source="
@@ -478,7 +481,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index],
+                    ][index]
                   )
                 "
                 :disabled="
@@ -486,7 +489,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index],
+                    ][index]
                   )
                 "
                 :onUpdate="
@@ -518,7 +521,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index],
+                    ][index]
                   ) + '__'
                 "
                 :source="
@@ -534,7 +537,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index],
+                    ][index]
                   )
                 "
                 :disabled="
@@ -542,7 +545,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index],
+                    ][index]
                   )
                 "
                 :onUpdate="
@@ -574,7 +577,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index],
+                    ][index]
                   ) + '__'
                 "
                 :source="
@@ -590,7 +593,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index],
+                    ][index]
                   )
                 "
                 :disabled="
@@ -598,7 +601,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index],
+                    ][index]
                   )
                 "
                 :onUpdate="
@@ -628,7 +631,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index],
+                    ][index]
                   ) + '__'
                 "
                 :source="'other' + (index - 5)"
@@ -650,14 +653,14 @@
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[3],
+                  Object.keys(exaltData[exaltTypeRef].abilities)[3]
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[4],
+                  Object.keys(exaltData[exaltTypeRef].abilities)[4]
                 )
               }}
             </td>
@@ -675,7 +678,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index],
+                    ][index]
                   ) + '__'
                 "
                 :source="
@@ -691,7 +694,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index],
+                    ][index]
                   )
                 "
                 :disabled="
@@ -699,7 +702,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index],
+                    ][index]
                   )
                 "
                 :onUpdate="
@@ -725,7 +728,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index],
+                    ][index]
                   ) + '__'
                 "
                 :source="
@@ -741,7 +744,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index],
+                    ][index]
                   )
                 "
                 :disabled="
@@ -749,7 +752,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index],
+                    ][index]
                   )
                 "
                 :onUpdate="
@@ -4273,6 +4276,7 @@
 import fullBar from "@/assets/img/full-length-bar-2e.png";
 import halfBar from "@/assets/img/one-column-bar-split-2e.png";
 import logo from "@/assets/img/exalted-2e-logo.jpg";
+import cloudIcon from "@/assets/img/cloud.svg";
 import saveFileIcon from "@/assets/img/file_save.svg";
 import uploadFileIcon from "@/assets/img/upload_file.svg";
 import printIcon from "@/assets/img/print.svg";
@@ -4287,6 +4291,19 @@ import WillpowerDots from "./components/WillpowerDots.vue";
 import VirtueDots from "./components/VirtueDots.vue";
 import LimitPoints from "./components/LimitPoints.vue";
 import SocialCombatInfo from "./components/SocialCombatInfo.vue";
+
+const pickerApiLoaded = ref(false);
+const developerKey = "AIzaSyDSjm_zgeBR5OzXh8RHUjo7aFHl-1KDaBk"; //Google project API key
+const clientId =
+  "1084606237071-t97gt0austpi801grths76ph6pmsuqab.apps.googleusercontent.com"; //Google project OAuth Client ID
+const scope = "https://www.googleapis.com/auth/drive.readonly";
+const oauthToken = ref(null);
+const fileName = ref(null);
+const fileContent = ref(null);
+
+const route = useRoute();
+const router = useRoute();
+const sheetSourceURI = ref(route.query.src || "");
 
 const characterNameRef = ref("");
 const playerNameRef = ref("");
@@ -4879,7 +4896,7 @@ const animaEffectsComputed = computed(() => {
     .concat(
       casteRef.value === ""
         ? null
-        : exaltData[exaltTypeRef.value].casteAnimaEffects[casteRef.value],
+        : exaltData[exaltTypeRef.value].casteAnimaEffects[casteRef.value]
     )
     .join("\n");
 });
@@ -4906,6 +4923,21 @@ const joinCombatComputed = computed(() => {
 
 // watch(dodgeMdvComputed, () => console.log(dodgeMdvComputed.value));
 
+watch(sheetSourceURI, (newSrc) => {
+  router.push({
+    query: { ...route.query, src: newSrc },
+  });
+});
+
+watch(
+  () => route.query.src,
+  (newSrc) => {
+    if (newSrc !== sheetSourceURI.value) {
+      sheetSourceURI.value = newSrc || "";
+    }
+  }
+);
+
 watch(exaltTypeRef, () => {
   healthRef.value = exaltData[exaltTypeRef.value].health;
 });
@@ -4913,7 +4945,7 @@ watch(exaltTypeRef, () => {
 watch(virtueFlawRef, () => {
   if (
     Object.keys(exaltData[exaltTypeRef.value].virtueFlaws).includes(
-      virtueFlawRef.value,
+      virtueFlawRef.value
     )
   ) {
     limitBreakDurationRef.value =
@@ -4932,7 +4964,7 @@ watch(virtueFlawRef, () => {
 watch(primaryVirtueRef, () => {
   if (
     Object.keys(exaltData[exaltTypeRef.value].virtues).includes(
-      primaryVirtueRef.value,
+      primaryVirtueRef.value
     )
   ) {
     limitBreakDurationRef.value =
@@ -4963,7 +4995,7 @@ watch(
       }
     }
   },
-  { deep: true },
+  { deep: true }
 );
 
 watch(
@@ -4981,13 +5013,13 @@ watch(
           weaponDamageBonusRefs.value[i].split("/")[0].includes("A")
             ? "A"
             : weaponDamageBonusRefs.value[i].split("/")[0].includes("L")
-              ? "L"
-              : "B"
+            ? "L"
+            : "B"
         }`;
       }
     }
   },
-  { deep: true },
+  { deep: true }
 );
 
 watch(
@@ -5009,7 +5041,7 @@ watch(
       }
     }
   },
-  { deep: true },
+  { deep: true }
 );
 
 function bonusToInt(string) {
@@ -5021,7 +5053,7 @@ function bonusToInt(string) {
       .split("/")[0]
       .replaceAll("B", "")
       .replaceAll("L", "")
-      .replaceAll("A", ""),
+      .replaceAll("A", "")
   );
 }
 
@@ -5124,14 +5156,15 @@ async function saveSheet() {
       backstory: backstoryRef.value,
     },
     null,
-    2,
+    2
   );
 
   const filename =
     characterNameRef.value !== ""
-      ? characterNameRef.value.toLowerCase().replaceAll(" ", "-") + ".sheet"
-      : exaltTypeRef.value.toLowerCase().replaceAll(" ", "-") + ".sheet";
+      ? characterNameRef.value.toLowerCase().replaceAll(" ", "-") + ".json"
+      : exaltTypeRef.value.toLowerCase().replaceAll(" ", "-") + ".json";
 
+  const blob = new Blob([json], { type: "application/json" });
   if ("showSaveFilePicker" in window) {
     // Chromium browsers
     const handle = await window.showSaveFilePicker({
@@ -5139,16 +5172,15 @@ async function saveSheet() {
       types: [
         {
           description: "Exalted Sheet Data",
-          accept: { "application/sheet": [".sheet"] },
+          accept: { "application/json": [".json"] },
         },
       ],
     });
     const writable = await handle.createWritable();
-    await writable.write(json);
+    await writable.write(blob);
     await writable.close();
   } else {
     // Standards-only fallback
-    const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -5158,102 +5190,182 @@ async function saveSheet() {
   }
 }
 
-function loadSheet(event) {
+function loadSheetFromLocal(event) {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
 
-  reader.onload = () => {
-    try {
-      // Deserialize JSON
-      const loadedFile = JSON.parse(reader.result);
-      console.log("Loaded document:", loadedFile);
-      characterNameRef.value = loadedFile.characterName;
-      playerNameRef.value = loadedFile.playerName;
-      exaltTypeRef.value = loadedFile.exaltType;
-      casteRef.value = loadedFile.caste;
-      strengthRef.value = loadedFile.strength;
-      dexterityRef.value = loadedFile.dexterity;
-      staminaRef.value = loadedFile.stamina;
-      charismaRef.value = loadedFile.charisma;
-      manipulationRef.value = loadedFile.manipulation;
-      appearanceRef.value = loadedFile.appearance;
-      perceptionRef.value = loadedFile.perception;
-      intelligenceRef.value = loadedFile.intelligence;
-      witsRef.value = loadedFile.wits;
-      abilityScoreRefs.value = loadedFile.abilityScore;
-      essenceRef.value = loadedFile.essence;
-      healthRef.value = loadedFile.health;
-      specialtyRefs.value = loadedFile.specialty;
-      willpowerPermRef.value = loadedFile.willpowerPerm;
-      willpowerTempRef.value = loadedFile.willpowerTemp;
-      compassionPermRef.value = loadedFile.compassionPerm;
-      compassionTempRef.value = loadedFile.compassionTemp;
-      temperancePermRef.value = loadedFile.temperancePerm;
-      temperanceTempRef.value = loadedFile.temperanceTemp;
-      convictionPermRef.value = loadedFile.convictionPerm;
-      convictionTempRef.value = loadedFile.convictionTemp;
-      valorPermRef.value = loadedFile.valorPerm;
-      valorTempRef.value = loadedFile.valorTemp;
-      virtueFlawRef.value = loadedFile.virtueFlaw;
-      limitBreakDurationRef.value = loadedFile.limitBreakDuration;
-      limitBreakConditionRef.value = loadedFile.limitBreakCondition;
-      partialControlRef.value = loadedFile.partialControl;
-      noControlRef.value = loadedFile.noControl;
-      primaryVirtueRef.value = loadedFile.primaryVirtue;
-      limitRef.value = loadedFile.limit;
-      weaponNameRefs.value = loadedFile.weapon.name;
-      weaponSpeedRefs.value = loadedFile.weapon.speed;
-      weaponAccRefs.value = loadedFile.weapon.acc;
-      weaponAccRefs.value = loadedFile.weapon["acc-bonus"];
-      weaponDamageRefs.value = loadedFile.weapon.damage;
-      weaponDamageRefs.value = loadedFile.weapon["damage-bonus"];
-      weaponPdvRefs.value = loadedFile.weapon.pdv;
-      weaponPdvRefs.value = loadedFile.weapon["pdv-bonus"];
-      weaponRateRefs.value = loadedFile.weapon.rate;
-      weaponRangeRefs.value = loadedFile.weapon.range;
-      weaponTagRefs.value = loadedFile.weapon.tag;
-      weaponNotesRefs.value = loadedFile.weapon.notes;
-      weaponTypeRefs.value = loadedFile.weapon.type;
-      armorNameRefs.value = loadedFile.armor.name;
-      armorTypeRefs.value = loadedFile.armor.type;
-      armorSoakRefs.value = loadedFile.armor.soak;
-      armorHardnessRefs.value = loadedFile.armor.hardness;
-      armorFatigueRefs.value = loadedFile.armor.fatigue;
-      armorMobilityRefs.value = loadedFile.armor.mobility;
-      armorNotesRefs.value = loadedFile.armor.notes;
-      armorEquippedRefs.value = loadedFile.armor.equipped;
-      languageRefs.value = loadedFile.language;
-      charmRefs.value = loadedFile.charm;
-      comboRefs.value = loadedFile.combo;
-      sorceryRefs.value = loadedFile.sorcery;
-      artifactRefs.value = loadedFile.artifact;
-      manseRefs.value = loadedFile.manse;
-      backgroundRefs.value = loadedFile.background;
-      possessionsRef.value = loadedFile.possessions;
-      totalXpRef.value = loadedFile.totalXp;
-      totalXpSpentRef.value = loadedFile.totalXpSpent;
-      xpSpentOnRef.value = loadedFile.xpSpentOn;
-      ageActualRef.value = loadedFile.ageActual;
-      ageApparentRef.value = loadedFile.ageApparent;
-      heightRef.value = loadedFile.height;
-      weightRef.value = loadedFile.weight;
-      genderRef.value = loadedFile.gender;
-      eyeColorRef.value = loadedFile.eyeColor;
-      hairColorRef.value = loadedFile.hairColor;
-      homelandRef.value = loadedFile.homeland;
-      skinRef.value = loadedFile.skin;
-      playerImageBase64.value = loadedFile.playerImage;
-      backstoryRef.value = loadedFile.backstory;
-    } catch (err) {
-      console.error("Invalid JSON file:", err);
-      alert("Error: The file is not valid .sheet file.");
-    }
-  };
+  reader.onload = () => loadSheet(reader.result);
 
   reader.readAsText(file);
 }
+
+const loadSheet = (data) => {
+  try {
+    // Deserialize JSON
+    const loadedFile = JSON.parse(data);
+    // console.log("Loaded document:", loadedFile);
+    characterNameRef.value = loadedFile.characterName;
+    playerNameRef.value = loadedFile.playerName;
+    exaltTypeRef.value = loadedFile.exaltType;
+    casteRef.value = loadedFile.caste;
+    strengthRef.value = loadedFile.strength;
+    dexterityRef.value = loadedFile.dexterity;
+    staminaRef.value = loadedFile.stamina;
+    charismaRef.value = loadedFile.charisma;
+    manipulationRef.value = loadedFile.manipulation;
+    appearanceRef.value = loadedFile.appearance;
+    perceptionRef.value = loadedFile.perception;
+    intelligenceRef.value = loadedFile.intelligence;
+    witsRef.value = loadedFile.wits;
+    abilityScoreRefs.value = loadedFile.abilityScore;
+    essenceRef.value = loadedFile.essence;
+    healthRef.value = loadedFile.health;
+    specialtyRefs.value = loadedFile.specialty;
+    willpowerPermRef.value = loadedFile.willpowerPerm;
+    willpowerTempRef.value = loadedFile.willpowerTemp;
+    compassionPermRef.value = loadedFile.compassionPerm;
+    compassionTempRef.value = loadedFile.compassionTemp;
+    temperancePermRef.value = loadedFile.temperancePerm;
+    temperanceTempRef.value = loadedFile.temperanceTemp;
+    convictionPermRef.value = loadedFile.convictionPerm;
+    convictionTempRef.value = loadedFile.convictionTemp;
+    valorPermRef.value = loadedFile.valorPerm;
+    valorTempRef.value = loadedFile.valorTemp;
+    virtueFlawRef.value = loadedFile.virtueFlaw;
+    limitBreakDurationRef.value = loadedFile.limitBreakDuration;
+    limitBreakConditionRef.value = loadedFile.limitBreakCondition;
+    partialControlRef.value = loadedFile.partialControl;
+    noControlRef.value = loadedFile.noControl;
+    primaryVirtueRef.value = loadedFile.primaryVirtue;
+    limitRef.value = loadedFile.limit;
+    weaponNameRefs.value = loadedFile.weapon.name;
+    weaponSpeedRefs.value = loadedFile.weapon.speed;
+    weaponAccRefs.value = loadedFile.weapon.acc;
+    weaponAccRefs.value = loadedFile.weapon["acc-bonus"];
+    weaponDamageRefs.value = loadedFile.weapon.damage;
+    weaponDamageRefs.value = loadedFile.weapon["damage-bonus"];
+    weaponPdvRefs.value = loadedFile.weapon.pdv;
+    weaponPdvRefs.value = loadedFile.weapon["pdv-bonus"];
+    weaponRateRefs.value = loadedFile.weapon.rate;
+    weaponRangeRefs.value = loadedFile.weapon.range;
+    weaponTagRefs.value = loadedFile.weapon.tag;
+    weaponNotesRefs.value = loadedFile.weapon.notes;
+    weaponTypeRefs.value = loadedFile.weapon.type;
+    armorNameRefs.value = loadedFile.armor.name;
+    armorTypeRefs.value = loadedFile.armor.type;
+    armorSoakRefs.value = loadedFile.armor.soak;
+    armorHardnessRefs.value = loadedFile.armor.hardness;
+    armorFatigueRefs.value = loadedFile.armor.fatigue;
+    armorMobilityRefs.value = loadedFile.armor.mobility;
+    armorNotesRefs.value = loadedFile.armor.notes;
+    armorEquippedRefs.value = loadedFile.armor.equipped;
+    languageRefs.value = loadedFile.language;
+    charmRefs.value = loadedFile.charm;
+    comboRefs.value = loadedFile.combo;
+    sorceryRefs.value = loadedFile.sorcery;
+    artifactRefs.value = loadedFile.artifact;
+    manseRefs.value = loadedFile.manse;
+    backgroundRefs.value = loadedFile.background;
+    possessionsRef.value = loadedFile.possessions;
+    totalXpRef.value = loadedFile.totalXp;
+    totalXpSpentRef.value = loadedFile.totalXpSpent;
+    xpSpentOnRef.value = loadedFile.xpSpentOn;
+    ageActualRef.value = loadedFile.ageActual;
+    ageApparentRef.value = loadedFile.ageApparent;
+    heightRef.value = loadedFile.height;
+    weightRef.value = loadedFile.weight;
+    genderRef.value = loadedFile.gender;
+    eyeColorRef.value = loadedFile.eyeColor;
+    hairColorRef.value = loadedFile.hairColor;
+    homelandRef.value = loadedFile.homeland;
+    skinRef.value = loadedFile.skin;
+    playerImageBase64.value = loadedFile.playerImage;
+    backstoryRef.value = loadedFile.backstory;
+  } catch (err) {
+    console.error("Invalid JSON file:", err);
+    alert("Error: The file is not valid .json file.");
+  }
+};
+
+//Called when user clicks on drive icon
+const driveIconClicked = () => {
+  google.accounts.oauth2
+    .initTokenClient({
+      client_id: clientId,
+      scope: scope,
+      callback: handleAuthResult,
+    })
+    .requestAccessToken();
+};
+
+//handles the result from the google Auth attempt. Creates picker if success
+const handleAuthResult = (authResult) => {
+  if (authResult && !authResult.error) {
+    oauthToken.value = authResult.access_token;
+    gapi.load("picker", () => {
+      pickerApiLoaded.value = true;
+      createPicker();
+    });
+  }
+};
+
+//Creates the picker
+const createPicker = () => {
+  if (pickerApiLoaded.value && oauthToken.value) {
+    var myView = new google.picker.DocsView(google.picker.ViewId.DOCS);
+    myView.setMimeTypes("application/json");
+    myView.setIncludeFolders(true);
+
+    var picker = new google.picker.PickerBuilder()
+      .addView(myView)
+      .setOAuthToken(oauthToken.value)
+      .setDeveloperKey(developerKey)
+      .setCallback(pickerCallback)
+      .build();
+    picker.setVisible(true);
+  }
+};
+
+//callback from the picker
+const pickerCallback = async (data) => {
+  if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+    //get only first document of array of selected docs
+    var doc = data[google.picker.Response.DOCUMENTS][0];
+    if (doc) {
+      fileName.value = doc.name;
+      //generate the download URL for this doc
+      //the alt=media is important for ensuring the content of the file is placed in response body
+      var downloadUrl =
+        "https://www.googleapis.com/drive/v2/files/" +
+        doc.id +
+        "?key=" +
+        developerKey +
+        " HTTP/1.1&alt=media";
+      downloadFile(downloadUrl, (content) => loadSheet(content));
+    }
+  }
+};
+
+//performs GET for the content of the file
+const downloadFile = async (downloadUrl, callback) => {
+  if (downloadUrl && oauthToken.value) {
+    var accessToken = oauthToken.value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", downloadUrl);
+    xhr.setRequestHeader("Authorization", "Bearer " + accessToken);
+    xhr.onload = function () {
+      callback(xhr.responseText);
+    };
+    xhr.onerror = function () {
+      callback(null);
+    };
+    xhr.send();
+  } else {
+    callback(null);
+  }
+};
 </script>
 
 <style>
@@ -5325,6 +5437,34 @@ function loadSheet(event) {
 .attribute-dots {
   float: right;
   margin-right: 0.1in;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9997;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 @media print {
