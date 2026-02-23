@@ -2,7 +2,7 @@
   <div>
     <div class="side-buttons-container">
       <div class="side-buttons">
-        <button @click="saveSheet" title="Save As">
+        <button @click="saveSheetToLocal" title="Save As">
           <img :src="saveFileIcon" width="36" alt="save as" />
         </button>
         <input
@@ -15,8 +15,11 @@
         <label for="sheet-upload" title="Upload Sheet">
           <img :src="uploadFileIcon" width="36" alt="upload sheet" />
         </label>
-        <button @click="driveIconClicked" title="Cloud File Upload">
-          <img :src="cloudIcon" width="36" alt="cload upload" />
+        <button @click="loadSheetFromDrive" title="Load from Google Drive">
+          <img :src="driveOpenIcon" width="36" alt="load from google drive" />
+        </button>
+        <button @click="saveSheetToDrive" title="Save to Google Drive">
+          <img :src="driveSaveIcon" width="36" alt="save to google drive" />
         </button>
         <button @click="openPrintDialog" title="Print Sheet">
           <img :src="printIcon" width="36" alt="print sheet" />
@@ -4276,7 +4279,8 @@
 import fullBar from "@/assets/img/full-length-bar-2e.png";
 import halfBar from "@/assets/img/one-column-bar-split-2e.png";
 import logo from "@/assets/img/exalted-2e-logo.jpg";
-import cloudIcon from "@/assets/img/cloud.svg";
+import driveOpenIcon from "@/assets/img/drive-open.svg";
+import driveSaveIcon from "@/assets/img/drive-save.svg";
 import saveFileIcon from "@/assets/img/file_save.svg";
 import uploadFileIcon from "@/assets/img/upload_file.svg";
 import printIcon from "@/assets/img/print.svg";
@@ -4296,10 +4300,9 @@ const pickerApiLoaded = ref(false);
 const developerKey = "AIzaSyDSjm_zgeBR5OzXh8RHUjo7aFHl-1KDaBk"; //Google project API key
 const clientId =
   "1084606237071-t97gt0austpi801grths76ph6pmsuqab.apps.googleusercontent.com"; //Google project OAuth Client ID
-const scope = "https://www.googleapis.com/auth/drive.readonly";
+const scope = "https://www.googleapis.com/auth/drive.file";
 const oauthToken = ref(null);
-const fileName = ref(null);
-const fileContent = ref(null);
+const fileId = ref(null);
 
 const route = useRoute();
 const router = useRoute();
@@ -5070,8 +5073,8 @@ function capitalizeFirstLetter(string) {
   return splitStr.join(" ");
 }
 
-async function saveSheet() {
-  const json = JSON.stringify(
+function createSheetJSON() {
+  return JSON.stringify(
     {
       characterName: characterNameRef.value,
       playerName: playerNameRef.value,
@@ -5158,6 +5161,10 @@ async function saveSheet() {
     null,
     2
   );
+}
+
+async function saveSheetToLocal() {
+  const json = createSheetJSON();
 
   const filename =
     characterNameRef.value !== ""
@@ -5290,7 +5297,7 @@ const loadSheet = (data) => {
 };
 
 //Called when user clicks on drive icon
-const driveIconClicked = () => {
+const loadSheetFromDrive = () => {
   google.accounts.oauth2
     .initTokenClient({
       client_id: clientId,
@@ -5315,8 +5322,9 @@ const handleAuthResult = (authResult) => {
 const createPicker = () => {
   if (pickerApiLoaded.value && oauthToken.value) {
     var myView = new google.picker.DocsView(google.picker.ViewId.DOCS);
+    myView.setMode(google.picker.DocsViewMode.LIST);
     myView.setMimeTypes("application/json");
-    myView.setIncludeFolders(true);
+    myView.setIncludeFolders(false);
 
     var picker = new google.picker.PickerBuilder()
       .addView(myView)
@@ -5334,13 +5342,13 @@ const pickerCallback = async (data) => {
     //get only first document of array of selected docs
     var doc = data[google.picker.Response.DOCUMENTS][0];
     if (doc) {
-      fileName.value = doc.name;
+      fileId.value = doc.id;
       //generate the download URL for this doc
       //the alt=media is important for ensuring the content of the file is placed in response body
       var downloadUrl =
         "https://www.googleapis.com/drive/v2/files/" +
         doc.id +
-        "?key=" +
+        "v" +
         developerKey +
         " HTTP/1.1&alt=media";
       downloadFile(downloadUrl, (content) => loadSheet(content));
@@ -5364,6 +5372,46 @@ const downloadFile = async (downloadUrl, callback) => {
     xhr.send();
   } else {
     callback(null);
+  }
+};
+
+const saveSheetToDrive = async () => {
+  fileId == null ? uploadDriveFile() : updateDriveFile();
+};
+
+const uploadDriveFile = async () => {
+  const response = await fetch(
+    "https://www.googleapis.com/upload/drive/v3/files?uploadType=media",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${oauthToken.value}`,
+        "Content-Type": "application/json",
+      },
+      body: createSheetJSON(),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Drive save failed");
+  }
+};
+
+const updateDriveFile = async () => {
+  const response = await fetch(
+    `https://www.googleapis.com/upload/drive/v3/files/${fileId.value}?uploadType=media`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${oauthToken.value}`,
+        "Content-Type": "application/json",
+      },
+      body: createSheetJSON(),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Drive save failed");
   }
 };
 </script>
