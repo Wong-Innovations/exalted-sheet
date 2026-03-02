@@ -89,7 +89,7 @@
                         <option
                           v-if="
                             Object.keys(exaltData[exaltTypeRef]).includes(
-                              'attributes'
+                              'attributes',
                             )
                           "
                           v-for="(val, caste, index) in exaltData[exaltTypeRef]
@@ -104,7 +104,7 @@
                             .abilities"
                           v-if="
                             !Object.keys(exaltData[exaltTypeRef]).includes(
-                              'attributes'
+                              'attributes',
                             )
                           "
                           :key="caste"
@@ -138,13 +138,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength'
+                    'strength',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength'
+                    'strength',
                   )
                 "
               />
@@ -170,13 +170,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma'
+                    'charisma',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma'
+                    'charisma',
                   )
                 "
               />
@@ -202,13 +202,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception'
+                    'perception',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception'
+                    'perception',
                   )
                 "
               />
@@ -236,13 +236,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity'
+                    'dexterity',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity'
+                    'dexterity',
                   )
                 "
               />
@@ -268,13 +268,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation'
+                    'manipulation',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation'
+                    'manipulation',
                   )
                 "
               />
@@ -300,13 +300,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence'
+                    'intelligence',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence'
+                    'intelligence',
                   )
                 "
               />
@@ -334,13 +334,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina'
+                    'stamina',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina'
+                    'stamina',
                   )
                 "
               />
@@ -366,13 +366,13 @@
                 :checked="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance'
+                    'appearance',
                   )
                 "
                 :disabled="
                   exaltData[exaltTypeRef].attributes[casteRef] &&
                   exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance'
+                    'appearance',
                   )
                 "
               />
@@ -432,21 +432,21 @@
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[0]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[0],
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[1]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[1],
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[2]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[2],
                 )
               }}
             </td>
@@ -468,7 +468,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -484,7 +484,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -492,7 +492,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -524,7 +524,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -540,7 +540,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -548,7 +548,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -580,7 +580,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -596,7 +596,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -604,7 +604,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -634,7 +634,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="'other' + (index - 5)"
@@ -656,14 +656,14 @@
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[3]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[3],
                 )
               }}
             </td>
             <td>
               {{
                 capitalizeFirstLetter(
-                  Object.keys(exaltData[exaltTypeRef].abilities)[4]
+                  Object.keys(exaltData[exaltTypeRef].abilities)[4],
                 )
               }}
             </td>
@@ -681,7 +681,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -697,7 +697,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -705,7 +705,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -731,7 +731,7 @@
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index]
+                    ][index],
                   ) + '__'
                 "
                 :source="
@@ -747,7 +747,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index]
+                    ][index],
                   )
                 "
                 :disabled="
@@ -755,7 +755,7 @@
                   exaltData[exaltTypeRef].abilities[casteRef].includes(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
-                    ][index]
+                    ][index],
                   )
                 "
                 :onUpdate="
@@ -1643,40 +1643,417 @@
             />
           </div>
         </div>
+        <div
+          v-if="exaltTypeRef === 'infernal'"
+          style="margin-left: 0.1in; margin-top: 0.05in"
+        >
+          <div style="display: flex; font-size: small">
+            Yozi Patron:
+            <input
+              class="text-input"
+              v-model="yoziPatronRef"
+              list="yozi-patron-options"
+              style="width: 2.7in; background-color: white; font-size: x-small"
+            />
+            <datalist id="yozi-patron-options">
+              <option
+                v-for="(value, key) in exaltData[exaltTypeRef].yoziPatrons"
+                :value="key"
+              >
+                {{ key }}
+              </option>
+            </datalist>
+            <div style="width: 2.2in; text-align: center">
+              Infernal limit points
+            </div>
+          </div>
+          <div style="display: flex; font-size: small">
+            Duration:
+            <input
+              type="text"
+              class="text-input"
+              v-model="limitBreakDurationRef"
+              style="width: 2.9in; font-size: x-small"
+            />
+            <!-- TODO: Why these no display / update also add to saving and loading -->
+            <div style="width: 2.2in; text-align: center">
+              <LimitPoints
+                :value="limitRef"
+                :onUpdate="(n) => (limitRef = n)"
+              />
+            </div>
+          </div>
+          <div style="display: flex; font-size: small; padding-top: 4px">
+            Torment:
+            <input
+              type="text"
+              class="text-input"
+              v-model="tormentRef"
+              style="width: 5.1in; font-size: x-small"
+            />
+          </div>
+          <div style="display: flex; font-size: small">
+            Abscissic Plate:
+            <input
+              type="text"
+              class="text-input"
+              v-model="abscissicPlateRef"
+              list="abscissic-plate-options"
+              style="width: 4.7in; font-size: xx-small"
+            />
+            <datalist id="abscissic-plate-options">
+              <option
+                v-for="(value, key) in exaltData[exaltTypeRef].abscissicPlates"
+                :value="key"
+              >
+                {{ key }}
+              </option>
+            </datalist>
+          </div>
+          <div style="display: flex; font-size: small">
+            Abscissic Condition:
+            <input
+              type="text"
+              class="text-input"
+              v-model="abscissicConditionRef"
+              style="width: 4.45in; font-size: xx-small"
+            />
+          </div>
+        </div>
+        <div
+          v-if="exaltTypeRef === 'alchemical'"
+          style="margin-left: 0.1in; margin-top: 0.05in"
+        >
+          <div style="display: flex; font-size: small">
+            <div>
+              Gaining Clarity:
+              <ul
+                style="
+                  margin-block: 0;
+                  padding-inline-start: 0.3in;
+                  font-size: x-small;
+                "
+              >
+                <li>Transhuman Essence (1 point per Essence over 5).</li>
+                <li>
+                  Suppressing Virtue at 3+ (1 point), voluntary fail Virtue at
+                  3+ (2 points).
+                </li>
+                <li>Forsaking humanity (1 point per week).</li>
+                <li>Charms with the Exemplar keyword (variable).</li>
+              </ul>
+            </div>
+            <div>
+              <div style="width: 2.2in; text-align: center">
+                Limit points
+                <LimitPoints
+                  :value="limitRef"
+                  :onUpdate="(n) => (limitRef = n)"
+                />
+                Clarity points
+                <ClarityPoints
+                  :value="clarityRef"
+                  :onUpdate="(n) => (clarityRef = n)"
+                />
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; font-size: small">
+            <div>
+              Losing Clarity:
+              <ul
+                style="
+                  margin-block: 0;
+                  padding-inline-start: 0.3in;
+                  font-size: x-small;
+                "
+              >
+                <li>
+                  Human Contact for a scene (-1 point for a Compassion roll + 1
+                  dice if positive Intimacy).
+                </li>
+                <li>Embrace Virtue (1 point to channel a Virtue).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="exaltTypeRef === 'abyssal'"
+          style="margin-left: 0.1in; margin-top: 0.05in"
+        >
+          <div style="display: flex; font-size: small">
+            <div style="text-align: center">
+              Conditions (roll Essence dice points)
+              <ul
+                style="
+                  margin-block: 0;
+                  padding-inline-start: 0.3in;
+                  font-size: x-small;
+                  text-align: start;
+                "
+              >
+                <li>
+                  Build or maintain positive Intimacies with the living or
+                  living as one.
+                </li>
+                <li>Creating a new life or give birth to one.</li>
+                <li>Disobeying the Neverborn.</li>
+                <li>Protecting a living being from harm.</li>
+                <li>
+                  Resist unnatural mental influence ( only 1 point per scene).
+                </li>
+                <li>
+                  Reverence to a divine power other than the Neverborn or
+                  Oblivion.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <div style="width: 2.2in; text-align: center">
+                Resonance points
+                <LimitPoints
+                  :value="limitRef"
+                  :onUpdate="(n) => (limitRef = n)"
+                />
+                <ul
+                  style="
+                    margin-block: 0;
+                    padding-inline-start: 0.3in;
+                    font-size: x-small;
+                    text-align: start;
+                  "
+                >
+                  <li>Using Flawed Virtue (only 1 point).</li>
+                  <li>Using your forsaken name.</li>
+                </ul>
+                <div
+                  style="
+                    display: flex;
+                    margin-top: 0.1in;
+                    justify-content: center;
+                  "
+                >
+                  Flawed Virtue:
+                  <input
+                    class="text-input"
+                    v-model="flawedVirtueRef"
+                    list="flawed-virtue-options"
+                    style="
+                      width: 1in;
+                      background-color: white;
+                      font-size: x-small;
+                    "
+                  />
+                  <datalist id="flawed-virtue-options">
+                    <option
+                      v-for="key in [
+                        'Compassion',
+                        'Conviction',
+                        'Temperance',
+                        'Valor',
+                      ]"
+                      :value="key"
+                    >
+                      {{ key }}
+                    </option>
+                  </datalist>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="full-bar-with-text" style="margin-top: 0.1in">
-        <img :src="fullBar" style="width: 7.5in" alt="bar" />
-        <div style="padding-block: 0">Intimacies</div>
+      <div v-if="exaltTypeRef != 'abyssal'">
+        <div class="full-bar-with-text" style="margin-top: 0.1in">
+          <img :src="fullBar" style="width: 7.5in" alt="bar" />
+          <div style="padding-block: 0">Intimacies</div>
+        </div>
+        <table
+          style="
+            width: 95%;
+            border-collapse: collapse;
+            margin-inline: auto;
+            margin-top: 0.1in;
+          "
+        >
+          <tbody>
+            <tr>
+              <td>
+                <textarea
+                  style="width: 100%; height: 1.7in; resize: none"
+                  v-model="intimaciesLeftRef"
+                ></textarea>
+              </td>
+              <td>
+                <textarea
+                  style="width: 100%; height: 1.7in; resize: none"
+                  v-model="intimaciesRightRef"
+                ></textarea>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="full-bar-with-text" style="margin-top: 0.1in">
+          <img :src="fullBar" style="width: 7.5in" alt="bar" />
+          <div style="padding-block: 0">Motivation</div>
+        </div>
+        <div style="width: 95%; margin-inline: auto; margin-block: 0.1in">
+          <textarea
+            style="width: 100%; resize: none"
+            :style="{ height: exaltTypeRef != 'alchemical' ? '1.5in' : '1in' }"
+            v-model="motivationRef"
+          ></textarea>
+        </div>
       </div>
-      <table
-        style="
-          width: 95%;
-          border-collapse: collapse;
-          margin-inline: auto;
-          margin-top: 0.1in;
-        "
+      <div
+        v-if="exaltTypeRef == 'abyssal'"
+        style="display: flex; justify-content: space-between"
       >
-        <tbody>
-          <tr>
-            <td>
-              <textarea
-                style="width: 100%; height: 1.7in; resize: none"
-              ></textarea>
-            </td>
-            <td>
-              <textarea
-                style="width: 100%; height: 1.7in; resize: none"
-              ></textarea>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="full-bar-with-text" style="margin-top: 0.1in">
-        <img :src="fullBar" style="width: 7.5in" alt="bar" />
-        <div style="padding-block: 0">Motivation</div>
-      </div>
-      <div style="width: 95%; margin-inline: auto; margin-block: 0.1in">
-        <textarea style="width: 100%; height: 1.5in; resize: none"></textarea>
+        <div style="max-width: 48.5%; width: 100%">
+          <div class="full-bar-with-text">
+            <img :src="halfBar" style="width: 100%; height: 11px" alt="bar" />
+            <div style="padding-block: 0">Intimacies</div>
+          </div>
+          <table
+            style="
+              width: 95%;
+              border-collapse: collapse;
+              margin-inline: auto;
+              margin-top: 0.1in;
+            "
+          >
+            <tbody>
+              <tr>
+                <td>
+                  <textarea
+                    style="width: 100%; height: 1.7in; resize: none"
+                    v-model="intimaciesLeftRef"
+                  ></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="full-bar-with-text">
+            <img :src="halfBar" style="width: 100%; height: 11px" alt="bar" />
+            <div style="padding-block: 0">Motivation</div>
+          </div>
+          <div style="width: 95%; margin-inline: auto; margin-block: 0.1in">
+            <textarea
+              style="width: 100%; resize: none"
+              :style="{
+                height: exaltTypeRef != 'alchemical' ? '1.5in' : '1in',
+              }"
+              v-model="motivationRef"
+            ></textarea>
+          </div>
+        </div>
+        <div style="max-width: 48.5%; width: 100%">
+          <div class="full-bar-with-text">
+            <img :src="halfBar" style="width: 100%; height: 11px" alt="bar" />
+            <div style="padding-block: 0">Resonance</div>
+          </div>
+          <div style="padding-top: 0.1in">
+            <div>Blight:</div>
+            <ol
+              style="
+                font-size: x-small;
+                margin-block: 0.05in;
+                list-style: none;
+                padding-inline-start: 0.2in;
+              "
+            >
+              <li>
+                1 point: Extinguish candles, plants die within Essence yards.
+              </li>
+              <li>
+                2 points: Extinguish torches, freeze still water, spoil food up
+                to Essence x10 yds.
+              </li>
+              <li>
+                3 points: Extinguish fires, holy symbols burn, mice die up to
+                Essence x10 yards.
+              </li>
+              <li>
+                4 points: Above up to Essence x100 yards, weather becomes
+                turbulent.
+              </li>
+              <li>
+                5 points: Above last for Essence days, shadowland radius Essence
+                x10 yds opens.
+              </li>
+            </ol>
+            <div>Branding:</div>
+            <ol
+              style="
+                font-size: x-small;
+                margin-block: 0.05in;
+                list-style: none;
+                padding-inline-start: 0.2in;
+              "
+            >
+              <li>
+                1 point: Spectral traits for one scene (e.g. scent of decay,
+                glowing red eyes).
+              </li>
+              <li>
+                2 points: Above lasts for 1 day. Can manifest anywhere within
+                Essence x100 yds.
+              </li>
+              <li>
+                3 points: Animals within Essence x100 yards are upset and flee.
+              </li>
+              <li>
+                4 points: For 1 day mortals find the exalt unbearably
+                frightening (1wp / scene).
+              </li>
+              <li>5 points: Above last for Essence days.</li>
+            </ol>
+            <div>Conduit:</div>
+            <ol
+              style="
+                font-size: x-small;
+                margin-block: 0.05in;
+                list-style: none;
+                padding-inline-start: 0.2in;
+              "
+            >
+              <li>1 point: Forfeit 1 intimacy the Neverborn object to.</li>
+              <li>
+                2 points: Convert a positive intamacy of love to a negative
+                intimacy of hate.
+              </li>
+              <li>
+                3 points: For 1 day, must spend 1wp per action that would add to
+                resonance.
+              </li>
+              <li>
+                4 points: For 1 day, Neverborn force an action once per scene
+                (1wp to resist).
+              </li>
+              <li>5 points: Full Neverborn possesion for a scene.</li>
+            </ol>
+            <div>Stigmata:</div>
+            <ol
+              style="
+                font-size: x-small;
+                margin-block: 0.05in;
+                list-style: none;
+                padding-inline-start: 0.2in;
+              "
+            >
+              <li>
+                1 point: For 1 scene, all motes are considered peripheral.
+              </li>
+              <li>
+                2+ points: Suffer unsoakable lethal damage = resonance spent.
+              </li>
+              <li>
+                4 points: An appendage withers away and becomes useless until
+                all lethal health levels are healed (Crippling effect).
+              </li>
+            </ol>
+          </div>
+        </div>
       </div>
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 7.5in" alt="bar" />
@@ -2196,8 +2573,13 @@
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
         <div style="width: 100%">
-          <div style="display: flex; justify-content: center">Languages</div>
-          <table style="width: 100%; border-collapse: collapse">
+          <div style="display: flex; justify-content: center">
+            {{ exaltTypeRef == "alchemical" ? "Charm Slots" : "Languages" }}
+          </div>
+          <table
+            style="width: 100%; border-collapse: collapse"
+            v-if="exaltTypeRef != 'alchemical'"
+          >
             <tbody style="font-size: small">
               <tr>
                 <td>
@@ -2389,6 +2771,40 @@
               </tr>
             </tbody>
           </table>
+          <div style="flex: 1" v-if="exaltTypeRef == 'alchemical'">
+            <div style="margin-top: 0.05in; justify-self: center">
+              General Slots:&nbsp;&nbsp;&nbsp;
+              <input
+                type="text"
+                class="text-input"
+                style="position: relative; width: 0.35in; font-size: large"
+                v-model="generalCharmSlotsUsedRef"
+              />
+              <span style="font-size: x-large">/</span>
+              <input
+                type="text"
+                class="text-input"
+                style="position: relative; width: 0.35in; font-size: large"
+                v-model="generalCharmSlotsTotalRef"
+              />
+            </div>
+            <div style="margin-top: 0.05in; justify-self: center">
+              Dedicated Slots:
+              <input
+                type="text"
+                class="text-input"
+                style="position: relative; width: 0.35in; font-size: large"
+                v-model="dedicatedCharmSlotsUsedRef"
+              />
+              <span style="font-size: x-large">/</span>
+              <input
+                type="text"
+                class="text-input"
+                style="position: relative; width: 0.35in; font-size: large"
+                v-model="dedicatedCharmSlotsTotalRef"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div class="full-bar-with-text">
@@ -2398,6 +2814,7 @@
       <table style="width: 100%; border-collapse: collapse">
         <thead>
           <tr style="text-align: left">
+            <th v-if="exaltTypeRef == 'alchemical'">Use</th>
             <th>Charm</th>
             <th>Cost</th>
             <th>Duration</th>
@@ -2411,6 +2828,23 @@
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
+              <td
+                v-if="exaltTypeRef == 'alchemical'"
+                style="
+                  border: none;
+                  padding: 0;
+                  padding-right: 0.05in;
+                  width: min-content;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <SingleDotRadio
+                  :source="`charm-use${index}`"
+                  :value="charmRefs[index].use"
+                  :onUpdate="(bool) => (charmRefs[index].use = bool)"
+                />
+              </td>
               <td
                 style="
                   border: 1px solid black;
@@ -2757,12 +3191,14 @@
       </div>
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 7.5in" alt="bar" />
-        <div style="padding-block: 0">Combos</div>
+        <div style="padding-block: 0">
+          {{ exaltTypeRef != "alchemical" ? "Combos" : "Arrays" }}
+        </div>
       </div>
       <table style="width: 100%; border-collapse: collapse">
         <thead>
           <tr style="text-align: left">
-            <th>Combo</th>
+            <th>{{ exaltTypeRef != "alchemical" ? "Combo" : "Array" }}</th>
             <th>Cost</th>
             <th>Charms</th>
           </tr>
@@ -3050,12 +3486,14 @@
       </div>
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 7.5in" alt="bar" />
-        <div style="padding-block: 0">Sorcery</div>
+        <div style="padding-block: 0">
+          {{ exaltTypeRef != "alchemical" ? "Sorcery" : "Protocols" }}
+        </div>
       </div>
       <table style="width: 100%; border-collapse: collapse">
         <thead>
           <tr style="text-align: left">
-            <th>Sorcery</th>
+            <th>{{ exaltTypeRef != "alchemical" ? "Sorcery" : "Protocol" }}</th>
             <th>Cost</th>
             <th>Type</th>
             <th>Duration</th>
@@ -3707,7 +4145,13 @@
       </div>
       <div class="full-bar-with-text">
         <img :src="fullBar" style="width: 7.5in" alt="bar" />
-        <div style="padding-block: 0">Manse & Heathstones</div>
+        <div style="padding-block: 0">
+          {{
+            exaltTypeRef != "alchemical"
+              ? "Manse & Heathstones"
+              : "Elemental Cores"
+          }}
+        </div>
       </div>
       <table style="width: 100%; border-collapse: collapse">
         <thead>
@@ -4399,10 +4843,18 @@ const noControlRef = ref("");
 const primaryVirtueRef = ref("");
 const yoziPatronRef = ref("");
 const tormentRef = ref("");
-const abscissicPlate = ref("");
-const abscissicCondition = ref("");
+const abscissicPlateRef = ref("");
+const abscissicConditionRef = ref("");
+const flawedVirtueRef = ref("");
+
+const resonanceEffectRefs = ref([{}]);
 
 const limitRef = ref(0);
+const clarityRef = ref(0);
+
+const intimaciesLeftRef = ref("");
+const intimaciesRightRef = ref("");
+const motivationRef = ref("");
 
 const weaponNameRefs = ref([
   "",
@@ -4695,30 +5147,222 @@ const languageRefs = ref([
 ]);
 
 const charmRefs = ref([
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", keywords: "", effect: "" },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
+  {
+    name: "",
+    cost: "",
+    duration: "",
+    type: "",
+    keywords: "",
+    effect: "",
+    use: false,
+  },
 ]);
 
 const comboRefs = ref([
@@ -4852,6 +5496,12 @@ const backgroundRefs = ref([
   { name: "", rating: 0, description: "" },
 ]);
 
+const generalCharmSlotsUsedRef = ref(0);
+const generalCharmSlotsTotalRef = ref(0);
+
+const dedicatedCharmSlotsUsedRef = ref(0);
+const dedicatedCharmSlotsTotalRef = ref(0);
+
 const possessionsRef = ref("");
 
 const totalXpRef = ref(0);
@@ -4899,7 +5549,7 @@ const animaEffectsComputed = computed(() => {
     .concat(
       casteRef.value === ""
         ? null
-        : exaltData[exaltTypeRef.value].casteAnimaEffects[casteRef.value]
+        : exaltData[exaltTypeRef.value].casteAnimaEffects[casteRef.value],
     )
     .join("\n");
 });
@@ -4938,7 +5588,7 @@ watch(
     if (newSrc !== sheetSourceURI.value) {
       sheetSourceURI.value = newSrc || "";
     }
-  }
+  },
 );
 
 watch(exaltTypeRef, () => {
@@ -4948,7 +5598,7 @@ watch(exaltTypeRef, () => {
 watch(virtueFlawRef, () => {
   if (
     Object.keys(exaltData[exaltTypeRef.value].virtueFlaws).includes(
-      virtueFlawRef.value
+      virtueFlawRef.value,
     )
   ) {
     limitBreakDurationRef.value =
@@ -4967,7 +5617,7 @@ watch(virtueFlawRef, () => {
 watch(primaryVirtueRef, () => {
   if (
     Object.keys(exaltData[exaltTypeRef.value].virtues).includes(
-      primaryVirtueRef.value
+      primaryVirtueRef.value,
     )
   ) {
     limitBreakDurationRef.value =
@@ -4980,6 +5630,32 @@ watch(primaryVirtueRef, () => {
       ].partialControl;
     noControlRef.value =
       exaltData[exaltTypeRef.value].virtues[primaryVirtueRef.value].noControl;
+  }
+});
+
+watch(yoziPatronRef, () => {
+  if (
+    Object.keys(exaltData[exaltTypeRef.value].yoziPatrons).includes(
+      yoziPatronRef.value,
+    )
+  ) {
+    limitBreakDurationRef.value =
+      exaltData[exaltTypeRef.value].yoziPatrons[yoziPatronRef.value].duration;
+    tormentRef.value =
+      exaltData[exaltTypeRef.value].yoziPatrons[yoziPatronRef.value].torment;
+  }
+});
+
+watch(abscissicPlateRef, () => {
+  if (
+    Object.keys(exaltData[exaltTypeRef.value].abscissicPlates).includes(
+      abscissicPlateRef.value,
+    )
+  ) {
+    abscissicConditionRef.value =
+      exaltData[exaltTypeRef.value].abscissicPlates[
+        abscissicPlateRef.value
+      ].condition;
   }
 });
 
@@ -4998,7 +5674,7 @@ watch(
       }
     }
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
@@ -5016,13 +5692,13 @@ watch(
           weaponDamageBonusRefs.value[i].split("/")[0].includes("A")
             ? "A"
             : weaponDamageBonusRefs.value[i].split("/")[0].includes("L")
-            ? "L"
-            : "B"
+              ? "L"
+              : "B"
         }`;
       }
     }
   },
-  { deep: true }
+  { deep: true },
 );
 
 watch(
@@ -5044,7 +5720,7 @@ watch(
       }
     }
   },
-  { deep: true }
+  { deep: true },
 );
 
 function bonusToInt(string) {
@@ -5056,7 +5732,7 @@ function bonusToInt(string) {
       .split("/")[0]
       .replaceAll("B", "")
       .replaceAll("L", "")
-      .replaceAll("A", "")
+      .replaceAll("A", ""),
   );
 }
 
@@ -5109,7 +5785,15 @@ function createSheetJSON() {
       partialControl: partialControlRef.value,
       noControl: noControlRef.value,
       primaryVirtue: primaryVirtueRef.value,
+      yoziPatron: yoziPatronRef.value,
+      torment: tormentRef.value,
+      abscissicPlate: abscissicPlateRef.value,
+      abscissicCondition: abscissicConditionRef.value,
       limit: limitRef.value,
+      clarity: clarityRef.value,
+      intimaciesLeft: intimaciesLeftRef.value,
+      intimaciesRight: intimaciesRightRef.value,
+      motivation: motivationRef.value,
       weapon: {
         name: toRaw(weaponNameRefs.value),
         speed: toRaw(weaponSpeedRefs.value),
@@ -5159,7 +5843,7 @@ function createSheetJSON() {
       backstory: backstoryRef.value,
     },
     null,
-    2
+    2,
   );
 }
 
@@ -5246,7 +5930,15 @@ const loadSheet = (data) => {
     partialControlRef.value = loadedFile.partialControl;
     noControlRef.value = loadedFile.noControl;
     primaryVirtueRef.value = loadedFile.primaryVirtue;
+    yoziPatronRef.value = loadedFile.yoziPatron;
+    tormentRef.value = loadedFile.torment;
+    abscissicPlateRef.value = loadedFile.abscissicPlate;
+    abscissicConditionRef.value = loadedFile.abscissicCondition;
     limitRef.value = loadedFile.limit;
+    clarityRef.value = loadedFile.clarity;
+    intimaciesLeftRef.value = loadedFile.intimaciesLeft;
+    intimaciesRightRef.value = loadedFile.intimaciesRight;
+    motivationRef.value = loadedFile.motivation;
     weaponNameRefs.value = loadedFile.weapon.name;
     weaponSpeedRefs.value = loadedFile.weapon.speed;
     weaponAccRefs.value = loadedFile.weapon.acc;
@@ -5389,7 +6081,7 @@ const uploadDriveFile = async () => {
         "Content-Type": "application/json",
       },
       body: createSheetJSON(),
-    }
+    },
   );
 
   if (!response.ok) {
@@ -5407,7 +6099,7 @@ const updateDriveFile = async () => {
         "Content-Type": "application/json",
       },
       body: createSheetJSON(),
-    }
+    },
   );
 
   if (!response.ok) {

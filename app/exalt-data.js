@@ -253,6 +253,44 @@ export const exaltData = {
       scourge: ["athletics", "awareness", "dodge", "larceny", "stealth"],
       fiend: ["bureaucracy", "linguistics", "ride", "sail", "socialize"],
     },
+    abscissicPlates: {
+      "The Courtesan (Temperance)": {
+        condition:
+          "Gains Limit when presented with new evidence that it's helpless or unneeded.",
+      },
+      "The Slave (Temperance)": {
+        condition:
+          "Gains Limit whenever its Virtues force it to feel. Whenever its behavior is compelled by success on a Virtue roll.",
+      },
+      "The Ecstatic (Compassion)": {
+        condition:
+          "Gains Limit when it observes others fulfilling great passion. Common when traveling with the Exalted (but no more than once per scene).",
+      },
+      "The Functionary (Compassion)": {
+        condition:
+          "Gains Limit when duties or circumstances interfere with its obsession (but no more than once per scene).",
+      },
+      "The Horror (Conviction)": {
+        condition:
+          "Gains Limit when it encounters: silence without death, power without ambition and love without pain.",
+      },
+      "The Hunter (Conviction)": {
+        condition:
+          "Gains Limit when it suffers enforced idleness (no more than once per day).",
+      },
+      "The Vizier (Conviction)": {
+        condition:
+          "Gains Limit whenever its words are ignored or whenever it spends five days in circumstances that prevent it offering advice.",
+      },
+      "The Killer (Valor)": {
+        condition:
+          "Gains Limit when it's denied its chosen indulgence (no more than once per scene).",
+      },
+      "The Warden (Valor)": {
+        condition:
+          "Gains Limit whenever the sorcerer or anything she assigns it to protect is threatened (but no more than once per threat).",
+      },
+    },
     animaBannerLevels: [
       "1-3 Motes: Weak caste mark",
       "Perception + Awareness to notice",
@@ -279,6 +317,7 @@ export const exaltData = {
       "Familiar",
       "Familiar (Demonic)",
       "Followers",
+      "Infamy",
       "Influence",
       "Manse",
       "Mentor",
@@ -383,6 +422,45 @@ export const exaltData = {
           "locked",
         ],
       ],
+    },
+    yoziPatrons: {
+      Adorján: {
+        duration: "One full day.",
+        torment:
+          "Loses all communicative abilities, to disapproved of Intimacies too. Become a vector for Hysteria disease, virulence: compare Dodge MDV vs own Essence + primary Virtue.",
+      },
+      Cecyline: {
+        duration: "Instant.",
+        torment:
+          "Suffer Essence dice unsoakable lethal damage, to disapproved of Intimacies too (use the same damage result).",
+      },
+      "Ebon Dragon": {
+        duration: "One full day.",
+        torment:
+          "Suffer Overindulgence, to all interactors with Dodge MDV less than (own Essence + primary virtue), to disapproved of Intimacies too.",
+      },
+      Isidoros: {
+        duration: "not defined.",
+        torment: "not defined.",
+      },
+      Kimbery: {
+        duration: "not defined.",
+        torment: "not defined.",
+      },
+      Malfeas: {
+        duration: "One full scene.",
+        torment:
+          "Berserk Anger to all interactors with Dodge MDV less than (own Essence + primary virtue), from disapproved of Intimacies too.",
+      },
+      "She Who Lives in Her Name": {
+        duration: "One full day.",
+        torment:
+          "Suffer Heart of Flint, to all interactors with Dodge MDV less than (own Essence + primary virtue), to disapproved of Intimacies too.",
+      },
+      Szoreny: {
+        duration: "not defined.",
+        torment: "not defined.",
+      },
     },
   },
   abyssal: {
