@@ -1554,11 +1554,15 @@
           </tbody>
         </table>
         <div
-          v-if="exaltTypeRef === 'solar' || exaltTypeRef === 'dragon-blooded'"
+          v-if="
+            exaltTypeRef === 'solar' ||
+            exaltTypeRef === 'dragon-blooded' ||
+            exaltTypeRef === 'lunar'
+          "
           style="margin-left: 0.1in; margin-top: 0.05in"
         >
           <div
-            v-if="exaltTypeRef === 'solar'"
+            v-if="exaltTypeRef === 'solar' || exaltTypeRef === 'lunar'"
             style="display: flex; font-size: small"
           >
             Virtue Flaw:
@@ -5039,6 +5043,566 @@
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
     </div>
 
+    <div class="page" v-if="exaltTypeRef == 'lunar'">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="text-align: center; font-weight: bold; font-size: 14px">
+            Warform
+          </div>
+          <div style="display: flex; justify-content: space-between">
+            <div style="width: 40%">
+              <div style="text-align: center; font-size: 13px">Description</div>
+              <textarea
+                style="width: 100%; height: 0.5in; resize: none"
+                v-model="intimaciesLeftRef"
+              ></textarea>
+            </div>
+            <div style="width: 30%">
+              <div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Bashing:<input style="width: 0.2in" class="text-input" />
+                </div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Lethal:<input style="width: 0.2in" class="text-input" />
+                </div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Aggravated:<input style="width: 0.2in" class="text-input" />
+                </div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Dodge DV:<input style="width: 0.2in" class="text-input" />
+                </div>
+              </div>
+            </div>
+            <div style="width: 30%">
+              <div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Strength:<input style="width: 0.2in" class="text-input" />
+                </div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Dexterity:<input style="width: 0.2in" class="text-input" />
+                </div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Stamina:<input style="width: 0.2in" class="text-input" />
+                </div>
+                <div style="display: flex; padding-left: 0.2in">
+                  Move/Dash:<input style="width: 0.2in" class="text-input" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="full-bar-with-text" style="margin-bottom: 0.05in">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Weapons in Warform</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Weapon</th>
+            <th>Speed</th>
+            <th>Acc</th>
+            <th>Damage</th>
+            <th>PDV</th>
+            <th>Rate</th>
+            <th>Range</th>
+            <th>Tags</th>
+            <th>Notes</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: xx-small">
+          <tr
+            v-for="(val, index) in weaponAccRefs"
+            :key="`weapon-table-row-${index}`"
+            :style="{
+              backgroundColor: index % 2 === 0 ? '#eee' : 'white',
+            }"
+          >
+            <td style="border: 1px solid black; padding: 0; width: 20%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="weaponNameRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="weaponSpeedRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 35%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: right;
+                  "
+                  v-model="weaponAccRefs[index].value"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: left;
+                  "
+                  v-model="weaponAccBonusRefs[index]"
+                />
+              </div>
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 10%">
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 35%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: right;
+                  "
+                  v-model="weaponDamageRefs[index].value"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: left;
+                  "
+                  v-model="weaponDamageBonusRefs[index]"
+                />
+              </div>
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 8%">
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 35%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: right;
+                  "
+                  v-model="weaponPdvRefs[index].value"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: xx-small;
+                    background-color: transparent;
+                    text-align: left;
+                  "
+                  v-model="weaponPdvBonusRefs[index]"
+                />
+              </div>
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 5%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="weaponRateRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="weaponRangeRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 7%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 95%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="weaponTagRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="weaponNotesRefs[index]"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 9%">
+              <select
+                style="
+                  border-radius: 0%;
+                  border: none;
+                  width: 100%;
+                  font-size: xx-small;
+                  background: transparent;
+                "
+                v-model="weaponTypeRefs[index]"
+              >
+                <option value="melee">Melee</option>
+                <option value="martial-arts">Martial Arts</option>
+                <option value="thrown">Thrown</option>
+                <option value="archery">Archery</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="full-bar-with-text" style="margin-block: 0.05in">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Gifts</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Charm Name</th>
+            <th>Commitment Cost</th>
+            <th>Gift Effects</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: xx-small">
+          <tr
+            v-for="(val, index) in warformGiftsRefs"
+            :key="`gifts-table-row-${index}`"
+            :style="{
+              backgroundColor: index % 2 === 0 ? '#eee' : 'white',
+            }"
+          >
+            <td style="border: 1px solid black; padding: 0; width: 26%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformGiftsRefs[index].name"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 19%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformGiftsRefs[index].cost"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 55%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformGiftsRefs[index].effect"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="full-bar-with-text" style="margin-block: 0.05in">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Mutations in Warform</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Mutation Name</th>
+            <th>Degree</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: xx-small">
+          <tr
+            v-for="(val, index) in warformMutationsRefs"
+            :key="`gifts-table-row-${index}`"
+            :style="{
+              backgroundColor: index % 2 === 0 ? '#eee' : 'white',
+            }"
+          >
+            <td style="border: 1px solid black; padding: 0; width: 23%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformMutationsRefs[index].name"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 15%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformMutationsRefs[index].degree"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 62%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformMutationsRefs[index].effect"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="full-bar-with-text" style="margin-block: 0.05in">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Fury</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Charm Name</th>
+            <th>Fury Effect</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: xx-small">
+          <tr
+            v-for="(val, index) in warformFuryRefs"
+            :key="`gifts-table-row-${index}`"
+            :style="{
+              backgroundColor: index % 2 === 0 ? '#eee' : 'white',
+            }"
+          >
+            <td style="border: 1px solid black; padding: 0; width: 32%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformFuryRefs[index].name"
+              />
+            </td>
+            <td style="border: 1px solid black; padding: 0; width: 68%">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 98%;
+                  height: 100%;
+                  font-size: xx-small;
+                  background-color: transparent;
+                "
+                v-model="warformFuryRefs[index].effect"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page" v-if="exaltTypeRef == 'lunar'">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="text-align: center">Shapeshifting</div>
+          <div style="font-size: 11px; padding-inline: 0.2in">
+            <strong>Speed:</strong> 5 tick (miscellaneous action).<br />
+            <strong>Cost:</strong> to true Human form or Spirit form: 1 mote. To
+            Warform: 5 motes. To other forms: 3 motes.<br />
+            <strong>Items on person:</strong> will disappear into Elsewhere
+            unless they can be used in the new form.<br />
+            <strong>Traits:</strong> uses Strength, Stamina and Appearance of
+            the new form, lowers of Dexterities (human forms use the Lunars own
+            Dexterity), special traits of new form, rest of the traits is the
+            Lunars own.
+          </div>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">
+          Heart's Blood &nbsp;
+          <SixDotBackground
+            source="hearts-blood"
+            :value="heartsBloodRatingRef"
+            :onUpdate="(n) => (heartsBloodRatingRef = n)"
+            style="margin-top: 0.02in"
+          />
+        </div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Name</th>
+            <th>Look</th>
+            <th>Skills and Special Effects</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in heartsBloodRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1.5in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="heartsBloodRefs[index].name"
+                />
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1.25in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="heartsBloodRefs[index].look"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 4in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="heartsBloodRefs[index].effect"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
     <div class="page">
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
@@ -6626,6 +7190,78 @@ const astrologyRefs = ref([
   },
 ]);
 
+const warformGiftsRefs = ref([
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+  { name: "", cost: "", effect: "" },
+]);
+
+const warformMutationsRefs = ref([
+  { name: "", degree: "", effect: "" },
+  { name: "", degree: "", effect: "" },
+  { name: "", degree: "", effect: "" },
+  { name: "", degree: "", effect: "" },
+  { name: "", degree: "", effect: "" },
+  { name: "", degree: "", effect: "" },
+  { name: "", degree: "", effect: "" },
+  { name: "", degree: "", effect: "" },
+]);
+
+const warformFuryRefs = ref([
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+  { name: "", effect: "" },
+]);
+
+const heartsBloodRatingRef = ref(0);
+
+const heartsBloodRefs = ref([
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+  { name: "", look: "", effect: "" },
+]);
+
 const possessionsRef = ref("");
 
 const totalXpRef = ref(0);
@@ -6975,6 +7611,11 @@ function createSheetJSON() {
       resplendentDestiny: toRaw(resplendentDestinyRefs.value),
       paradox: paradoxRef.value,
       astrology: toRaw(astrologyRefs.value),
+      warformGifts: toRaw(warformGiftsRefs.value),
+      warformMutations: toRaw(warformMutationsRefs.value),
+      warformFury: toRaw(warformFuryRefs.value),
+      heartsBloodRating: heartsBloodRatingRef.value,
+      heartsBlood: toRaw(heartsBloodRefs.value),
       possessions: possessionsRef.value,
       totalXp: totalXpRef.value,
       totalXpSpent: totalXpSpentRef.value,
@@ -7128,6 +7769,11 @@ const loadSheet = (data) => {
     resplendentDestinyRefs.value = loadedFile.resplendentDestiny;
     paradoxRef.value = loadedFile.paradox;
     astrologyRef.value = loadedFile.astrology;
+    warformGiftsRefs.value = loadedFile.warformGifts;
+    warformMutationsRefs.value = loadedFile.warformMutations;
+    warformFuryRefs.value = loadedFile.warformFury;
+    heartsBloodRatingRef.value = loadedFile.heartsBloodRating;
+    heartsBloodRefs.value = loadedFile.heartsBlood;
     possessionsRef.value = loadedFile.possessions;
     totalXpRef.value = loadedFile.totalXp;
     totalXpSpentRef.value = loadedFile.totalXpSpent;

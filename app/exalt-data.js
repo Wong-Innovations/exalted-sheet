@@ -835,6 +835,77 @@ export const exaltData = {
         ],
       ],
     },
+    virtueFlaws: {
+      "The Curse of the Drunken Monkey (Temperance)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl:
+          "May give vague attention to the next day, if it doesn't interfere with the purpose of pleasure.",
+        noControl: "Becomes a slave to desires, unable to control yourself.",
+      },
+      "The Curse of the Heartless Weasel (Conviction)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl:
+          "Can spare the lives of friends - they can be useful later.",
+        noControl:
+          "Becomes pure selfishness. May not help others, and will flee if threatened.",
+      },
+      "The Curse of the Humble Sloth (Temperance)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl:
+          "Can be convinced that a brief chore is necessary for the future.",
+        noControl:
+          "Becomes unconcerned with anything except the bare essentials. Cares not for the rest of the world.",
+      },
+      "The Curse of the Hungry Wolverine (Conviction)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl:
+          "May verbally bully an opponent instead of using violence.",
+        noControl:
+          "Must always do what you think is right, even if it means dying in the process.",
+      },
+      "The Curse of the Lone Wolf (Valor)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl:
+          "Can flee if tactically advisable and doesn't need to rush heedlessly into battle.",
+        noControl: "Needs no one. Feels no fear and doesn't respect anyone.",
+      },
+      "The Curse of the Mother Hen (Compassion)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl:
+          "May restrict your instinctual mothering to known people, or to Compassion strangers.",
+        noControl:
+          "Will not hear refusals of your aid. Will engage in non-lethal suppressive violence if necessary.",
+      },
+      "The Curse of the Raging Bull (Valor)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl:
+          "Can settle for bulling others - unless they think of being disrespectful.",
+        noControl:
+          "Animalistic rage, will fight anyone over anything. Cannot fail Valor checks or spend willpower to ignore them.",
+      },
+      "The Curse of the Whipped Dog (Compassion)": {
+        duration: "One full scene.",
+        limitBreak:
+          "First time on a full-moon night she is struck by moonlight.",
+        partialControl: "May choose to flee a situation immediately.",
+        noControl:
+          "Refuse leadership, following any suggestion instead. May defend, but will flee quickly.",
+      },
+    },
   },
   sidereal: {
     abilities: {
