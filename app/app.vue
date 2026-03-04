@@ -1862,6 +1862,80 @@
             </div>
           </div>
         </div>
+        <div
+          v-if="exaltTypeRef === 'sidereal'"
+          style="margin-left: 0.1in; margin-top: 0.05in"
+        >
+          <div style="display: flex; font-size: small">
+            Flawed Fate:
+            <input
+              class="text-input"
+              v-model="flawedFateRef"
+              list="fate-flaw-options"
+              style="width: 2.7in; background-color: white; font-size: x-small"
+            />
+            <datalist id="fate-flaw-options">
+              <option
+                v-for="(value, key) in exaltData[exaltTypeRef].flawedFates"
+                :value="key"
+              >
+                {{ key }}
+              </option>
+            </datalist>
+            <div style="width: 2.2in; text-align: center">Limit points</div>
+          </div>
+          <div style="display: flex; font-size: small">
+            Duration:
+            <input
+              type="text"
+              class="text-input"
+              v-model="limitBreakDurationRef"
+              style="width: 2.9in; font-size: x-small"
+            />
+            <!-- TODO: Why these no display / update also add to saving and loading -->
+            <div style="width: 2.2in; text-align: center">
+              <LimitPoints
+                :value="limitRef"
+                :onUpdate="(n) => (limitRef = n)"
+              />
+            </div>
+          </div>
+          <div style="display: flex; font-size: small; padding-top: 4px">
+            Primary Virtue:
+            <input
+              class="text-input"
+              v-model="primaryVirtueRef"
+              list="primary-virtue-options"
+              style="width: 4.65in; font-size: xx-small"
+            />
+            <datalist id="primary-virtue-options">
+              <option
+                v-for="(value, key) in exaltData[exaltTypeRef].primaryVirtue"
+                :value="value"
+              >
+                {{ key }}
+              </option>
+            </datalist>
+          </div>
+          <div style="display: flex; font-size: small">
+            Near other Sidereals:
+            <input
+              type="text"
+              class="text-input"
+              v-model="nearOtherSiderealsRef"
+              style="width: 4.35in; font-size: xx-small"
+            />
+          </div>
+          <div style="display: flex; font-size: small">
+            Fate:
+            <input
+              type="text"
+              class="text-input"
+              v-model="fateRef"
+              style="width: 5.22in; font-size: xx-small"
+            />
+          </div>
+        </div>
       </div>
       <div v-if="exaltTypeRef != 'abyssal'">
         <div class="full-bar-with-text" style="margin-top: 0.1in">
@@ -1880,13 +1954,13 @@
             <tr>
               <td>
                 <textarea
-                  style="width: 100%; height: 1.7in; resize: none"
+                  style="width: 100%; height: 1.5in; resize: none"
                   v-model="intimaciesLeftRef"
                 ></textarea>
               </td>
               <td>
                 <textarea
-                  style="width: 100%; height: 1.7in; resize: none"
+                  style="width: 100%; height: 1.5in; resize: none"
                   v-model="intimaciesRightRef"
                 ></textarea>
               </td>
@@ -4240,6 +4314,731 @@
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
     </div>
 
+    <div class="page" v-if="exaltTypeRef == 'sidereal'">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: center">
+            The Greater Sign of
+            <input
+              style="width: 0.8in; margin-left: 0.05in"
+              list="greater-sign-options"
+              class="text-input"
+              v-model="greaterSignRef"
+            />
+            <datalist id="greater-sign-options">
+              <option
+                v-for="(value, key) in exaltData[exaltTypeRef].greaterSign"
+                :value="key"
+              >
+                {{ key }}
+              </option>
+            </datalist>
+          </div>
+          <textarea style="width: 100%; height: 0.7in; resize: none"></textarea>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Colleges</div>
+      </div>
+      <table
+        style="
+          width: 100%;
+          border-collapse: collapse;
+          margin-block: 0.1in;
+          table-layout: fixed;
+        "
+      >
+        <tbody>
+          <tr style="text-align: center">
+            <td>The House of Journeys</td>
+            <td>The House of Serenity</td>
+            <td>The House of Battles</td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Captain__"
+                source="the-captain"
+                :onUpdate="(n) => (collegeRefs['the-captain'] = n)"
+                :value="collegeRefs['the-captain']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Ewer__"
+                source="the-ewer"
+                :onUpdate="(n) => (collegeRefs['the-ewer'] = n)"
+                :value="collegeRefs['the-ewer']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Banner__"
+                source="the-banner"
+                :onUpdate="(n) => (collegeRefs['the-banner'] = n)"
+                :value="collegeRefs['the-banner']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Gull__"
+                source="the-gull"
+                :onUpdate="(n) => (collegeRefs['the-gull'] = n)"
+                :value="collegeRefs['the-gull']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Lovers__"
+                source="the-lovers"
+                :onUpdate="(n) => (collegeRefs['the-lovers'] = n)"
+                :value="collegeRefs['the-lovers']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Gauntlet__"
+                source="the-gauntlet"
+                :onUpdate="(n) => (collegeRefs['the-gauntlet'] = n)"
+                :value="collegeRefs['the-gauntlet']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Mast__"
+                source="the-mast"
+                :onUpdate="(n) => (collegeRefs['the-mast'] = n)"
+                :value="collegeRefs['the-mast']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Musician__"
+                source="the-musician"
+                :onUpdate="(n) => (collegeRefs['the-musician'] = n)"
+                :value="collegeRefs['the-musician']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Quiver__"
+                source="the-quiver"
+                :onUpdate="(n) => (collegeRefs['the-quiver'] = n)"
+                :value="collegeRefs['the-quiver']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Messenger__"
+                source="the-messenger"
+                :onUpdate="(n) => (collegeRefs['the-messenger'] = n)"
+                :value="collegeRefs['the-messenger']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Peacock__"
+                source="the-peacock"
+                :onUpdate="(n) => (collegeRefs['the-peacock'] = n)"
+                :value="collegeRefs['the-peacock']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Shield__"
+                source="the-shield"
+                :onUpdate="(n) => (collegeRefs['the-shield'] = n)"
+                :value="collegeRefs['the-shield']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Ship's Wheel__"
+                source="the-ships-wheel"
+                :onUpdate="(n) => (collegeRefs['the-ships-wheel'] = n)"
+                :value="collegeRefs['the-ships-wheel']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Pillar__"
+                source="the-pillar"
+                :onUpdate="(n) => (collegeRefs['the-pillar'] = n)"
+                :value="collegeRefs['the-pillar']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Spear__"
+                source="the-spear"
+                :onUpdate="(n) => (collegeRefs['the-spear'] = n)"
+                :value="collegeRefs['the-spear']"
+              />
+            </td>
+          </tr>
+          <tr style="text-align: center">
+            <td>The House of Secrets</td>
+            <td>The House of Endings</td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Guardians__"
+                source="the-guardians"
+                :onUpdate="(n) => (collegeRefs['the-guardians'] = n)"
+                :value="collegeRefs['the-guardians']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Corpse__"
+                source="the-corpse"
+                :onUpdate="(n) => (collegeRefs['the-corpse'] = n)"
+                :value="collegeRefs['the-corpse']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Key__"
+                source="the-key"
+                :onUpdate="(n) => (collegeRefs['the-key'] = n)"
+                :value="collegeRefs['the-key']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Crow__"
+                source="the-crow"
+                :onUpdate="(n) => (collegeRefs['the-crow'] = n)"
+                :value="collegeRefs['the-crow']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Mask__"
+                source="the-mask"
+                :onUpdate="(n) => (collegeRefs['the-mask'] = n)"
+                :value="collegeRefs['the-mask']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Haywain__"
+                source="the-haywain"
+                :onUpdate="(n) => (collegeRefs['the-haywain'] = n)"
+                :value="collegeRefs['the-haywain']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Sorcerer__"
+                source="the-sorcerer"
+                :onUpdate="(n) => (collegeRefs['the-sorcerer'] = n)"
+                :value="collegeRefs['the-sorcerer']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Rising Smoke"
+                source="the-rising-smoke"
+                :onUpdate="(n) => (collegeRefs['the-rising-smoke'] = n)"
+                :value="collegeRefs['the-rising-smoke']"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Treasure Trove"
+                source="the-treasure-trove"
+                :onUpdate="(n) => (collegeRefs['the-treasure-trove'] = n)"
+                :value="collegeRefs['the-treasure-trove']"
+              />
+            </td>
+            <td style="padding-inline: 0.2in">
+              <CollegeRating
+                label="The Sword__"
+                source="the-sword"
+                :onUpdate="(n) => (collegeRefs['the-sword'] = n)"
+                :value="collegeRefs['the-sword']"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Resplendent Destinies</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Wear</th>
+            <th>College</th>
+            <th>Identity</th>
+            <th>Duration</th>
+            <th>Endurance</th>
+            <th>Resplendencies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in resplendentDestinyRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: none;
+                  padding: 0;
+                  padding-right: 0.05in;
+                  width: min-content;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <SingleDotRadio
+                  :source="`resplendent-wear${index}`"
+                  :value="resplendentDestinyRefs[index].wear"
+                  :onUpdate="
+                    (bool) => (resplendentDestinyRefs[index].wear = bool)
+                  "
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <select
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                    border-radius: 0%;
+                  "
+                  v-model="resplendentDestinyRefs[index].college"
+                >
+                  <option value=""></option>
+                  <option value="the-banner">Banner</option>
+                  <option value="the-captain">Captain</option>
+                  <option value="the-corpse">Corpse</option>
+                  <option value="the-crow">Crow</option>
+                  <option value="the-ewer">Ewer</option>
+                  <option value="the-gauntlet">Gauntlet</option>
+                  <option value="the-guardians">Guardians</option>
+                  <option value="the-gull">Gull</option>
+                  <option value="the-haywain">Haywain</option>
+                  <option value="the-key">Key</option>
+                  <option value="the-lovers">Lovers</option>
+                  <option value="the-mask">Mask</option>
+                  <option value="the-mast">Mast</option>
+                  <option value="the-messenger">Messenger</option>
+                  <option value="the-musician">Musician</option>
+                  <option value="the-peacock">Peacock</option>
+                  <option value="the-pillar">Pillar</option>
+                  <option value="the-quiver">Quiver</option>
+                  <option value="the-rising-smoke">Rising Smoke</option>
+                  <option value="the-shield">Shield</option>
+                  <option value="the-ships-wheel">Ship's Wheel</option>
+                  <option value="the-sorcerer">Sorcerer</option>
+                  <option value="the-spear">Spear</option>
+                  <option value="the-sword">Sword</option>
+                  <option value="the-treasure-trove">Treasure Trove</option>
+                </select>
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1.25in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="resplendentDestinyRefs[index].identity"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.75in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="resplendentDestinyRefs[index].duration"
+                />
+              </td>
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.9in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <input
+                  type="text"
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="resplendentDestinyRefs[index].endurance"
+                />
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 4in;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="resplendentDestinyRefs[index].resplendencies"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Advanced</div>
+      </div>
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          gap: 0.075in;
+        "
+      >
+        <div style="flex: 1">
+          <div style="text-align: center">Enhancing the Prayer Roll</div>
+          <div style="text-align: center; font-size: x-small">
+            (Charisma + Performance, diff: 6)
+          </div>
+          <div style="font-size: x-small">
+            <strong>Charms:</strong> Only specific charms work.<br />
+            <strong>Extended Prayer:</strong> A grand and long-winded ceremony
+            (+1 die to prayer).<br />
+            <strong>Petition:</strong> Cost -> Resources 2, Skills -> Wits +
+            Linguistics or Craft[Air], Difficulty -> 2 (4 if hurried), Bonus ->
+            +5 successes: -1 to prayer diff, +10 successes: -3 to prayer
+            diff.<br />
+            <strong>Cosignatories:</strong> +1 die to prayer from each signature
+            of support. Skill to sign -> Wits + Linguistics or Craft[Air]. Max
+            signatures -> one from each other caste + Essence initiates from
+            same College + 1 Solar and 1 Lunar.<br />
+            <strong>Countersignature from a god:</strong> +3 dice to prayer.
+          </div>
+        </div>
+        <div style="flex: 1">
+          <div style="text-align: center">Enhancing the Effect Roll</div>
+          <div style="text-align: center; font-size: x-small">
+            (Essence + College)
+          </div>
+          <div style="font-size: x-small">
+            <strong>Compose Plans:</strong> Time -> 1 full day (extra plans 2x
+            as long as previous), Skill -> Intelligence + Craft[Fate],
+            Difficulty per plan -> Highest Essence of being affected, Bonus -> 1
+            die to Effect for each 4 successes.<br />
+            <strong>Compute Horoscopes:</strong> Intelligence + Occult, Bonus ->
+            1 die to Effect for each 4 successes.<br />
+            <strong>Ritual Behavior:</strong> Donning a resplendent destiny of
+            the same College for 3 days adds 3 dice to Effect.<br />
+            <strong>Multiple Sidereals:</strong> Others must be cosigners and
+            have dots in that College, each adds Essence in dice to Effect.<br />
+          </div>
+        </div>
+        <div style="flex: 1">
+          <div style="text-align: center">Paradox</div>
+          <div style="text-align: center">
+            <ParadoxPoints
+              :value="paradoxRef"
+              :onUpdate="(n) => (paradoxRef = n)"
+            />
+          </div>
+          <div style="font-size: x-small">
+            <strong>Gaining Paradox:</strong> Wearing a resplendent destiny with
+            anima banner at level 4-7 (1 point), at level 8-10 (3 point, destiny
+            recede). Using specific Respendencies.<br />
+            <strong>Dissipating Paradox:</strong> Wrapped fly (~1 point): 8+25
+            hour ritual, with no essence use and no protection of Loom-enforced
+            causality. Wrapped Diamond (Paradox becomes 0): 1xp and 1 Intimacy.
+          </div>
+        </div>
+      </div>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
+    <div class="page" v-if="exaltTypeRef == 'sidereal'">
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div style="display: flex">
+        <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
+        <div style="width: 100%">
+          <div style="display: flex; justify-content: space-between">
+            <div style="flex: 1">
+              <div style="text-align: center">Cancelling Astrology</div>
+              <div style="font-size: x-small">
+                Must submit a cancellation order that should preferably be made
+                at the same time as the initial petition.<br />
+                Cosignatories and counter signatories will immediately know. If
+                created by multiple Sidereals, all must be present at the
+                cancellation Prayer roll: 3 diff.
+              </div>
+            </div>
+            <div style="flex: 1">
+              <div style="text-align: center">Outside Fate</div>
+              <div style="font-size: x-small">
+                Creatures outside fate are invalid targets for astrology.<br />
+                In Bordermarches or Shadowlands: all rolls are at +50%
+                difficulty.<br />
+                In Middlemarches, the Underworld, or Autochthonia: all rolls are
+                at +75% difficulty. In Deep Wyld, Chaos, Malfeas, and the
+                Labyrinth: astrology effects become impossible.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="full-bar-with-text">
+        <img :src="fullBar" style="width: 7.5in" alt="bar" />
+        <div style="padding-block: 0">Destinies</div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse">
+        <thead>
+          <tr style="text-align: left">
+            <th>Type</th>
+            <th>Providence</th>
+            <th>Scope</th>
+            <th>Frequency</th>
+            <th>Duration</th>
+            <th>Trigger</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(val, index) in astrologyRefs">
+            <tr
+              :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
+            >
+              <td
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.8in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <select
+                  style="
+                    width: 100%;
+                    height: 16px;
+                    box-sizing: border-box;
+                    border: none;
+                    background: transparent;
+                    font-size: x-small;
+                    border-radius: 0%;
+                  "
+                  v-model="astrologyRefs[index].type"
+                >
+                  <option value=""></option>
+                  <option value="ascending">Ascending</option>
+                  <option value="descending">Descending</option>
+                </select>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 2.5in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="astrologyRefs[index].providence"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="astrologyRefs[index].scope"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 1in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="astrologyRefs[index].frequency"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  width: 0.75in;
+                  height: 14px;
+                  line-height: 14px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="astrologyRefs[index].duration"
+                ></textarea>
+              </td>
+              <td
+                rowspan="2"
+                style="
+                  border: 1px solid black;
+                  padding: 0;
+                  height: 28px;
+                  line-height: 28px;
+                "
+              >
+                <textarea
+                  style="
+                    width: 100%;
+                    height: 30px;
+                    display: block;
+                    resize: none;
+                    border: none;
+                    box-sizing: border-box;
+                    background: transparent;
+                    font-size: x-small;
+                  "
+                  v-model="astrologyRefs[index].trigger"
+                ></textarea>
+              </td>
+            </tr>
+            <tr style="height: 16px"></tr>
+          </template>
+        </tbody>
+      </table>
+      <img :src="fullBar" style="width: 7.5in" alt="bar" />
+    </div>
+
     <div class="page">
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
@@ -4846,8 +5645,11 @@ const tormentRef = ref("");
 const abscissicPlateRef = ref("");
 const abscissicConditionRef = ref("");
 const flawedVirtueRef = ref("");
-
-const resonanceEffectRefs = ref([{}]);
+const flawedFateRef = ref("");
+const nearOtherSiderealsRef = ref(
+  "Roll Limit around other Sidereals (6-10 Sidereals: 1 die, 11-90: 2 dice, 91-100: 3 dice).",
+);
+const fateRef = ref("");
 
 const limitRef = ref(0);
 const clarityRef = ref(0);
@@ -5502,6 +6304,328 @@ const generalCharmSlotsTotalRef = ref(0);
 const dedicatedCharmSlotsUsedRef = ref(0);
 const dedicatedCharmSlotsTotalRef = ref(0);
 
+const greaterSignRef = ref("");
+const collegeRefs = ref({
+  "the-captain": 0,
+  "the-gull": 0,
+  "the-mast": 0,
+  "the-messenger": 0,
+  "the-ships-wheel": 0,
+  "the-ewer": 0,
+  "the-lovers": 0,
+  "the-musician": 0,
+  "the-peacock": 0,
+  "the-pillar": 0,
+  "the-banner": 0,
+  "the-gauntlet": 0,
+  "the-quiver": 0,
+  "the-shield": 0,
+  "the-spear": 0,
+  "the-guardians": 0,
+  "the-key": 0,
+  "the-mask": 0,
+  "the-sorcerer": 0,
+  "the-treasure-trove": 0,
+  "the-corpse": 0,
+  "the-crow": 0,
+  "the-haywain": 0,
+  "the-rising-smoke": 0,
+  "the-sword": 0,
+});
+const resplendentDestinyRefs = ref([
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+  {
+    wear: false,
+    college: "",
+    identity: "",
+    duration: "",
+    endurance: "",
+    resplendencies: "",
+  },
+]);
+const paradoxRef = ref(0);
+const astrologyRefs = ref([
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+  {
+    type: "",
+    providence: "",
+    scope: "",
+    frequency: "",
+    duration: "",
+    trigger: "",
+  },
+]);
+
 const possessionsRef = ref("");
 
 const totalXpRef = ref(0);
@@ -5630,6 +6754,19 @@ watch(primaryVirtueRef, () => {
       ].partialControl;
     noControlRef.value =
       exaltData[exaltTypeRef.value].virtues[primaryVirtueRef.value].noControl;
+  }
+});
+
+watch(flawedFateRef, () => {
+  if (
+    Object.keys(exaltData[exaltTypeRef.value].flawedFates).includes(
+      flawedFateRef.value,
+    )
+  ) {
+    limitBreakDurationRef.value =
+      "One episode (usually, a single game session).";
+    fateRef.value =
+      exaltData[exaltTypeRef.value].flawedFates[flawedFateRef.value].fate;
   }
 });
 
@@ -5789,6 +6926,9 @@ function createSheetJSON() {
       torment: tormentRef.value,
       abscissicPlate: abscissicPlateRef.value,
       abscissicCondition: abscissicConditionRef.value,
+      flawedVirtue: flawedVirtueRef.value,
+      nearOtherSidereals: nearOtherSiderealsRef.value,
+      fate: fateRef.value,
       limit: limitRef.value,
       clarity: clarityRef.value,
       intimaciesLeft: intimaciesLeftRef.value,
@@ -5826,6 +6966,15 @@ function createSheetJSON() {
       artifact: toRaw(artifactRefs.value),
       manse: toRaw(manseRefs.value),
       background: toRaw(backgroundRefs.value),
+      generalCharmSlotsUsed: generalCharmSlotsUsedRef.value,
+      generalCharmSlotsTotal: generalCharmSlotsTotalRef.value,
+      dedicatedCharmSlotsUsed: dedicatedCharmSlotsUsedRef.value,
+      dedicatedCharmSlotsTotal: dedicatedCharmSlotsTotalRef.value,
+      greaterSign: greaterSignRef.value,
+      college: toRaw(collegeRefs.value),
+      resplendentDestiny: toRaw(resplendentDestinyRefs.value),
+      paradox: paradoxRef.value,
+      astrology: toRaw(astrologyRefs.value),
       possessions: possessionsRef.value,
       totalXp: totalXpRef.value,
       totalXpSpent: totalXpSpentRef.value,
@@ -5934,6 +7083,9 @@ const loadSheet = (data) => {
     tormentRef.value = loadedFile.torment;
     abscissicPlateRef.value = loadedFile.abscissicPlate;
     abscissicConditionRef.value = loadedFile.abscissicCondition;
+    flawedFateRef.value = loadedFile.flawedFate;
+    nearOtherSiderealsRef.value = loadedFile.nearOtherSidereals;
+    fateRef.value = loadedFile.fate;
     limitRef.value = loadedFile.limit;
     clarityRef.value = loadedFile.clarity;
     intimaciesLeftRef.value = loadedFile.intimaciesLeft;
@@ -5967,6 +7119,15 @@ const loadSheet = (data) => {
     artifactRefs.value = loadedFile.artifact;
     manseRefs.value = loadedFile.manse;
     backgroundRefs.value = loadedFile.background;
+    generalCharmSlotsUsedRef.value = loadedFile.generalCharmSlotsUsed;
+    generalCharmSlotsTotalRef.value = loadedFile.generalCharmSlotsTotal;
+    dedicatedCharmSlotsUsedRef.value = loadedFile.dedicatedCharmSlotsUsed;
+    dedicatedCharmSlotsTotalRef.value = loadedFile.dedicatedCharmSlotsTotal;
+    greaterSignRef.value = loadedFile.greaterSign;
+    collegeRefs.value = loadedFile.college;
+    resplendentDestinyRefs.value = loadedFile.resplendentDestiny;
+    paradoxRef.value = loadedFile.paradox;
+    astrologyRef.value = loadedFile.astrology;
     possessionsRef.value = loadedFile.possessions;
     totalXpRef.value = loadedFile.totalXp;
     totalXpSpentRef.value = loadedFile.totalXpSpent;

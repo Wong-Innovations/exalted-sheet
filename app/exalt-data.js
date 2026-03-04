@@ -901,6 +901,30 @@ export const exaltData = {
         "Adds one to damage in step 10 to all attacks that give any damage for a scene, including attacks by allies with Essence * 10 meters (10/5/1 mote(s)).",
       ],
     },
+    flawedFates: {
+      "Chosen of Battles": {
+        fate: "Forces you to advocate, seek, or cause ever-greater conflicts.",
+      },
+      "Chosen of Endings": {
+        fate: "Make you advocate, seek, or cause the greatest endings with most meaningful changes.",
+      },
+      "Chosen of Journeys": {
+        fate: "Drive you to advocate, seek, or cause the greatest journeys.",
+      },
+      "Chosen of Secrets": {
+        fate: "Inspire you to advocate, seek, or cause the wielding of your most powerful secrets to great effect.",
+      },
+      "Chosen of Serenity": {
+        fate: "Lead you to advocate, seek, or cause moments of extreme joy in own and others' lives.",
+      },
+    },
+    greaterSign: {
+      Jupiter: "",
+      Mars: "",
+      Mercury: "",
+      Saturn: "",
+      Venus: "",
+    },
     health: {
       zero: [
         [
@@ -935,6 +959,16 @@ export const exaltData = {
           "locked",
         ],
       ],
+    },
+    primaryVirtue: {
+      Compassion:
+        "Spending Willpower to act against Compassion (+1). Affects fate counter to Compassion (+Compassion dice).",
+      Conviction:
+        "Spending Willpower to act against Conviction (+1). Affects fate counter to Conviction (+Conviction dice).",
+      Temperance:
+        "Spending Willpower to act against Temperance (+1). Affects fate counter to Temperance (+Temperance dice).",
+      Valor:
+        "Spending Willpower to act against Valor (+1). Affects fate counter to Valor (+Valor dice).",
     },
   },
   "dragon-blooded": {
