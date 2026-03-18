@@ -6107,10 +6107,12 @@ const pickerApiLoaded = ref(false);
 const developerKey = "AIzaSyDSjm_zgeBR5OzXh8RHUjo7aFHl-1KDaBk"; //Google project API key
 const clientId =
   "1084606237071-t97gt0austpi801grths76ph6pmsuqab.apps.googleusercontent.com"; //Google project OAuth Client ID
-const scope = [
-  "https://www.googleapis.com/auth/drive.readonly",
-  "https://www.googleapis.com/auth/drive.file",
-].join(" ");
+// const scope = [
+//   "https://www.googleapis.com/auth/drive.readonly",
+//   "https://www.googleapis.com/auth/drive.file",
+// ].join(" ");
+
+const scope = "https://www.googleapis.com/auth/drive";
 const oauthToken = ref(null);
 const fileId = ref(null);
 
@@ -7844,7 +7846,7 @@ const pickerCallback = async (data) => {
     //get only first document of array of selected docs
     var doc = data[google.picker.Response.DOCUMENTS][0];
     if (doc) {
-      fileId.value = doc.name;
+      fileId.value = doc.id;
       //generate the download URL for this doc
       //the alt=media is important for ensuring the content of the file is placed in response body
       var downloadUrl =
@@ -7878,7 +7880,26 @@ const downloadFile = async (downloadUrl, callback) => {
 };
 
 const saveSheetToDrive = async () => {
-  fileId == null ? uploadDriveFile() : updateDriveFile();
+  if (fileId.value == null) {
+    if (oauthToken.value == null) {
+      google.accounts.oauth2
+        .initTokenClient({
+          client_id: clientId,
+          scope: scope,
+          callback: (authResult) => {
+            if (authResult && !authResult.error) {
+              oauthToken.value = authResult.access_token;
+              uploadDriveFile();
+            }
+          },
+        })
+        .requestAccessToken();
+    } else {
+      uploadDriveFile();
+    }
+  } else {
+    updateDriveFile();
+  }
 };
 
 const uploadDriveFile = async () => {
@@ -7900,6 +7921,7 @@ const uploadDriveFile = async () => {
 };
 
 const updateDriveFile = async () => {
+  console.log(oauthToken.value);
   const response = await fetch(
     `https://www.googleapis.com/upload/drive/v3/files/${fileId.value}?uploadType=media`,
     {
@@ -7913,6 +7935,7 @@ const updateDriveFile = async () => {
   );
 
   if (!response.ok) {
+    console.log(await response.text());
     throw new Error("Drive save failed");
   }
 };
