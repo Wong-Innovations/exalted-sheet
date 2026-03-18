@@ -6107,7 +6107,10 @@ const pickerApiLoaded = ref(false);
 const developerKey = "AIzaSyDSjm_zgeBR5OzXh8RHUjo7aFHl-1KDaBk"; //Google project API key
 const clientId =
   "1084606237071-t97gt0austpi801grths76ph6pmsuqab.apps.googleusercontent.com"; //Google project OAuth Client ID
-const scope = "https://www.googleapis.com/auth/drive.file";
+const scope = [
+  "https://www.googleapis.com/auth/drive.readonly",
+  "https://www.googleapis.com/auth/drive.file",
+].join(" ");
 const oauthToken = ref(null);
 const fileId = ref(null);
 
@@ -7395,6 +7398,7 @@ watch(primaryVirtueRef, () => {
 
 watch(flawedFateRef, () => {
   if (
+    exaltData[exaltTypeRef.value].flawedFates &&
     Object.keys(exaltData[exaltTypeRef.value].flawedFates).includes(
       flawedFateRef.value,
     )
@@ -7768,7 +7772,7 @@ const loadSheet = (data) => {
     collegeRefs.value = loadedFile.college;
     resplendentDestinyRefs.value = loadedFile.resplendentDestiny;
     paradoxRef.value = loadedFile.paradox;
-    astrologyRef.value = loadedFile.astrology;
+    astrologyRefs.value = loadedFile.astrology;
     warformGiftsRefs.value = loadedFile.warformGifts;
     warformMutationsRefs.value = loadedFile.warformMutations;
     warformFuryRefs.value = loadedFile.warformFury;
@@ -7795,7 +7799,6 @@ const loadSheet = (data) => {
   }
 };
 
-//Called when user clicks on drive icon
 const loadSheetFromDrive = () => {
   google.accounts.oauth2
     .initTokenClient({
@@ -7841,13 +7844,13 @@ const pickerCallback = async (data) => {
     //get only first document of array of selected docs
     var doc = data[google.picker.Response.DOCUMENTS][0];
     if (doc) {
-      fileId.value = doc.id;
+      fileId.value = doc.name;
       //generate the download URL for this doc
       //the alt=media is important for ensuring the content of the file is placed in response body
       var downloadUrl =
         "https://www.googleapis.com/drive/v2/files/" +
         doc.id +
-        "v" +
+        "?key=" +
         developerKey +
         " HTTP/1.1&alt=media";
       downloadFile(downloadUrl, (content) => loadSheet(content));
