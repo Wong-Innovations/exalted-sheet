@@ -7643,13 +7643,16 @@ function createSheetJSON() {
   );
 }
 
+const getSuggestedFilename = () => {
+  return characterNameRef.value !== ""
+    ? characterNameRef.value.toLowerCase().replaceAll(" ", "-") + ".json"
+    : exaltTypeRef.value.toLowerCase().replaceAll(" ", "-") + ".json";
+};
+
 async function saveSheetToLocal() {
   const json = createSheetJSON();
 
-  const filename =
-    characterNameRef.value !== ""
-      ? characterNameRef.value.toLowerCase().replaceAll(" ", "-") + ".json"
-      : exaltTypeRef.value.toLowerCase().replaceAll(" ", "-") + ".json";
+  const filename = getSuggestedFilename();
 
   const blob = new Blob([json], { type: "application/json" });
   if ("showSaveFilePicker" in window) {
@@ -7903,25 +7906,43 @@ const saveSheetToDrive = async () => {
 };
 
 const uploadDriveFile = async () => {
+  const form = new FormData();
+  form.append(
+    "metadata",
+    new Blob(
+      [
+        JSON.stringify({
+          name: getSuggestedFilename(),
+          mimeType: "application/json",
+        }),
+      ],
+      { type: "application/json" },
+    ),
+  );
+  form.append(
+    "file",
+    new Blob([createSheetJSON()], { type: "application/json" }),
+  );
+
   const response = await fetch(
-    "https://www.googleapis.com/upload/drive/v3/files?uploadType=media",
+    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
     {
       method: "POST",
       headers: {
         Authorization: `Bearer ${oauthToken.value}`,
-        "Content-Type": "application/json",
       },
-      body: createSheetJSON(),
+      body: form,
     },
   );
 
   if (!response.ok) {
     throw new Error("Drive save failed");
+  } else {
+    fileId.value = (await response.json()).id;
   }
 };
 
 const updateDriveFile = async () => {
-  console.log(oauthToken.value);
   const response = await fetch(
     `https://www.googleapis.com/upload/drive/v3/files/${fileId.value}?uploadType=media`,
     {
