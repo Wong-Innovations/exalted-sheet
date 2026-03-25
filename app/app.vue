@@ -129,292 +129,287 @@
         <tbody>
           <tr>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'strength',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Strength_"
-                  : "Strength____"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="strengthRef"
-                :onUpdate="(n) => (strengthRef = n)"
-                source="strength"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'strength',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'strength',
+                    )
+                  "
+                />
+                <div>Strength</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="strengthRef"
+                  :onUpdate="(n) => (strengthRef = n)"
+                  source="strength"
+                />
+              </div>
             </td>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'charisma',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Charisma___"
-                  : "Charisma_______"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="charismaRef"
-                :onUpdate="(n) => (charismaRef = n)"
-                source="charisma"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'charisma',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'charisma',
+                    )
+                  "
+                />
+                <div>Charisma</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="charismaRef"
+                  :onUpdate="(n) => (charismaRef = n)"
+                  source="charisma"
+                />
+              </div>
             </td>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'perception',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Perception"
-                  : "Perception_____"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="perceptionRef"
-                :onUpdate="(n) => (perceptionRef = n)"
-                source="perception"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'perception',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'perception',
+                    )
+                  "
+                />
+                <div>Perception</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="perceptionRef"
+                  :onUpdate="(n) => (perceptionRef = n)"
+                  source="perception"
+                />
+              </div>
             </td>
           </tr>
           <tr>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'dexterity',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Dexterity"
-                  : "Dexterity___"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="dexterityRef"
-                :onUpdate="(n) => (dexterityRef = n)"
-                source="dexterity"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'dexterity',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'dexterity',
+                    )
+                  "
+                />
+                <div>Dexterity</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="dexterityRef"
+                  :onUpdate="(n) => (dexterityRef = n)"
+                  source="dexterity"
+                />
+              </div>
             </td>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'manipulation',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Manipulation"
-                  : "Manipulation___"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="manipulationRef"
-                :onUpdate="(n) => (manipulationRef = n)"
-                source="manipulation"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'manipulation',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'manipulation',
+                    )
+                  "
+                />
+                <div>Manipulation</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="manipulationRef"
+                  :onUpdate="(n) => (manipulationRef = n)"
+                  source="manipulation"
+                />
+              </div>
             </td>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'intelligence',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Intelligence"
-                  : "Intelligence___"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="intelligenceRef"
-                :onUpdate="(n) => (intelligenceRef = n)"
-                source="intelligence"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'intelligence',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'intelligence',
+                    )
+                  "
+                />
+                <div>Intelligence</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="intelligenceRef"
+                  :onUpdate="(n) => (intelligenceRef = n)"
+                  source="intelligence"
+                />
+              </div>
             </td>
           </tr>
           <tr>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'stamina',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Stamina_"
-                  : "Stamina____"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="staminaRef"
-                :onUpdate="(n) => (staminaRef = n)"
-                source="stamina"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'stamina',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'stamina',
+                    )
+                  "
+                />
+                <div>Stamina</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="staminaRef"
+                  :onUpdate="(n) => (staminaRef = n)"
+                  source="stamina"
+                />
+              </div>
             </td>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance',
-                  )
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes(
-                    'appearance',
-                  )
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Appearance_"
-                  : "Appearance_____"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="appearanceRef"
-                :onUpdate="(n) => (appearanceRef = n)"
-                source="appearance"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'appearance',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'appearance',
+                    )
+                  "
+                />
+                <div>Appearance</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="appearanceRef"
+                  :onUpdate="(n) => (appearanceRef = n)"
+                  source="appearance"
+                />
+              </div>
             </td>
             <td>
-              <input
-                type="checkbox"
-                style="height: 14px; width: 14px; margin-block: 0"
-                v-if="
-                  Object.keys(exaltData[exaltTypeRef]).includes('attributes')
-                "
-                :checked="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes('wits')
-                "
-                :disabled="
-                  exaltData[exaltTypeRef].attributes[casteRef] &&
-                  exaltData[exaltTypeRef].attributes[casteRef].includes('wits')
-                "
-              />
-              {{
-                Object.keys(exaltData[exaltTypeRef]).includes("attributes")
-                  ? "Wits_______"
-                  : "Wits___________"
-              }}
-              <FiveDotRadio
-                class="attribute-dots"
-                :value="witsRef"
-                :onUpdate="(n) => (witsRef = n)"
-                source="wits"
-              />
+              <div style="display: flex">
+                <input
+                  type="checkbox"
+                  style="height: 14px; width: 14px; margin-block: 0"
+                  v-if="
+                    Object.keys(exaltData[exaltTypeRef]).includes('attributes')
+                  "
+                  :checked="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'wits',
+                    )
+                  "
+                  :disabled="
+                    exaltData[exaltTypeRef].attributes[casteRef] &&
+                    exaltData[exaltTypeRef].attributes[casteRef].includes(
+                      'wits',
+                    )
+                  "
+                />
+                <div>Wits</div>
+                <div style="border-bottom: 1px black solid; flex-grow: 1"></div>
+                <FiveDotRadio
+                  class="attribute-dots"
+                  :value="witsRef"
+                  :onUpdate="(n) => (witsRef = n)"
+                  source="wits"
+                />
+              </div>
             </td>
           </tr>
         </tbody>
@@ -460,7 +455,7 @@
               :style="
                 Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                   ? 'padding-inline: .2in'
-                  : ''
+                  : 'padding-inline: .1in'
               "
             >
               <AbilityScore
@@ -469,7 +464,7 @@
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[0]
                     ][index],
-                  ) + '__'
+                  )
                 "
                 :source="
                   exaltData[exaltTypeRef].abilities[
@@ -516,7 +511,7 @@
               :style="
                 Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                   ? 'padding-inline: .2in'
-                  : ''
+                  : 'padding-inline: .1in'
               "
             >
               <AbilityScore
@@ -525,7 +520,7 @@
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[1]
                     ][index],
-                  ) + '__'
+                  )
                 "
                 :source="
                   exaltData[exaltTypeRef].abilities[
@@ -572,7 +567,7 @@
               :style="
                 Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                   ? 'padding-inline: .2in'
-                  : ''
+                  : 'padding-inline: .1in'
               "
             >
               <AbilityScore
@@ -581,7 +576,7 @@
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[2]
                     ][index],
-                  ) + '__'
+                  )
                 "
                 :source="
                   exaltData[exaltTypeRef].abilities[
@@ -628,14 +623,15 @@
                   ][index] != ''
                 "
               />
-              <!-- TODO: wire up these blanks -->
               <AbilityScore
-                :label="
-                  capitalizeFirstLetter(
-                    exaltData[exaltTypeRef].abilities[
-                      Object.keys(exaltData[exaltTypeRef].abilities)[2]
-                    ][index],
-                  ) + '__'
+                :inputValue="abilityScoreRefs['other-' + (index - 5)].name"
+                :inputOnUpdate="
+                  (val) => (abilityScoreRefs['other-' + (index - 5)].name = val)
+                "
+                :value="abilityScoreRefs['other-' + (index - 5)].value"
+                :onUpdate="
+                  (val) =>
+                    (abilityScoreRefs['other-' + (index - 5)].value = val)
                 "
                 :source="'other' + (index - 5)"
                 :checkbox="
@@ -675,14 +671,14 @@
               Object.keys(exaltData[exaltTypeRef].abilities)[3]
             ]"
           >
-            <td>
+            <td style="padding-inline: 0.1in">
               <AbilityScore
                 :label="
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[3]
                     ][index],
-                  ) + '__'
+                  )
                 "
                 :source="
                   exaltData[exaltTypeRef].abilities[
@@ -725,14 +721,14 @@
                 "
               />
             </td>
-            <td>
+            <td style="padding-inline: 0.1in">
               <AbilityScore
                 :label="
                   capitalizeFirstLetter(
                     exaltData[exaltTypeRef].abilities[
                       Object.keys(exaltData[exaltTypeRef].abilities)[4]
                     ][index],
-                  ) + '__'
+                  )
                 "
                 :source="
                   exaltData[exaltTypeRef].abilities[
@@ -775,11 +771,17 @@
                 "
               />
             </td>
-            <td>
-              <!-- TODO: need to wire this up too -->
+            <td style="padding-inline: 0.1in">
               <AbilityScore
-                label="__"
-                :source="'other' + index"
+                :inputValue="abilityScoreRefs['other-' + index].name"
+                :inputOnUpdate="
+                  (val) => (abilityScoreRefs['other-' + index].name = val)
+                "
+                :value="abilityScoreRefs['other-' + index].value"
+                :onUpdate="
+                  (val) => (abilityScoreRefs['other-' + index].value = val)
+                "
+                :source="'other-' + index"
                 :checkbox="
                   !Object.keys(exaltData[exaltTypeRef]).includes('attributes')
                 "
@@ -1611,7 +1613,6 @@
               v-model="limitBreakDurationRef"
               style="width: 2.9in; font-size: x-small"
             />
-            <!-- TODO: Why these no display / update also add to saving and loading -->
             <div style="width: 2.2in; text-align: center">
               <LimitPoints
                 :value="limitRef"
@@ -1679,7 +1680,6 @@
               v-model="limitBreakDurationRef"
               style="width: 2.9in; font-size: x-small"
             />
-            <!-- TODO: Why these no display / update also add to saving and loading -->
             <div style="width: 2.2in; text-align: center">
               <LimitPoints
                 :value="limitRef"
@@ -1896,7 +1896,6 @@
               v-model="limitBreakDurationRef"
               style="width: 2.9in; font-size: x-small"
             />
-            <!-- TODO: Why these no display / update also add to saving and loading -->
             <div style="width: 2.2in; text-align: center">
               <LimitPoints
                 :value="limitRef"
@@ -6160,6 +6159,11 @@ const abilityScoreRefs = ref({
   ride: 0,
   sail: 0,
   socialize: 0,
+  "other-0": { name: "", value: 0 },
+  "other-1": { name: "", value: 0 },
+  "other-2": { name: "", value: 0 },
+  "other-3": { name: "", value: 0 },
+  "other-4": { name: "", value: 0 },
 });
 
 const essenceRef = ref(1);

@@ -7,7 +7,22 @@
       :checked="props.checked"
       :disabled="props.disabled"
     />
-    <div style="font-size: small">{{ props.label }}</div>
+    <div style="font-size: small" v-if="props.label">{{ props.label }}</div>
+    <input
+      :value="props.inputValue"
+      @update="props.inputOnUpdate($event.target.value)"
+      v-if="props.inputOnUpdate"
+      style="
+        border: none;
+        border-bottom: 1px black solid;
+        flex-grow: 1;
+        min-width: 0;
+      "
+    />
+    <div
+      style="border-bottom: 1px black solid; flex-grow: 1"
+      v-if="props.label"
+    ></div>
     <div class="rating">
       <input
         type="radio"
@@ -95,6 +110,8 @@ const props = defineProps([
   "disabled",
   "onUpdate",
   "value",
+  "inputValue",
+  "inputOnUpdate",
 ]);
 
 const handleUpdate = (newVal) =>
