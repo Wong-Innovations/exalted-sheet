@@ -2645,7 +2645,7 @@
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
     </div>
 
-    <div class="page">
+    <div v-for="charmPage in Array(charmRefs.length / 24).keys()" class="page">
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -2901,7 +2901,12 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="(val, index) in charmRefs">
+          <template
+            v-for="(val, index) in charmRefs.slice(
+              charmPage * 24,
+              (charmPage + 1) * 24,
+            )"
+          >
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
@@ -2941,7 +2946,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="charmRefs[index].name"
+                  v-model="charmRefs[index + charmPage * 24].name"
                 />
               </td>
               <td
@@ -2963,7 +2968,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="charmRefs[index].cost"
+                  v-model="charmRefs[index + charmPage * 24].cost"
                 />
               </td>
               <td
@@ -2985,7 +2990,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="charmRefs[index].duration"
+                  v-model="charmRefs[index + charmPage * 24].duration"
                 />
               </td>
               <td
@@ -3007,7 +3012,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="charmRefs[index].type"
+                  v-model="charmRefs[index + charmPage * 24].type"
                 />
               </td>
               <td
@@ -3031,7 +3036,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="charmRefs[index].keywords"
+                  v-model="charmRefs[index + charmPage * 24].keywords"
                 ></textarea>
               </td>
               <td
@@ -3055,7 +3060,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="charmRefs[index].effect"
+                  v-model="charmRefs[index + charmPage * 24].effect"
                 ></textarea>
               </td>
             </tr>
@@ -3064,9 +3069,32 @@
         </tbody>
       </table>
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.2in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            charmPage == charmRefs.length / 24 - 1 &&
+            charmRefs.length > initialValues.charms.length
+          "
+          @click.prevent="removeCharmPage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="charmPage == charmRefs.length / 24 - 1"
+          @click.prevent="addNewCharmPage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
-    <div class="page">
+    <div v-for="comboPage in Array(comboRefs.length / 24).keys()" class="page">
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -3281,7 +3309,12 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="(val, index) in comboRefs">
+          <template
+            v-for="(val, index) in comboRefs.slice(
+              comboPage * 24,
+              (comboPage + 1) * 24,
+            )"
+          >
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
@@ -3304,7 +3337,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="comboRefs[index].name"
+                  v-model="comboRefs[index + comboPage * 24].name"
                 />
               </td>
               <td
@@ -3326,7 +3359,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="comboRefs[index].cost"
+                  v-model="comboRefs[index + comboPage * 24].cost"
                 />
               </td>
               <td
@@ -3350,7 +3383,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="comboRefs[index].charms"
+                  v-model="comboRefs[index + comboPage * 24].charms"
                 ></textarea>
               </td>
             </tr>
@@ -3359,9 +3392,35 @@
         </tbody>
       </table>
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.2in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            comboPage == comboRefs.length / 24 - 1 &&
+            comboRefs.length > initialValues.combos.length
+          "
+          @click.prevent="removeComboPage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="comboPage == comboRefs.length / 24 - 1"
+          @click.prevent="addNewComboPage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
-    <div class="page">
+    <div
+      v-for="sorceryPage in Array(sorceryRefs.length / 24).keys()"
+      class="page"
+    >
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -3579,7 +3638,12 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="(val, index) in sorceryRefs">
+          <template
+            v-for="(val, index) in sorceryRefs.slice(
+              sorceryPage * 24,
+              (sorceryPage + 1) * 24,
+            )"
+          >
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
@@ -3602,7 +3666,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="sorceryRefs[index].name"
+                  v-model="sorceryRefs[index + sorceryPage * 24].name"
                 />
               </td>
               <td
@@ -3624,7 +3688,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="sorceryRefs[index].cost"
+                  v-model="sorceryRefs[index + sorceryPage * 24].cost"
                 />
               </td>
               <td
@@ -3646,7 +3710,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="sorceryRefs[index].type"
+                  v-model="sorceryRefs[index + sorceryPage * 24].type"
                 />
               </td>
               <td
@@ -3670,7 +3734,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="sorceryRefs[index].duration"
+                  v-model="sorceryRefs[index + sorceryPage * 24].duration"
                 ></textarea>
               </td>
               <td
@@ -3694,7 +3758,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="sorceryRefs[index].target"
+                  v-model="sorceryRefs[index + sorceryPage * 24].target"
                 ></textarea>
               </td>
               <td
@@ -3718,7 +3782,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="sorceryRefs[index].effect"
+                  v-model="sorceryRefs[index + sorceryPage * 24].effect"
                 ></textarea>
               </td>
             </tr>
@@ -3727,9 +3791,35 @@
         </tbody>
       </table>
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.2in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            sorceryPage == sorceryRefs.length / 24 - 1 &&
+            sorceryRefs.length > initialValues.sorcery.length
+          "
+          @click.prevent="removeSorceryPage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="sorceryPage == sorceryRefs.length / 24 - 1"
+          @click.prevent="addNewSorceryPage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
-    <div class="page">
+    <div
+      v-for="artifactPage in Array(artifactRefs.length / 24).keys()"
+      class="page"
+    >
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -3942,7 +4032,12 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="(val, index) in artifactRefs">
+          <template
+            v-for="(val, index) in artifactRefs.slice(
+              artifactPage * 24,
+              (artifactPage + 1) * 24,
+            )"
+          >
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
@@ -3957,11 +4052,11 @@
                 "
               >
                 <FiveDotWonder
-                  :source="`artifact${index}`"
-                  :value="artifactRefs[index].rating"
+                  :source="`artifact-${index + artifactPage * 24}`"
+                  :value="artifactRefs[index + artifactPage * 24].rating"
                   :onUpdate="
                     (value) => {
-                      artifactRefs[index].rating = value;
+                      artifactRefs[index + artifactPage * 24].rating = value;
                     }
                   "
                 />
@@ -3985,7 +4080,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="artifactRefs[index].name"
+                  v-model="artifactRefs[index + artifactPage * 24].name"
                 />
               </td>
               <td
@@ -4009,7 +4104,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="artifactRefs[index].description"
+                  v-model="artifactRefs[index + artifactPage * 24].description"
                 ></textarea>
               </td>
             </tr>
@@ -4018,9 +4113,32 @@
         </tbody>
       </table>
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.2in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            artifactPage == artifactRefs.length / 24 - 1 &&
+            artifactRefs.length > initialValues.artifacts.length
+          "
+          @click.prevent="removeArtifactPage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="artifactPage == artifactRefs.length / 24 - 1"
+          @click.prevent="addNewArtifactPage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
-    <div class="page">
+    <div v-for="mansePage in Array(manseRefs.length / 24).keys()" class="page">
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -4239,7 +4357,12 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="(val, index) in artifactRefs">
+          <template
+            v-for="(val, index) in manseRefs.slice(
+              mansePage * 24,
+              (mansePage + 1) * 24,
+            )"
+          >
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
@@ -4254,11 +4377,11 @@
                 "
               >
                 <FiveDotWonder
-                  :source="`artifact${index}`"
-                  :value="artifactRefs[index].rating"
+                  :source="`manse-${index + mansePage * 24}`"
+                  :value="manseRefs[index + mansePage * 24].rating"
                   :onUpdate="
                     (value) => {
-                      manseRefs[index].rating = value;
+                      manseRefs[index + mansePage * 24].rating = value;
                     }
                   "
                 />
@@ -4282,7 +4405,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="manseRefs[index].name"
+                  v-model="manseRefs[index + mansePage * 24].name"
                 />
               </td>
               <td
@@ -4306,7 +4429,7 @@
                     background: transparent;
                     font-size: x-small;
                   "
-                  v-model="manseRefs[index].description"
+                  v-model="manseRefs[index + mansePage * 24].description"
                 ></textarea>
               </td>
             </tr>
@@ -4315,6 +4438,29 @@
         </tbody>
       </table>
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.2in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            mansePage == manseRefs.length / 24 - 1 &&
+            manseRefs.length > initialValues.manse.length
+          "
+          @click.prevent="removeMansePage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="mansePage == manseRefs.length / 24 - 1"
+          @click.prevent="addNewMansePage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
     <div class="page" v-if="exaltTypeRef == 'sidereal'">
@@ -6096,6 +6242,7 @@ import { ref, watch, computed, toRaw } from "vue";
 import ThreeDotRadio from "./components/ThreeDotRadio.vue";
 import HealthLevelRow from "./components/HealthLevelRow.vue";
 import { exaltData } from "./exalt-data";
+import { initialValues } from "./sheet-data";
 import ThreeDotEssence from "./components/ThreeDotEssence.vue";
 import WillpowerDots from "./components/WillpowerDots.vue";
 import VirtueDots from "./components/VirtueDots.vue";
@@ -6521,332 +6668,15 @@ const languageRefs = ref([
   { name: "", value: false },
 ]);
 
-const charmRefs = ref([
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-  {
-    name: "",
-    cost: "",
-    duration: "",
-    type: "",
-    keywords: "",
-    effect: "",
-    use: false,
-  },
-]);
+const charmRefs = ref(structuredClone(initialValues.charms));
 
-const comboRefs = ref([
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-  { name: "", cost: "", charms: "" },
-]);
+const comboRefs = ref(structuredClone(initialValues.combos));
 
-const sorceryRefs = ref([
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-  { name: "", cost: "", duration: "", type: "", target: "", effect: "" },
-]);
+const sorceryRefs = ref(structuredClone(initialValues.sorcery));
 
-const artifactRefs = ref([
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-  { name: "", rating: "", description: "" },
-]);
+const artifactRefs = ref(structuredClone(initialValues.artifacts));
 
-const manseRefs = ref([
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-]);
+const manseRefs = ref(structuredClone(initialValues.manse));
 
 const backgroundRefs = ref([
   { name: "", rating: 0, description: "" },
@@ -7532,6 +7362,50 @@ function capitalizeFirstLetter(string) {
   return splitStr.join(" ");
 }
 
+function removeCharmPage() {
+  charmRefs.value.splice(-24);
+}
+
+function addNewCharmPage() {
+  charmRefs.value.push(...initialValues.charms.map((c) => structuredClone(c)));
+}
+
+function removeComboPage() {
+  comboRefs.value.splice(-24);
+}
+
+function addNewComboPage() {
+  comboRefs.value.push(...initialValues.combos.map((c) => structuredClone(c)));
+}
+
+function removeSorceryPage() {
+  sorceryRefs.value.splice(-24);
+}
+
+function addNewSorceryPage() {
+  sorceryRefs.value.push(
+    ...initialValues.sorcery.map((c) => structuredClone(c)),
+  );
+}
+
+function removeArtifactPage() {
+  artifactRefs.value.splice(-24);
+}
+
+function addNewArtifactPage() {
+  artifactRefs.value.push(
+    ...initialValues.artifacts.map((c) => structuredClone(c)),
+  );
+}
+
+function removeMansePage() {
+  manseRefs.value.splice(-24);
+}
+
+function addNewMansePage() {
+  manseRefs.value.push(...initialValues.manse.map((c) => structuredClone(c)));
+}
+
 function createSheetJSON() {
   return JSON.stringify(
     {
@@ -8013,6 +7887,7 @@ const updateDriveFile = async () => {
   background-color: white;
   margin: 1rem auto;
   box-sizing: border-box;
+  position: relative;
 }
 .text-input {
   border: none;
