@@ -826,40 +826,50 @@
               v-if="exaltTypeRef == 'heroic-mortal'"
             />
           </div>
-          <div style="margin-top: 0.15in; margin-left: 0.25in">
+          <div style="margin-top: 0.15in; margin-left: 0.2in">
             Personal:&nbsp;&nbsp;&nbsp;
             <input
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              v-model="moteRefs.personal.available"
             />
             <span style="font-size: x-large">/</span>
             <input
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              v-model="moteRefs.personal.total"
+            />
+            <span style="font-size: x-large">/</span>
+            <input
+              type="text"
+              class="text-input"
+              style="position: relative; width: 0.35in; font-size: large"
+              v-model="moteRefs.personal.commited"
             />
           </div>
-          <div style="margin-top: 0.1in; margin-left: 0.25in">
+          <div style="margin-top: 0.1in; margin-left: 0.2in">
             Peripheral:
             <input
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              v-model="moteRefs.peripheral.available"
             />
             <span style="font-size: x-large">/</span>
             <input
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              v-model="moteRefs.peripheral.total"
             />
-          </div>
-          <div style="margin-top: 0.15in; margin-left: 0.25in">
-            Commited:
+            <span style="font-size: x-large">/</span>
             <input
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              v-model="moteRefs.peripheral.commited"
             />
           </div>
         </div>
@@ -1401,26 +1411,239 @@
           <tr style="background-color: #eee">
             <td style="border: 1px solid black">Investigation</td>
             <td style="border: 1px solid black; text-align: center">5</td>
-            <td style="border: 1px solid black; text-align: center"></td>
-            <td style="border: 1px solid black; text-align: center"></td>
+            <td
+              style="width: 1.2in; border: 1px solid black; text-align: center"
+            >
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[0].accuracy.charisma"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[0].accuracy.manipulation"
+                />
+              </div>
+            </td>
+            <td
+              style="width: 1.2in; border: 1px solid black; text-align: center"
+            >
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[0].pmdv.charisma"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[0].pmdv.manipulation"
+                />
+              </div>
+            </td>
             <td style="border: 1px solid black; text-align: center">2</td>
-            <td style="border: 1px solid black"></td>
+            <td style="border: 1px solid black">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 99%;
+                  height: 100%;
+                  font-size: small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="socialAttackRefs[0].notes"
+              />
+            </td>
           </tr>
           <tr>
             <td style="border: 1px solid black">Performance</td>
             <td style="border: 1px solid black; text-align: center">6</td>
-            <td style="border: 1px solid black; text-align: center"></td>
-            <td style="border: 1px solid black; text-align: center"></td>
+            <td
+              style="width: 1.2in; border: 1px solid black; text-align: center"
+            >
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[1].accuracy.charisma"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[1].accuracy.manipulation"
+                />
+              </div>
+            </td>
+            <td
+              style="width: 1.2in; border: 1px solid black; text-align: center"
+            >
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[1].pmdv.charisma"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[1].pmdv.manipulation"
+                />
+              </div>
+            </td>
             <td style="border: 1px solid black; text-align: center">1</td>
-            <td style="border: 1px solid black">Attacks a whole area</td>
+            <td style="border: 1px solid black">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 99%;
+                  height: 100%;
+                  font-size: small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="socialAttackRefs[1].notes"
+              />
+            </td>
           </tr>
           <tr style="background-color: #eee">
             <td style="border: 1px solid black">Presence</td>
             <td style="border: 1px solid black; text-align: center">4</td>
-            <td style="border: 1px solid black; text-align: center"></td>
-            <td style="border: 1px solid black; text-align: center"></td>
+            <td
+              style="width: 1.2in; border: 1px solid black; text-align: center"
+            >
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[2].accuracy.charisma"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[2].accuracy.manipulation"
+                />
+              </div>
+            </td>
+            <td
+              style="width: 1.2in; border: 1px solid black; text-align: center"
+            >
+              <div style="display: flex">
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[2].pmdv.charisma"
+                />
+                <input
+                  type="text"
+                  style="
+                    border: none;
+                    width: 50%;
+                    height: 100%;
+                    font-size: small;
+                    background-color: transparent;
+                    text-align: center;
+                  "
+                  v-model="socialAttackRefs[2].pmdv.manipulation"
+                />
+              </div>
+            </td>
             <td style="border: 1px solid black; text-align: center">2</td>
-            <td style="border: 1px solid black"></td>
+            <td style="border: 1px solid black">
+              <input
+                type="text"
+                style="
+                  border: none;
+                  width: 99%;
+                  height: 100%;
+                  font-size: small;
+                  background-color: transparent;
+                  text-align: center;
+                "
+                v-model="socialAttackRefs[2].notes"
+              />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -6315,6 +6538,11 @@ const abilityScoreRefs = ref({
 
 const essenceRef = ref(1);
 
+const moteRefs = ref({
+  personal: { available: 0, total: 0, commited: 0 },
+  peripheral: { available: 0, total: 0, commited: 0 },
+});
+
 const healthRef = ref(exaltData[exaltTypeRef.value].health);
 
 const specialtyRefs = ref([
@@ -6344,6 +6572,24 @@ const specialtyRefs = ref([
 
 const willpowerPermRef = ref(1);
 const willpowerTempRef = ref(0);
+
+const socialAttackRefs = ref([
+  {
+    accuracy: { charisma: 0, manipulation: 0 },
+    pmdv: { charisma: 0, manipulation: 0 },
+    notes: "",
+  },
+  {
+    accuracy: { charisma: 0, manipulation: 0 },
+    pmdv: { charisma: 0, manipulation: 0 },
+    notes: "Attacks a whole area.",
+  },
+  {
+    accuracy: { charisma: 0, manipulation: 0 },
+    pmdv: { charisma: 0, manipulation: 0 },
+    notes: "",
+  },
+]);
 
 const compassionPermRef = ref(1);
 const compassionTempRef = ref(0);
@@ -7424,10 +7670,12 @@ function createSheetJSON() {
       wits: witsRef.value,
       abilityScore: toRaw(abilityScoreRefs.value),
       essence: essenceRef.value,
+      motes: toRaw(moteRefs.value),
       health: toRaw(healthRef.value),
       specialty: toRaw(specialtyRefs.value),
       willpowerPerm: willpowerPermRef.value,
       willpowerTemp: willpowerTempRef.value,
+      socialAttacks: toRaw(socialAttackRefs.value),
       compassionPerm: compassionPermRef.value,
       compassionTemp: compassionTempRef.value,
       temperancePerm: temperancePermRef.value,
@@ -7589,10 +7837,12 @@ const loadSheet = (data) => {
     witsRef.value = loadedFile.wits;
     abilityScoreRefs.value = loadedFile.abilityScore;
     essenceRef.value = loadedFile.essence;
+    moteRefs.value = loadedFile.motes;
     healthRef.value = loadedFile.health;
     specialtyRefs.value = loadedFile.specialty;
     willpowerPermRef.value = loadedFile.willpowerPerm;
     willpowerTempRef.value = loadedFile.willpowerTemp;
+    socialAttackRefs.value = loadedFile.socialAttacks;
     compassionPermRef.value = loadedFile.compassionPerm;
     compassionTempRef.value = loadedFile.compassionTemp;
     temperancePermRef.value = loadedFile.temperancePerm;
