@@ -15,7 +15,15 @@
         <label for="sheet-upload" title="Upload Sheet">
           <img :src="uploadFileIcon" width="36" alt="upload sheet" />
         </label>
-        <button @click="loadSheetFromDrive" title="Load from Google Drive">
+        <button
+          @click="
+            async () =>
+              loadSheetFromDrive((authResult) =>
+                handleAuthResult(authResult, true),
+              )
+          "
+          title="Load from Google Drive"
+        >
           <img :src="driveOpenIcon" width="36" alt="load from google drive" />
         </button>
         <button @click="saveSheetToDrive" title="Save to Google Drive">
@@ -24,6 +32,33 @@
         <button @click="openPrintDialog" title="Print Sheet">
           <img :src="printIcon" width="36" alt="print sheet" />
         </button>
+        <button @click="copySheetLink" title="Share Sheet">
+          <img :src="linkIcon" width="36" alt="share sheet" />
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-mask" v-if="showOAuthModalRef">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div style="text-align: center">
+            Click to sign in with Google Drive
+          </div>
+          <button
+            style="display: block; margin: 0.1in auto 0 auto"
+            @click="
+              () => {
+                loadSheetFromDrive((authResult) => {
+                  handleAuthResult(authResult, false);
+                  showOAuthModalRef = false;
+                  loadSheetFromUrl();
+                });
+              }
+            "
+          >
+            Sign In
+          </button>
+        </div>
       </div>
     </div>
 
@@ -2851,7 +2886,6 @@
                       armorEquippedRefs[j] =
                         j == index ? !armorEquippedRefs[j] : false;
                     }
-                    console.log(armorEquippedRefs);
                   }
                 "
               />
@@ -6459,6 +6493,7 @@ import driveSaveIcon from "@/assets/img/drive-save.svg";
 import saveFileIcon from "@/assets/img/file_save.svg";
 import uploadFileIcon from "@/assets/img/upload_file.svg";
 import printIcon from "@/assets/img/print.svg";
+import linkIcon from "@/assets/img/link.svg";
 import FiveDotRadio from "./components/FiveDotRadio.vue";
 import FiveDotWonder from "./components/FiveDotWonder.vue";
 import { ref, watch, computed, toRaw } from "vue";
@@ -6484,10 +6519,26 @@ const clientId =
 const scope = "https://www.googleapis.com/auth/drive";
 const oauthToken = ref(null);
 const fileId = ref(null);
+const showOAuthModalRef = ref(false);
 
-const route = useRoute();
-const router = useRoute();
-const sheetSourceURI = ref(route.query.src || "");
+// const router = useRoute();
+onMounted(async () => {
+  loadSheetFromUrl();
+});
+
+const loadSheetFromUrl = () => {
+  const route = useRoute();
+  fileId.value = route.query.fileId;
+
+  if (fileId.value && oauthToken.value) {
+    downloadFile(
+      `https://www.googleapis.com/drive/v2/files/${fileId.value}?key=${developerKey}HTTP/1.1&alt=media`,
+      (content) => loadSheet(content),
+    );
+  } else if (fileId.value !== undefined) {
+    showOAuthModalRef.value = true;
+  }
+};
 
 const characterNameRef = ref("");
 const playerNameRef = ref("");
@@ -7384,6 +7435,18 @@ function openPrintDialog() {
   window.print();
 }
 
+function copySheetLink() {
+  if (!fileId.value) {
+    alert("File must be saved in google drive to share.");
+  } else {
+    navigator.clipboard.writeText(
+      window.location.origin +
+        window.location.pathname +
+        `?fileId=${fileId.value}`,
+    );
+  }
+}
+
 // watch(abilityScoreRefs, () => {
 //   console.log(`Integrity: ${abilityScoreRefs.value.integrity}`);
 // });
@@ -7420,21 +7483,6 @@ const joinCombatComputed = computed(() => {
 });
 
 // watch(dodgeMdvComputed, () => console.log(dodgeMdvComputed.value));
-
-watch(sheetSourceURI, (newSrc) => {
-  router.push({
-    query: { ...route.query, src: newSrc },
-  });
-});
-
-watch(
-  () => route.query.src,
-  (newSrc) => {
-    if (newSrc !== sheetSourceURI.value) {
-      sheetSourceURI.value = newSrc || "";
-    }
-  },
-);
 
 watch(exaltTypeRef, () => {
   healthRef.value = exaltData[exaltTypeRef.value].health;
@@ -7932,24 +7980,27 @@ const loadSheet = (data) => {
   }
 };
 
-const loadSheetFromDrive = () => {
+const loadSheetFromDrive = (callback) => {
   google.accounts.oauth2
     .initTokenClient({
       client_id: clientId,
       scope: scope,
-      callback: handleAuthResult,
+      callback: callback,
     })
     .requestAccessToken();
 };
 
 //handles the result from the google Auth attempt. Creates picker if success
-const handleAuthResult = (authResult) => {
+const handleAuthResult = (authResult, doPicker) => {
+  // console.log(authResult);
   if (authResult && !authResult.error) {
     oauthToken.value = authResult.access_token;
-    gapi.load("picker", () => {
-      pickerApiLoaded.value = true;
-      createPicker();
-    });
+    if (doPicker) {
+      gapi.load("picker", () => {
+        pickerApiLoaded.value = true;
+        createPicker();
+      });
+    }
   }
 };
 
@@ -7980,12 +8031,7 @@ const pickerCallback = async (data) => {
       fileId.value = doc.id;
       //generate the download URL for this doc
       //the alt=media is important for ensuring the content of the file is placed in response body
-      var downloadUrl =
-        "https://www.googleapis.com/drive/v2/files/" +
-        doc.id +
-        "?key=" +
-        developerKey +
-        " HTTP/1.1&alt=media";
+      var downloadUrl = `https://www.googleapis.com/drive/v2/files/${doc.id}?key=${developerKey}HTTP/1.1&alt=media`;
       downloadFile(downloadUrl, (content) => loadSheet(content));
     }
   }
@@ -8180,6 +8226,7 @@ const updateDriveFile = async () => {
 }
 
 .modal-container {
+  position: relative;
   width: 300px;
   margin: 0px auto;
   padding: 20px 30px;
@@ -8187,7 +8234,6 @@ const updateDriveFile = async () => {
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
 }
 
 @media print {
