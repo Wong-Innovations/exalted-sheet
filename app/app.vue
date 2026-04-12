@@ -832,6 +832,7 @@
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              :title="`Available Motes (Total - Commited: ${parseInt(moteRefs.personal.total) - parseInt(moteRefs.personal.commited)})`"
               v-model="moteRefs.personal.available"
             />
             <span style="font-size: x-large">/</span>
@@ -839,6 +840,7 @@
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              :title="`Total Motes (${exaltData[exaltTypeRef].personalMotes(essenceRef, willpowerPermRef, compassionPermRef, temperancePermRef, convictionPermRef, valorPermRef)})`"
               v-model="moteRefs.personal.total"
             />
             <span style="font-size: x-large">/</span>
@@ -846,6 +848,7 @@
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              title="Commited Motes"
               v-model="moteRefs.personal.commited"
             />
           </div>
@@ -855,6 +858,7 @@
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              :title="`Available Motes (Total - Commited: ${parseInt(moteRefs.peripheral.total) - parseInt(moteRefs.peripheral.commited)})`"
               v-model="moteRefs.peripheral.available"
             />
             <span style="font-size: x-large">/</span>
@@ -862,6 +866,7 @@
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              :title="`Total Motes (${exaltData[exaltTypeRef].peripheralMotes(essenceRef, willpowerPermRef, compassionPermRef, temperancePermRef, convictionPermRef, valorPermRef)})`"
               v-model="moteRefs.peripheral.total"
             />
             <span style="font-size: x-large">/</span>
@@ -869,6 +874,7 @@
               type="text"
               class="text-input"
               style="position: relative; width: 0.35in; font-size: large"
+              title="Commited Motes"
               v-model="moteRefs.peripheral.commited"
             />
           </div>
@@ -1339,7 +1345,8 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :value="dodgeMdvComputed"
+                    :title="dodgeMdvComputed"
+                    v-model="dodgeMdvRef"
                   />
                 </td>
                 <td style="line-height: 0.7; padding-block: 0">
@@ -1348,7 +1355,8 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :value="joinCombatComputed"
+                    :title="joinCombatComputed"
+                    v-model="joinCombatRef"
                   />
                 </td>
               </tr>
@@ -1414,7 +1422,10 @@
             <td
               style="width: 1.2in; border: 1px solid black; text-align: center"
             >
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${charismaRef + abilityScoreRefs.investigation} / ${manipulationRef + abilityScoreRefs.investigation}`"
+              >
                 <input
                   type="text"
                   style="
@@ -1444,7 +1455,10 @@
             <td
               style="width: 1.2in; border: 1px solid black; text-align: center"
             >
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${halveAndDot(charismaRef + abilityScoreRefs.investigation)} / ${halveAndDot(manipulationRef + abilityScoreRefs.investigation)}`"
+              >
                 <input
                   type="text"
                   style="
@@ -1493,7 +1507,10 @@
             <td
               style="width: 1.2in; border: 1px solid black; text-align: center"
             >
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${charismaRef + abilityScoreRefs.performance} / ${manipulationRef + abilityScoreRefs.performance}`"
+              >
                 <input
                   type="text"
                   style="
@@ -1523,7 +1540,10 @@
             <td
               style="width: 1.2in; border: 1px solid black; text-align: center"
             >
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${halveAndDot(charismaRef + abilityScoreRefs.performance)} / ${halveAndDot(manipulationRef + abilityScoreRefs.performance)}`"
+              >
                 <input
                   type="text"
                   style="
@@ -1572,7 +1592,10 @@
             <td
               style="width: 1.2in; border: 1px solid black; text-align: center"
             >
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${charismaRef + abilityScoreRefs.presence} / ${manipulationRef + abilityScoreRefs.presence}`"
+              >
                 <input
                   type="text"
                   style="
@@ -1602,7 +1625,10 @@
             <td
               style="width: 1.2in; border: 1px solid black; text-align: center"
             >
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${halveAndDot(charismaRef + abilityScoreRefs.presence)} / ${halveAndDot(manipulationRef + abilityScoreRefs.presence)}`"
+              >
                 <input
                   type="text"
                   style="
@@ -2381,7 +2407,8 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :value="dodgeMdvComputed"
+                    :title="bashingSoakComputed"
+                    v-model="bashingSoakRef"
                   />
                 </td>
                 <td style="line-height: 0.7; padding-block: 0">
@@ -2390,7 +2417,8 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :value="joinCombatComputed"
+                    :title="aggrivatedSoakComputed + staminaRef"
+                    v-model="lethalSoakRef"
                   />
                 </td>
                 <td style="line-height: 0.7; padding-block: 0">
@@ -2399,7 +2427,8 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :value="joinCombatComputed"
+                    :title="aggrivatedSoakComputed"
+                    v-model="aggravatedSoakRef"
                   />
                 </td>
               </tr>
@@ -2435,7 +2464,8 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :value="dodgeDvComputed"
+                    :title="dodgeDvComputed"
+                    v-model="dodgeDvRef"
                   />
                 </td>
                 <td style="line-height: 0.7; padding-block: 0">
@@ -2444,7 +2474,8 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :value="joinCombatComputed"
+                    :title="joinCombatComputed"
+                    v-model="joinCombatRef"
                   />
                 </td>
                 <td style="line-height: 0.7; padding-block: 0">
@@ -2453,14 +2484,16 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.25in; font-size: medium"
-                    :value="joinCombatComputed"
+                    :title="moveComputed"
+                    v-model="moveRef"
                   />
                   /
                   <input
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.25in; font-size: medium"
-                    :value="joinCombatComputed"
+                    :title="moveComputed + 6"
+                    v-model="dashRef"
                   />
                 </td>
               </tr>
@@ -2541,7 +2574,16 @@
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`
+                  ${
+                    essenceRef +
+                    abilityScoreRefs[weaponTypeRefs[index]] +
+                    bonusToInt(weaponAccBonusRefs[index])
+                  } ${weaponAccBonusRefs[index]}
+                `"
+              >
                 <input
                   type="text"
                   style="
@@ -2569,7 +2611,10 @@
               </div>
             </td>
             <td style="border: 1px solid black; padding: 0; width: 10%">
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${strengthRef + bonusToInt(weaponDamageBonusRefs[index])}${getDamageType(weaponDamageBonusRefs[index])} ${weaponDamageBonusRefs[index]}`"
+              >
                 <input
                   type="text"
                   style="
@@ -2597,7 +2642,10 @@
               </div>
             </td>
             <td style="border: 1px solid black; padding: 0; width: 8%">
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${halveAndDot(dexterityRef + abilityScoreRefs[weaponTypeRefs[index]] + bonusToInt(weaponPdvBonusRefs[index]))} ${weaponPdvBonusRefs[index]}`"
+              >
                 <input
                   type="text"
                   style="
@@ -6570,6 +6618,15 @@ const specialtyRefs = ref([
   { dots: 0, name: "" },
 ]);
 
+const dodgeMdvRef = ref("0");
+const joinCombatRef = ref("0");
+const bashingSoakRef = ref("0");
+const lethalSoakRef = ref("0");
+const aggravatedSoakRef = ref("0");
+const dodgeDvRef = ref("0");
+const moveRef = ref("0");
+const dashRef = ref("0");
+
 const willpowerPermRef = ref(1);
 const willpowerTempRef = ref(0);
 
@@ -6661,21 +6718,21 @@ const weaponSpeedRefs = ref([
 ]);
 
 const weaponAccRefs = ref([
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
 ]);
 
 const weaponAccBonusRefs = ref([
@@ -6697,21 +6754,21 @@ const weaponAccBonusRefs = ref([
 ]);
 
 const weaponDamageRefs = ref([
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
-  { value: "0B", calculate: true },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
 ]);
 
 const weaponDamageBonusRefs = ref([
@@ -6733,21 +6790,21 @@ const weaponDamageBonusRefs = ref([
 ]);
 
 const weaponPdvRefs = ref([
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
-  { value: 0, calculate: true },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
 ]);
 
 const weaponPdvBonusRefs = ref([
@@ -7419,6 +7476,45 @@ const joinCombatComputed = computed(() => {
   return witsRef.value + abilityScoreRefs.value["awareness"];
 });
 
+const moveComputed = computed(() => {
+  armorEquippedRefs.value.forEach((val, index) => {
+    if (val) {
+      return (
+        dexterityRef.value -
+        (parseInt(armorMobilityRefs.value[index]) === NaN
+          ? 0
+          : parseInt(armorMobilityRefs.value[index]))
+      );
+    }
+  });
+  return dexterityRef.value;
+});
+
+const bashingSoakComputed = computed(() => {
+  armorEquippedRefs.value.forEach((val, index) => {
+    if (val) {
+      return (
+        staminaRef.value +
+        (parseInt(armorSoakRefs.value[index][0]) === NaN
+          ? 0
+          : parseInt(armorSoakRefs.value[index][0]))
+      );
+    }
+  });
+  return staminaRef.value;
+});
+
+const aggrivatedSoakComputed = computed(() => {
+  armorEquippedRefs.value.forEach((val, index) => {
+    if (val) {
+      return parseInt(armorSoakRefs.value[index][1]) === NaN
+        ? 0
+        : parseInt(armorSoakRefs.value[index][1]);
+    }
+  });
+  return 0;
+});
+
 // watch(dodgeMdvComputed, () => console.log(dodgeMdvComputed.value));
 
 watch(sheetSourceURI, (newSrc) => {
@@ -7595,6 +7691,16 @@ function bonusToInt(string) {
   );
 }
 
+function getDamageType(string) {
+  return string.includes("A") ? "A" : string.includes("L") ? "L" : "B";
+}
+
+function halveAndDot(number) {
+  return parseInt(number) % 2
+    ? `${Math.ceil(parseInt(number) / 2)}.`
+    : parseInt(number) / 2;
+}
+
 function capitalizeFirstLetter(string) {
   if (!string) return ""; // Handle empty or null strings
   var splitStr = string.replaceAll("-", " ").split(" ");
@@ -7673,6 +7779,14 @@ function createSheetJSON() {
       motes: toRaw(moteRefs.value),
       health: toRaw(healthRef.value),
       specialty: toRaw(specialtyRefs.value),
+      dodgeMdv: dodgeMdvRef.value,
+      joinCombat: joinCombatRef.value,
+      bashingSoak: bashingSoakRef.value,
+      lethalSoak: lethalSoakRef.value,
+      aggrivatedSoak: aggrivatedSoakRef.value,
+      dodgeDv: dodgeDvRef.value,
+      move: moveRef.value,
+      dash: dashRef.value,
       willpowerPerm: willpowerPermRef.value,
       willpowerTemp: willpowerTempRef.value,
       socialAttacks: toRaw(socialAttackRefs.value),
@@ -7840,6 +7954,14 @@ const loadSheet = (data) => {
     moteRefs.value = loadedFile.motes;
     healthRef.value = loadedFile.health;
     specialtyRefs.value = loadedFile.specialty;
+    dodgeMdvRef.value = loadedFile.dodgeMdv;
+    joinCombatRef.value = loadedFile.joinCombat;
+    bashingSoakRef.value = loadedFile.bashingSoak;
+    lethalSoakRef.value = loadedFile.lethalSoak;
+    aggrivatedSoakRef.value = loadedFile.aggrivatedSoak;
+    dodgeDvRef.value = loadedFile.dodgeDv;
+    moveRef.value = loadedFile.move;
+    dashRef.value = loadedFile.dash;
     willpowerPermRef.value = loadedFile.willpowerPerm;
     willpowerTempRef.value = loadedFile.willpowerTemp;
     socialAttackRefs.value = loadedFile.socialAttacks;
@@ -8092,6 +8214,7 @@ const updateDriveFile = async () => {
 
 <style>
 .side-buttons-container {
+  z-index: 1000;
   position: fixed;
   display: flex;
   top: 0;

@@ -152,6 +152,28 @@ export const exaltData = {
         ],
       ],
     },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return 3 * essence + willpower;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return (
+        7 * essence + willpower + compassion + temperance + conviction + valor
+      );
+    },
     virtueFlaws: {
       "Ascetic Drive (Temperance)": {
         duration: "One full day.",
@@ -423,6 +445,28 @@ export const exaltData = {
         ],
       ],
     },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return 3 * essence + willpower;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return (
+        7 * essence + willpower + compassion + temperance + conviction + valor
+      );
+    },
     yoziPatrons: {
       Adorján: {
         duration: "One full day.",
@@ -620,6 +664,28 @@ export const exaltData = {
           "locked",
         ],
       ],
+    },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return 3 * essence + willpower;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return (
+        7 * essence + willpower + compassion + temperance + conviction + valor
+      );
     },
   },
   lunar: {
@@ -835,6 +901,30 @@ export const exaltData = {
         ],
       ],
     },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return essence + 2 * willpower;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return (
+        4 * essence +
+        2 * willpower +
+        4 * Math.max(compassion, temperance, conviction, valor)
+      );
+    },
     virtueFlaws: {
       "The Curse of the Drunken Monkey (Temperance)": {
         duration: "One full scene.",
@@ -1031,6 +1121,28 @@ export const exaltData = {
         ],
       ],
     },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return 2 * essence + willpower;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return (
+        6 * essence + willpower + compassion + temperance + conviction + valor
+      );
+    },
     primaryVirtue: {
       Compassion:
         "Spending Willpower to act against Compassion (+1). Affects fate counter to Compassion (+Compassion dice).",
@@ -1186,6 +1298,29 @@ export const exaltData = {
         ],
       ],
     },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return `${essence + willpower} + Breeding`;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      let sortedVirtues = [compassion, temperance, conviction, valor].sort(
+        (x, y) => y - x,
+      );
+      return `${4 * essence + willpower + sortedVirtues[0] + sortedVirtues[1]} + Breeding`;
+    },
     virtues: {
       Compassion: {
         duration: "One full day.",
@@ -1309,6 +1444,26 @@ export const exaltData = {
         ],
       ],
     },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return 10 * essence;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return 0;
+    },
   },
   alchemical: {
     abilities: {
@@ -1430,6 +1585,28 @@ export const exaltData = {
           "locked",
         ],
       ],
+    },
+    personalMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return 2 * essence + willpower;
+    },
+    peripheralMotes: (
+      essence,
+      willpower,
+      compassion,
+      temperance,
+      conviction,
+      valor,
+    ) => {
+      return (
+        6 * essence + willpower + compassion + temperance + conviction + valor
+      );
     },
   },
 };
