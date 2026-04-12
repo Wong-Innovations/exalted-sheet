@@ -52,7 +52,7 @@
         <span style="font-size: small; font-weight: bold">Stunned:</span>
         If damage > Stamina, then Strength + Resistance.
         <span style="font-size: small; font-weight: bold">Difficulty:</span>
-        damange - stamina.
+        damage - stamina.
       </div>
     </div>
     <div style="width: 3%"></div>
@@ -113,7 +113,7 @@
       </div>
       <div style="font-size: x-small">
         <span style="font-size: small; font-weight: bold"> Dash(3/-3):</span>
-        Sprint 10 * (Dexterity + 6 - Armor mobility) meters per long tick
+        Sprint 10 * (Dexterity + 6 - Armor mobility) m / long tick
       </div>
       <div style="font-size: x-small">
         <span style="font-size: small; font-weight: bold">
@@ -145,7 +145,7 @@
       </div>
       <div style="font-size: x-small">
         <span style="font-size: small; font-weight: bold"> Move(0/none):</span>
-        Move 10 * (Dexterity - Armor mobility) meters per long tick
+        Move 10 * (Dexterity - Armor mobility) m / long tick
       </div>
     </div>
     <div style="width: 3%"></div>
