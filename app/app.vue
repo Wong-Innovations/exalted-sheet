@@ -6427,6 +6427,7 @@
             />
           </div>
           <textarea
+            v-model="backgroundRefs[index].description"
             style="
               height: 0.6in;
               box-sizing: border-box;
@@ -8028,7 +8029,7 @@ function createSheetJSON() {
       convictionPerm: convictionPermRef.value,
       convictionTemp: convictionTempRef.value,
       valorPerm: valorPermRef.value,
-      valorTemp: valorPermRef.value,
+      valorTemp: valorTempRef.value,
       virtueFlaw: virtueFlawRef.value,
       limitBreakDuration: limitBreakDurationRef.value,
       limitBreakCondition: limitBreakConditionRef.value,
