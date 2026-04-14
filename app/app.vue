@@ -6174,7 +6174,10 @@
       </div>
     </div>
 
-    <div class="page">
+    <div
+      v-for="backgroundPage in Array(backgroundRefs.length / 20).keys()"
+      class="page"
+    >
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -6396,7 +6399,10 @@
           </option>
         </datalist>
         <div
-          v-for="(value, index) in backgroundRefs"
+          v-for="(value, index) in backgroundRefs.slice(
+            backgroundPage * 20,
+            (backgroundPage + 1) * 20,
+          )"
           style="max-width: 48.5%; width: 100%"
         >
           <div style="display: flex; justify-content: space-between">
@@ -6410,7 +6416,14 @@
             <SixDotBackground
               :value="backgroundRefs[index].rating"
               :onUpdate="(val) => (backgroundRefs[index].rating = val)"
-              :source="`background${index}`"
+              :source="`background-${index}`"
+              v-if="exaltTypeRef !== 'heroic-mortal'"
+            />
+            <FiveDotBackground
+              :value="backgroundRefs[index].rating"
+              :onUpdate="(val) => (backgroundRefs[index].rating = val)"
+              :source="`background-${index}`"
+              v-if="exaltTypeRef === 'heroic-mortal'"
             />
           </div>
           <textarea
@@ -6423,8 +6436,30 @@
           ></textarea>
         </div>
       </div>
-
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.1in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            backgroundPage == backgroundRefs.length / 20 - 1 &&
+            backgroundRefs.length > initialValues.backgrounds.length
+          "
+          @click.prevent="removeBackgroundPage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="backgroundPage == backgroundRefs.length / 20 - 1"
+          @click.prevent="addNewBackgroundPage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
     <div class="page" id="final-page">
@@ -7153,28 +7188,7 @@ const artifactRefs = ref(structuredClone(initialValues.artifacts));
 
 const manseRefs = ref(structuredClone(initialValues.manse));
 
-const backgroundRefs = ref([
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-  { name: "", rating: 0, description: "" },
-]);
+const backgroundRefs = ref(structuredClone(initialValues.backgrounds));
 
 const generalCharmSlotsUsedRef = ref(0);
 const generalCharmSlotsTotalRef = ref(0);
@@ -7962,6 +7976,16 @@ function removeAstrologyPage() {
 function addNewAstrologyPage() {
   astrologyRefs.value.push(
     ...initialValues.astrology.map((c) => structuredClone(c)),
+  );
+}
+
+function removeBackgroundPage() {
+  backgroundRefs.value.splice(-24);
+}
+
+function addNewBackgroundPage() {
+  backgroundRefs.value.push(
+    ...initialValues.backgrounds.map((c) => structuredClone(c)),
   );
 }
 
