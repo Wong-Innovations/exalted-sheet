@@ -2499,7 +2499,11 @@
                     type="text"
                     class="text-input"
                     style="position: relative; width: 0.35in; font-size: medium"
-                    :title="dodgeDvComputed"
+                    :title="
+                      halveAndDot(
+                        dexterityRef + abilityScoreRefs.dodge + essenceRef,
+                      )
+                    "
                     v-model="dodgeDvRef"
                   />
                 </td>
@@ -2611,13 +2615,11 @@
             <td style="border: 1px solid black; padding: 0; width: 7%">
               <div
                 style="display: flex"
-                :title="`
-                  ${
-                    essenceRef +
-                    abilityScoreRefs[weaponTypeRefs[index]] +
-                    bonusToInt(weaponAccBonusRefs[index])
-                  } ${weaponAccBonusRefs[index]}
-                `"
+                :title="`${
+                  dexterityRef +
+                  abilityScoreRefs[weaponTypeRefs[index]] +
+                  bonusToInt(weaponAccBonusRefs[index])
+                } ${weaponAccBonusRefs[index]}`"
               >
                 <input
                   type="text"
@@ -5290,7 +5292,11 @@
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
     </div>
 
-    <div class="page" v-if="exaltTypeRef == 'sidereal'">
+    <div
+      class="page"
+      v-for="astrologyPage in Array(astrologyRefs.length / 24).keys()"
+      v-if="exaltTypeRef == 'sidereal'"
+    >
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -5336,7 +5342,12 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="(val, index) in astrologyRefs">
+          <template
+            v-for="(val, index) in astrologyRefs.slice(
+              astrologyPage * 24,
+              (astrologyPage + 1) * 24,
+            )"
+          >
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
@@ -5491,6 +5502,29 @@
         </tbody>
       </table>
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.2in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            astrologyPage == astrologyRefs.length / 24 - 1 &&
+            astrologyRefs.length > initialValues.astrology.length
+          "
+          @click.prevent="removeAstrologyPage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="astrologyPage == astrologyRefs.length / 24 - 1"
+          @click.prevent="addNewAstrologyPage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
     <div class="page" v-if="exaltTypeRef == 'lunar'">
@@ -5512,32 +5546,73 @@
             <div style="width: 30%">
               <div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Bashing:<input style="width: 0.2in" class="text-input" />
+                  Bashing:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    v-model="warformBashingSoakRef"
+                  />
                 </div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Lethal:<input style="width: 0.2in" class="text-input" />
+                  Lethal:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    v-model="warformLethalSoakRef"
+                  />
                 </div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Aggravated:<input style="width: 0.2in" class="text-input" />
+                  Aggravated:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    v-model="warformAggravatedSoakRef"
+                  />
                 </div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Dodge DV:<input style="width: 0.2in" class="text-input" />
+                  Dodge DV:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    :title="
+                      halveAndDot(
+                        dexterityRef +
+                          warformDexterityRef +
+                          abilityScoreRefs.dodge +
+                          essenceRef,
+                      )
+                    "
+                    v-model="warformDodgeDvRef"
+                  />
                 </div>
               </div>
             </div>
             <div style="width: 30%">
               <div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Strength:<input style="width: 0.2in" class="text-input" />
+                  Strength:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    v-model="warformStrengthRef"
+                  />
                 </div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Dexterity:<input style="width: 0.2in" class="text-input" />
+                  Dexterity:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    v-model="warformDexterityRef"
+                  />
                 </div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Stamina:<input style="width: 0.2in" class="text-input" />
+                  Stamina:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    v-model="warformStaminaRef"
+                  />
                 </div>
                 <div style="display: flex; padding-left: 0.2in">
-                  Move/Dash:<input style="width: 0.2in" class="text-input" />
+                  Move/Dash:<input
+                    style="width: 0.2in"
+                    class="text-input"
+                    :title="`${dexterityRef + bonusToInt(warformDexterityRef)}/${dexterityRef + bonusToInt(warformDexterityRef) + 6}`"
+                    v-model="warformMoveRef"
+                  />
                 </div>
               </div>
             </div>
@@ -5565,8 +5640,8 @@
         </thead>
         <tbody style="font-size: xx-small">
           <tr
-            v-for="(val, index) in weaponAccRefs"
-            :key="`weapon-table-row-${index}`"
+            v-for="(val, index) in warformWeaponAccRefs"
+            :key="`warform-weapon-table-row-${index}`"
             :style="{
               backgroundColor: index % 2 === 0 ? '#eee' : 'white',
             }"
@@ -5581,7 +5656,7 @@
                   font-size: xx-small;
                   background-color: transparent;
                 "
-                v-model="weaponNameRefs[index]"
+                v-model="warformWeaponNameRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
@@ -5595,11 +5670,19 @@
                   background-color: transparent;
                   text-align: center;
                 "
-                v-model="weaponSpeedRefs[index]"
+                v-model="warformWeaponSpeedRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${
+                  dexterityRef +
+                  parseInt(warformDexterityRef) +
+                  abilityScoreRefs[warformWeaponTypeRefs[index]] +
+                  bonusToInt(warformWeaponAccBonusRefs[index])
+                } ${warformWeaponAccBonusRefs[index]}`"
+              >
                 <input
                   type="text"
                   style="
@@ -5610,7 +5693,7 @@
                     background-color: transparent;
                     text-align: right;
                   "
-                  v-model="weaponAccRefs[index].value"
+                  v-model="warformWeaponAccRefs[index].value"
                 />
                 <input
                   type="text"
@@ -5622,12 +5705,15 @@
                     background-color: transparent;
                     text-align: left;
                   "
-                  v-model="weaponAccBonusRefs[index]"
+                  v-model="warformWeaponAccBonusRefs[index]"
                 />
               </div>
             </td>
             <td style="border: 1px solid black; padding: 0; width: 10%">
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${strengthRef + parseInt(warformStrengthRef) + bonusToInt(warformWeaponDamageBonusRefs[index])}${getDamageType(warformWeaponDamageBonusRefs[index])} ${warformWeaponDamageBonusRefs[index]}`"
+              >
                 <input
                   type="text"
                   style="
@@ -5638,7 +5724,7 @@
                     background-color: transparent;
                     text-align: right;
                   "
-                  v-model="weaponDamageRefs[index].value"
+                  v-model="warformWeaponDamageRefs[index].value"
                 />
                 <input
                   type="text"
@@ -5650,12 +5736,15 @@
                     background-color: transparent;
                     text-align: left;
                   "
-                  v-model="weaponDamageBonusRefs[index]"
+                  v-model="warformWeaponDamageBonusRefs[index]"
                 />
               </div>
             </td>
             <td style="border: 1px solid black; padding: 0; width: 8%">
-              <div style="display: flex">
+              <div
+                style="display: flex"
+                :title="`${halveAndDot(dexterityRef + parseInt(warformDexterityRef) + abilityScoreRefs[warformWeaponTypeRefs[index]] + bonusToInt(warformWeaponPdvBonusRefs[index]))} ${warformWeaponPdvBonusRefs[index]}`"
+              >
                 <input
                   type="text"
                   style="
@@ -5666,7 +5755,7 @@
                     background-color: transparent;
                     text-align: right;
                   "
-                  v-model="weaponPdvRefs[index].value"
+                  v-model="warformWeaponPdvRefs[index].value"
                 />
                 <input
                   type="text"
@@ -5678,7 +5767,7 @@
                     background-color: transparent;
                     text-align: left;
                   "
-                  v-model="weaponPdvBonusRefs[index]"
+                  v-model="warformWeaponPdvBonusRefs[index]"
                 />
               </div>
             </td>
@@ -5693,7 +5782,7 @@
                   background-color: transparent;
                   text-align: center;
                 "
-                v-model="weaponRateRefs[index]"
+                v-model="warformWeaponRateRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
@@ -5707,7 +5796,7 @@
                   background-color: transparent;
                   text-align: center;
                 "
-                v-model="weaponRangeRefs[index]"
+                v-model="warformWeaponRangeRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 7%">
@@ -5720,7 +5809,7 @@
                   font-size: xx-small;
                   background-color: transparent;
                 "
-                v-model="weaponTagRefs[index]"
+                v-model="warformWeaponTagRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0">
@@ -5733,7 +5822,7 @@
                   font-size: xx-small;
                   background-color: transparent;
                 "
-                v-model="weaponNotesRefs[index]"
+                v-model="warformWeaponNotesRefs[index]"
               />
             </td>
             <td style="border: 1px solid black; padding: 0; width: 9%">
@@ -5745,7 +5834,7 @@
                   font-size: xx-small;
                   background: transparent;
                 "
-                v-model="weaponTypeRefs[index]"
+                v-model="warformWeaponTypeRefs[index]"
               >
                 <option value="melee">Melee</option>
                 <option value="martial-arts">Martial Arts</option>
@@ -5931,7 +6020,11 @@
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
     </div>
 
-    <div class="page" v-if="exaltTypeRef == 'lunar'">
+    <div
+      v-for="heartsBloodPage in Array(heartsBloodRefs.length / 24).keys()"
+      class="page"
+      v-if="exaltTypeRef == 'lunar'"
+    >
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
       <div style="display: flex">
         <img :src="logo" style="height: 1in" alt="exalted-2e-logo" />
@@ -5971,7 +6064,12 @@
           </tr>
         </thead>
         <tbody>
-          <template v-for="(val, index) in heartsBloodRefs">
+          <template
+            v-for="(val, index) in heartsBloodRefs.slice(
+              heartsBloodPage * 24,
+              (heartsBloodPage + 1) * 24,
+            )"
+          >
             <tr
               :style="{ backgroundColor: index % 2 === 0 ? 'white' : '#eee' }"
             >
@@ -6051,6 +6149,29 @@
         </tbody>
       </table>
       <img :src="fullBar" style="width: 7.5in" alt="bar" />
+      <div
+        style="position: absolute; bottom: 0.2in; right: 0.5in; display: flex"
+      >
+        <button
+          type="button"
+          v-if="
+            heartsBloodPage == heartsBloodRefs.length / 24 - 1 &&
+            heartsBloodRefs.length > initialValues.heartsBlood.length
+          "
+          @click.prevent="removeHeartsBloodPage"
+          style="margin-inline: 0.1in; width: 24px; height: 24px"
+        >
+          -
+        </button>
+        <button
+          type="button"
+          v-if="heartsBloodPage == heartsBloodRefs.length / 24 - 1"
+          @click.prevent="addNewHeartsBloodPage"
+          style="width: 24px; height: 24px"
+        >
+          +
+        </button>
+      </div>
     </div>
 
     <div class="page">
@@ -7188,199 +7309,249 @@ const resplendentDestinyRefs = ref([
   },
 ]);
 const paradoxRef = ref(0);
-const astrologyRefs = ref([
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
-  {
-    type: "",
-    providence: "",
-    scope: "",
-    frequency: "",
-    duration: "",
-    trigger: "",
-  },
+const astrologyRefs = ref(structuredClone(initialValues.astrology));
+
+const warformBashingSoakRef = ref(0);
+const warformLethalSoakRef = ref(0);
+const warformAggravatedSoakRef = ref(0);
+const warformDodgeDvRef = ref(0);
+const warformStrengthRef = ref("+1");
+const warformDexterityRef = ref("+1");
+const warformStaminaRef = ref("+1");
+const warformMoveRef = ref("0/0");
+
+const warformWeaponNameRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "Clinch",
+  "Kick",
+  "Punch",
+]);
+
+const warformWeaponSpeedRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "6",
+  "5",
+  "5",
+]);
+
+const warformWeaponAccRefs = ref([
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+]);
+
+const warformWeaponAccBonusRefs = ref([
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+1)",
+]);
+
+const warformWeaponDamageRefs = ref([
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+  { value: "0B", calculate: false },
+]);
+
+const warformWeaponDamageBonusRefs = ref([
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+0B)",
+  "(+3B)",
+  "(+0B)",
+]);
+
+const warformWeaponPdvRefs = ref([
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+  { value: 0, calculate: false },
+]);
+
+const warformWeaponPdvBonusRefs = ref([
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(+0)",
+  "(-2)",
+  "(+2)",
+]);
+
+const warformWeaponRateRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "1",
+  "2",
+  "3",
+]);
+
+const warformWeaponRangeRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+]);
+
+const warformWeaponTagRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+]);
+
+const warformWeaponNotesRefs = ref([
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+]);
+
+const warformWeaponTypeRefs = ref([
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "melee",
+  "martial-arts",
+  "martial-arts",
+  "martial-arts",
 ]);
 
 const warformGiftsRefs = ref([
@@ -7428,32 +7599,7 @@ const warformFuryRefs = ref([
 
 const heartsBloodRatingRef = ref(0);
 
-const heartsBloodRefs = ref([
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-  { name: "", look: "", effect: "" },
-]);
+const heartsBloodRefs = ref(structuredClone(initialValues.heartsBlood));
 
 const possessionsRef = ref("");
 
@@ -7526,13 +7672,6 @@ const dodgeMdvComputed = computed(() => {
       essenceRef.value) /
     2;
   return Number.isInteger(mdv) ? mdv : Math.ceil(mdv) + ".";
-});
-
-const dodgeDvComputed = computed(() => {
-  var dv =
-    (dexterityRef.value + abilityScoreRefs.value["dodge"] + essenceRef.value) /
-    2;
-  return Number.isInteger(dv) ? dv : Math.ceil(dv) + ".";
 });
 
 const joinCombatComputed = computed(() => {
@@ -7806,6 +7945,26 @@ function addNewMansePage() {
   manseRefs.value.push(...initialValues.manse.map((c) => structuredClone(c)));
 }
 
+function removeHeartsBloodPage() {
+  heartsBloodRefs.value.splice(-24);
+}
+
+function addNewHeartsBloodPage() {
+  heartsBloodRefs.value.push(
+    ...initialValues.heartsBlood.map((c) => structuredClone(c)),
+  );
+}
+
+function removeAstrologyPage() {
+  astrologyRefs.value.splice(-24);
+}
+
+function addNewAstrologyPage() {
+  astrologyRefs.value.push(
+    ...initialValues.astrology.map((c) => structuredClone(c)),
+  );
+}
+
 function createSheetJSON() {
   return JSON.stringify(
     {
@@ -7831,7 +7990,7 @@ function createSheetJSON() {
       joinCombat: joinCombatRef.value,
       bashingSoak: bashingSoakRef.value,
       lethalSoak: lethalSoakRef.value,
-      aggrivatedSoak: aggrivatedSoakRef.value,
+      aggravatedSoak: aggravatedSoakRef.value,
       dodgeDv: dodgeDvRef.value,
       move: moveRef.value,
       dash: dashRef.value,
@@ -7905,6 +8064,29 @@ function createSheetJSON() {
       resplendentDestiny: toRaw(resplendentDestinyRefs.value),
       paradox: paradoxRef.value,
       astrology: toRaw(astrologyRefs.value),
+      warformBashingSoak: warformBashingSoakRef.value,
+      warformLethalSoak: warformLethalSoakRef.value,
+      warformAggravatedSoak: warformAggravatedSoakRef.value,
+      warformDodgeDv: warformDodgeDvRef.value,
+      warformStrength: warformStrengthRef.value,
+      warformDexterity: warformDexterityRef.value,
+      warformStamina: warformStaminaRef.value,
+      warformMove: warformMoveRef.value,
+      warformWeapon: {
+        name: toRaw(warformWeaponNameRefs.value),
+        speed: toRaw(warformWeaponSpeedRefs.value),
+        acc: toRaw(warformWeaponAccRefs.value),
+        "acc-bonus": toRaw(warformWeaponAccBonusRefs.value),
+        damage: toRaw(warformWeaponDamageRefs.value),
+        "damage-bonus": toRaw(warformWeaponDamageBonusRefs.value),
+        pdv: toRaw(warformWeaponPdvRefs.value),
+        "pdv-bonus": toRaw(warformWeaponPdvBonusRefs.value),
+        rate: toRaw(warformWeaponRateRefs.value),
+        range: toRaw(warformWeaponRangeRefs.value),
+        tag: toRaw(warformWeaponTagRefs.value),
+        notes: toRaw(warformWeaponNotesRefs.value),
+        type: toRaw(warformWeaponTypeRefs.value),
+      },
       warformGifts: toRaw(warformGiftsRefs.value),
       warformMutations: toRaw(warformMutationsRefs.value),
       warformFury: toRaw(warformFuryRefs.value),
@@ -8006,7 +8188,7 @@ const loadSheet = (data) => {
     joinCombatRef.value = loadedFile.joinCombat;
     bashingSoakRef.value = loadedFile.bashingSoak;
     lethalSoakRef.value = loadedFile.lethalSoak;
-    aggrivatedSoakRef.value = loadedFile.aggrivatedSoak;
+    aggravatedSoakRef.value = loadedFile.aggravatedSoak;
     dodgeDvRef.value = loadedFile.dodgeDv;
     moveRef.value = loadedFile.move;
     dashRef.value = loadedFile.dash;
@@ -8076,6 +8258,27 @@ const loadSheet = (data) => {
     resplendentDestinyRefs.value = loadedFile.resplendentDestiny;
     paradoxRef.value = loadedFile.paradox;
     astrologyRefs.value = loadedFile.astrology;
+    warformBashingSoakRef.value = loadedFile.warformBashingSoak;
+    warformLethalSoakRef.value = loadedFile.warformLethalSoak;
+    warformAggravatedSoakRef.value = loadedFile.warformAggravatedSoak;
+    warformDodgeDvRef.value = loadedFile.warformDodgeDv;
+    warformStrengthRef.value = loadedFile.warformStrength;
+    warformDexterityRef.value = loadedFile.warformDexterity;
+    warformStaminaRef.value = loadedFile.warformStamina;
+    warformMoveRef.value = loadedFile.warformMove;
+    warformWeaponNameRefs.value = loadedFile.warformWeapon.name;
+    warformWeaponSpeedRefs.value = loadedFile.warformWeapon.speed;
+    warformWeaponAccRefs.value = loadedFile.warformWeapon.acc;
+    warformWeaponAccRefs.value = loadedFile.warformWeapon["acc-bonus"];
+    warformWeaponDamageRefs.value = loadedFile.warformWeapon.damage;
+    warformWeaponDamageRefs.value = loadedFile.warformWeapon["damage-bonus"];
+    warformWeaponPdvRefs.value = loadedFile.warformWeapon.pdv;
+    warformWeaponPdvRefs.value = loadedFile.warformWeapon["pdv-bonus"];
+    warformWeaponRateRefs.value = loadedFile.warformWeapon.rate;
+    warformWeaponRangeRefs.value = loadedFile.warformWeapon.range;
+    warformWeaponTagRefs.value = loadedFile.warformWeapon.tag;
+    warformWeaponNotesRefs.value = loadedFile.warformWeapon.notes;
+    warformWeaponTypeRefs.value = loadedFile.warformWeapon.type;
     warformGiftsRefs.value = loadedFile.warformGifts;
     warformMutationsRefs.value = loadedFile.warformMutations;
     warformFuryRefs.value = loadedFile.warformFury;
